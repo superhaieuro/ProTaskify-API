@@ -1,0 +1,11 @@
+spring:
+#  Local Database
+  datasource:
+    url: jdbc:sqlserver://localhost:1433;database=UserManagement
+    username: sa
+    password: 12345
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
