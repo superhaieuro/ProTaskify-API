@@ -7,8 +7,8 @@ import org.springframework.security.core.AuthenticationException;
 public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String userId = authentication.getName();
-        CustomAuthenticationToken customAuthenticationToken = new CustomAuthenticationToken(userId);
+        String userEmail = authentication.getName();
+        CustomAuthenticationToken customAuthenticationToken = new CustomAuthenticationToken(userEmail);
         return customAuthenticationToken;
     }
 

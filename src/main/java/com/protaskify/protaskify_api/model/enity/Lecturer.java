@@ -39,7 +39,7 @@ public class Lecturer implements UserDetails {
 
     @Override
     public String getUsername() {
-        return id;
+        return email;
     }
 
     @Override

@@ -23,12 +23,12 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return userId -> {
-            Optional<Student> student = studentRepository.findAllById(userId);
+        return userEmail -> {
+            Optional<Student> student = studentRepository.findAllByEmail(userEmail);
             if (student.isPresent()) {
                 return student.get();
             } else {
-                Optional<Lecturer> lecturer = lecturerRepository.findAllById(userId);
+                Optional<Lecturer> lecturer = lecturerRepository.findAllByEmail(userEmail);
                 if (lecturer.isPresent()) {
                     return lecturer.get();
                 } else {
