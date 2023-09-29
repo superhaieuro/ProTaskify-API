@@ -46,7 +46,7 @@ public class AuthenticationService {
         if (userEmail.endsWith(LECTURER_EMAIL_COM)) {
             var user = lecturerRepository.findAllByEmail(userEmail);
             if (user.isEmpty()) {
-                return register(token, userEmail);
+                return null;
             } else {
                 authenticationResponse = AuthenticationResponse.builder()
                         .token(jwtService.generateToken(user.get()))
@@ -62,7 +62,7 @@ public class AuthenticationService {
         } else {
             var user = studentRepository.findAllByEmail(userEmail);
             if (user.isEmpty()) {
-                return register(token, userEmail);
+                return null;
             } else {
                 authenticationResponse = AuthenticationResponse.builder()
                         .token(jwtService.generateToken(user.get()))
@@ -79,47 +79,90 @@ public class AuthenticationService {
         return authenticationResponse;
     }
 
-    public AuthenticationResponse register(String token, String userEmail) {
-        String jwtToken = null;
-        String role = null;
-        AuthenticationResponse authenticationResponse = null;
-        if (userEmail.endsWith(LECTURER_EMAIL_COM)) {
-            var user = Lecturer.builder()
-                    .id(getUserInfo(token).get("sub").getAsString())
-                    .name(getUserInfo(token).get("name").getAsString())
-                    .email(userEmail)
-                    .picture(getUserInfo(token).get("picture").getAsString())
-                    .build();
-            authenticationResponse = AuthenticationResponse.builder()
-                    .token(jwtService.generateToken(user))
-                    .role("LECTURER")
-                    .userInfo(
-                            Lecturer.builder().name(user.getName())
-                                    .email(user.getEmail())
-                                    .picture(user.getPicture())
-                                    .build()
-                    )
-                    .build();
-            lecturerRepository.save(user);
-        } else {
-            var user = Student.builder()
-                    .id(getUserInfo(token).get("sub").getAsString())
-                    .name(getUserInfo(token).get("name").getAsString())
-                    .email(userEmail)
-                    .picture(getUserInfo(token).get("picture").getAsString())
-                    .build();
-            authenticationResponse = AuthenticationResponse.builder()
-                    .token(jwtService.generateToken(user))
-                    .role("STUDENT")
-                    .userInfo(
-                            Student.builder().name(user.getName())
-                                    .email(user.getEmail())
-                                    .picture(user.getPicture())
-                                    .build()
-                    )
-                    .build();
-            studentRepository.save(user);
-        }
-        return authenticationResponse;
-    }
+//    public AuthenticationResponse authenticate(String token) {
+//        token = token.split("\\.")[1];
+//        String userEmail = getUserInfo(token).get("email").getAsString();
+//        authenticationManager.authenticate(new CustomAuthenticationToken(userEmail));
+//        String jwtToken = null;
+//        String role = null;
+//        AuthenticationResponse authenticationResponse = null;
+//        if (userEmail.endsWith(LECTURER_EMAIL_COM)) {
+//            var user = lecturerRepository.findAllByEmail(userEmail);
+//            if (user.isEmpty()) {
+//                return register(token, userEmail);
+//            } else {
+//                authenticationResponse = AuthenticationResponse.builder()
+//                        .token(jwtService.generateToken(user.get()))
+//                        .role("LECTURER")
+//                        .userInfo(
+//                                Lecturer.builder().name(user.get().getName())
+//                                        .email(user.get().getEmail())
+//                                        .picture(user.get().getPicture())
+//                                        .build()
+//                        )
+//                        .build();
+//            }
+//        } else {
+//            var user = studentRepository.findAllByEmail(userEmail);
+//            if (user.isEmpty()) {
+//                return register(token, userEmail);
+//            } else {
+//                authenticationResponse = AuthenticationResponse.builder()
+//                        .token(jwtService.generateToken(user.get()))
+//                        .role("STUDENT")
+//                        .userInfo(
+//                                Student.builder().name(user.get().getName())
+//                                        .email(user.get().getEmail())
+//                                        .picture(user.get().getPicture())
+//                                        .build()
+//                        )
+//                        .build();
+//            }
+//        }
+//        return authenticationResponse;
+//    }
+//
+//    public AuthenticationResponse register(String token, String userEmail) {
+//        String jwtToken = null;
+//        String role = null;
+//        AuthenticationResponse authenticationResponse = null;
+//        if (userEmail.endsWith(LECTURER_EMAIL_COM)) {
+//            var user = Lecturer.builder()
+//                    .id(getUserInfo(token).get("sub").getAsString())
+//                    .name(getUserInfo(token).get("name").getAsString())
+//                    .email(userEmail)
+//                    .picture(getUserInfo(token).get("picture").getAsString())
+//                    .build();
+//            authenticationResponse = AuthenticationResponse.builder()
+//                    .token(jwtService.generateToken(user))
+//                    .role("LECTURER")
+//                    .userInfo(
+//                            Lecturer.builder().name(user.getName())
+//                                    .email(user.getEmail())
+//                                    .picture(user.getPicture())
+//                                    .build()
+//                    )
+//                    .build();
+//            lecturerRepository.save(user);
+//        } else {
+//            var user = Student.builder()
+//                    .id(getUserInfo(token).get("sub").getAsString())
+//                    .name(getUserInfo(token).get("name").getAsString())
+//                    .email(userEmail)
+//                    .picture(getUserInfo(token).get("picture").getAsString())
+//                    .build();
+//            authenticationResponse = AuthenticationResponse.builder()
+//                    .token(jwtService.generateToken(user))
+//                    .role("STUDENT")
+//                    .userInfo(
+//                            Student.builder().name(user.getName())
+//                                    .email(user.getEmail())
+//                                    .picture(user.getPicture())
+//                                    .build()
+//                    )
+//                    .build();
+//            studentRepository.save(user);
+//        }
+//        return authenticationResponse;
+//    }
 }
