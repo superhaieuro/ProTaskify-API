@@ -1,5 +1,6 @@
 package com.protaskify.protaskify_api.model.enity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -22,8 +23,11 @@ import java.util.Collections;
 @Table(name = "lecturer")
 public class Lecturer implements UserDetails {
     @Id
+    @JsonProperty("RollNumber")
     private String id;
+    @JsonProperty("FullName")
     private String name;
+    @JsonProperty("MemberCode")
     private String email;
     private String picture;
 

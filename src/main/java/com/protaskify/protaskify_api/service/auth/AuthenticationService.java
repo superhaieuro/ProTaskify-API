@@ -38,39 +38,40 @@ public class AuthenticationService {
 
     public AuthenticationResponse authenticate(String token) {
         token = token.split("\\.")[1];
-        String userEmail = getUserInfo(token).get("email").getAsString();
+        JsonObject userData = getUserInfo(token);
+        String userEmail = userData.get("email").getAsString();
         authenticationManager.authenticate(new CustomAuthenticationToken(userEmail));
         String jwtToken = null;
         String role = null;
         AuthenticationResponse authenticationResponse = null;
         if (userEmail.endsWith(LECTURER_EMAIL_COM)) {
             var user = lecturerRepository.findAllByEmail(userEmail);
-            if (user.isEmpty()) {
-                return null;
-            } else {
+            if (user.isPresent()) {
+                //Update picture
+                user.get().setPicture(userData.get("picture").getAsString());
+                lecturerRepository.save(user.get());
                 authenticationResponse = AuthenticationResponse.builder()
                         .token(jwtService.generateToken(user.get()))
-                        .role("LECTURER")
                         .userInfo(
                                 Lecturer.builder().name(user.get().getName())
                                         .email(user.get().getEmail())
-                                        .picture(user.get().getPicture())
+                                        .picture(userData.get("picture").getAsString())
                                         .build()
                         )
                         .build();
             }
         } else {
             var user = studentRepository.findAllByEmail(userEmail);
-            if (user.isEmpty()) {
-                return null;
-            } else {
+            if (user.isPresent()) {
+                //Update picture
+                user.get().setPicture(userData.get("picture").getAsString());
+                studentRepository.save(user.get());
                 authenticationResponse = AuthenticationResponse.builder()
                         .token(jwtService.generateToken(user.get()))
-                        .role("STUDENT")
                         .userInfo(
                                 Student.builder().name(user.get().getName())
                                         .email(user.get().getEmail())
-                                        .picture(user.get().getPicture())
+                                        .picture(userData.get("picture").getAsString())
                                         .build()
                         )
                         .build();

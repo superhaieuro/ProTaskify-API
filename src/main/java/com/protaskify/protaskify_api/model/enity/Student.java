@@ -1,5 +1,6 @@
 package com.protaskify.protaskify_api.model.enity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.core.userdetails.UserDetails;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -22,10 +23,17 @@ import java.util.Collections;
 @Table(name = "student")
 public class Student implements UserDetails {
     @Id
+    @JsonProperty("RollNumber")
     private String id;
+    @JsonProperty("FullName")
     private String name;
+    @JsonProperty("MemberCode")
     private String email;
     private String picture;
+
+    public void setEmail(String email) {
+        this.email = email + "@fpt.edu.vn";
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
