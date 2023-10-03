@@ -15,7 +15,7 @@ public class LecturerController {
     private final LecturerService lecturerService;
 
     @PostMapping("/import-student")
-    public void uploadStudentsData(@RequestBody List<Student> students) {
+    public void importStudent(@RequestBody List<Student> students) {
         lecturerService.saveStudentsFromJSON(students);
     }
 }

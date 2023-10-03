@@ -1,7 +1,5 @@
-package com.protaskify.protaskify_api.model.auth;
+package com.protaskify.protaskify_api.model.response;
 
-import com.protaskify.protaskify_api.model.enity.Lecturer;
-import com.protaskify.protaskify_api.model.enity.Student;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

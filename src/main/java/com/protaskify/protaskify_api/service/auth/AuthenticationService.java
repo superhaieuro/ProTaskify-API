@@ -1,7 +1,7 @@
 package com.protaskify.protaskify_api.service.auth;
 
 import com.google.gson.JsonObject;
-import com.protaskify.protaskify_api.model.auth.AuthenticationResponse;
+import com.protaskify.protaskify_api.model.response.AuthenticationResponse;
 import com.protaskify.protaskify_api.model.enity.Lecturer;
 import com.protaskify.protaskify_api.model.enity.Student;
 import com.protaskify.protaskify_api.repository.LecturerRepository;
@@ -24,7 +24,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     //Demo email but use student email instead of lecturer email
-    private static final String LECTURER_EMAIL_COM = "@fpt.edu.vn";
+    private static final String LECTURER_EMAIL_COM = "@gmail.com";
 
     //Decode token to get user information
     public JsonObject getUserInfo(String token) {

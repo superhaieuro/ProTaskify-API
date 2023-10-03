@@ -1,6 +1,6 @@
 package com.protaskify.protaskify_api.controller;
 
-import com.protaskify.protaskify_api.model.auth.AuthenticationResponse;
+import com.protaskify.protaskify_api.model.response.AuthenticationResponse;
 import com.protaskify.protaskify_api.service.auth.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
