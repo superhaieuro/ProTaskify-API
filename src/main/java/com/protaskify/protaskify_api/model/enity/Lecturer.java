@@ -1,10 +1,7 @@
 package com.protaskify.protaskify_api.model.enity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,14 +22,24 @@ import java.util.Collections;
 public class Lecturer implements UserDetails {
     @Id
     @JsonProperty("RollNumber")
-    @Column(name = "lecturer_id")
+    @Column(name = "lecturer_id", columnDefinition = "CHAR(10)")
     private String id;
-    @Column(name = "lecturer_name")
+
+    @Column(name = "lecturer_name", columnDefinition = "NVARCHAR(50)")
     @JsonProperty("FullName")
     private String name;
+
+    @Column(columnDefinition = "VARCHAR(50)")
     @JsonProperty("MemberCode")
     private String email;
+
     private String picture;
+
+    private Boolean status;
+
+    public void setStatus(Boolean status) {
+        this.status = true;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

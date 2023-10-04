@@ -1,11 +1,8 @@
 package com.protaskify.protaskify_api.model.enity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 import org.springframework.security.core.userdetails.UserDetails;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,14 +22,22 @@ import java.util.Collections;
 public class Student implements UserDetails {
     @Id
     @JsonProperty("RollNumber")
-    @Column(name = "student_id")
+    @Column(name = "student_id", columnDefinition = "CHAR(10)")
     private String id;
-    @Column(name = "student_name")
+
+    @Column(name = "student_name", columnDefinition = "NVARCHAR(50)")
     @JsonProperty("FullName")
     private String name;
+
+    @Column(columnDefinition = "VARCHAR(50)")
     @JsonProperty("MemberCode")
     private String email;
+
     private String picture;
+
+    @ManyToOne
+    @JoinColumn(name = "class_id")
+    private Classes classes;
 
     public void setEmail(String email) {
         this.email = email + "@fpt.edu.vn";
