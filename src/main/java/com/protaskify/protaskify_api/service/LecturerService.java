@@ -1,4 +1,4 @@
-package com.protaskify.protaskify_api.service.lecturer;
+package com.protaskify.protaskify_api.service;
 
 import com.protaskify.protaskify_api.model.enity.Student;
 import com.protaskify.protaskify_api.repository.StudentRepository;

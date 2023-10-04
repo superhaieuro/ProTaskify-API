@@ -1,7 +1,7 @@
 package com.protaskify.protaskify_api.controller;
 
 import com.protaskify.protaskify_api.model.enity.Student;
-import com.protaskify.protaskify_api.service.lecturer.LecturerService;
+import com.protaskify.protaskify_api.service.LecturerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
