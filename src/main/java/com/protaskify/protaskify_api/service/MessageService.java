@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class MessageService {
+
     private final MessagesRepository messagesRepository;
 
     public String saveMessageFromJSON(Messages messages){

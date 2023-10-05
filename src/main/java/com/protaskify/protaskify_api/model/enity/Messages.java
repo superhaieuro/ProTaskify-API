@@ -17,12 +17,18 @@ public class Messages {
     @Column(columnDefinition = "NVARCHAR(MAX)")
     private String content;
 
-    @Column(columnDefinition = "CHAR(10)")
+    @ManyToOne
+    @JoinColumn(name = "lecturer_id")
+//    @Column(columnDefinition = "CHAR(10)")
+    private Lecturer lecturerId;
+
+    @ManyToOne
+    @JoinColumn(name = "student_id")
+//    @Column(columnDefinition = "CHAR(10)")
+    private Student studentId;
+
+    private Date date;
+
     private String fromId;
-
-    @Column(columnDefinition = "CHAR(10)")
-    private String toId;
-
-    private Date createDate;
     private Boolean status;
 }
