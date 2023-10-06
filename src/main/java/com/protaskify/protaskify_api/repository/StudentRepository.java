@@ -13,7 +13,11 @@ public interface StudentRepository extends JpaRepository<Student, String> {
     Optional<Student> findAllByEmail(String email);
 
     @Query(
-            value = "select student_id, is_leader from student where is_leader = true and class_id = ?",
+            value = "select s.student_id, g.group_name, m.date from student s" +
+                    "join class c on s.class_id = c.class_id" +
+                    "join groups g on c.class_id = g.class_id" +
+                    "join messages m on s.student_id = m.student_id" +
+                    "where s.student_id = :studentId",
             nativeQuery = true)
-    List<Student> findAllLeader();
+    List<Student> findAllLeader(String studentId);
 }

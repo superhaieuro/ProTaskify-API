@@ -4,6 +4,7 @@ import com.protaskify.protaskify_api.model.enity.Messages;
 import com.protaskify.protaskify_api.repository.MessagesRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Service
 @RequiredArgsConstructor

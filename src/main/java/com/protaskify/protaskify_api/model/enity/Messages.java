@@ -2,6 +2,7 @@ package com.protaskify.protaskify_api.model.enity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 
 import java.util.Date;
 
@@ -30,5 +31,5 @@ public class Messages {
     private Date date;
 
     private String fromId;
-    private Boolean status;
+//    private Boolean status;
 }

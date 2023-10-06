@@ -34,6 +34,8 @@ public class Student implements UserDetails {
     private String email;
 
     private String picture;
+    private boolean isLeader;
+
 
     @ManyToOne
     @JoinColumn(name = "class_id")
