@@ -2,7 +2,6 @@ package com.protaskify.protaskify_api.model.enity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
 
 import java.util.Date;
 
@@ -20,16 +19,15 @@ public class Messages {
 
     @ManyToOne
     @JoinColumn(name = "lecturer_id")
-//    @Column(columnDefinition = "CHAR(10)")
     private Lecturer lecturerId;
 
     @ManyToOne
     @JoinColumn(name = "student_id")
-//    @Column(columnDefinition = "CHAR(10)")
     private Student studentId;
 
     private Date date;
 
     private String fromId;
-//    private Boolean status;
+
+    private Boolean status;
 }

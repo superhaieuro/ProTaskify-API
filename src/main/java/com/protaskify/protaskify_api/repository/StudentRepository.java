@@ -1,11 +1,8 @@
 package com.protaskify.protaskify_api.repository;
 
-
 import com.protaskify.protaskify_api.model.enity.Student;
-import jakarta.persistence.NamedNativeQuery;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
