@@ -19,7 +19,7 @@ import java.util.Collections;
 @AllArgsConstructor
 @Entity
 @Table(name = "student")
-public class Student implements UserDetails {
+public class sStudent implements UserDetails {
     @Id
     @JsonProperty("RollNumber")
     @Column(name = "student_id", columnDefinition = "CHAR(10)")
