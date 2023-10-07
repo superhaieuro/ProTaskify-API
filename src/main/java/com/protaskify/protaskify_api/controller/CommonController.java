@@ -2,8 +2,6 @@ package com.protaskify.protaskify_api.controller;
 
 import com.protaskify.protaskify_api.model.enity.Messages;
 import com.protaskify.protaskify_api.model.enity.Semester;
-import com.protaskify.protaskify_api.model.enity.Student;
-import com.protaskify.protaskify_api.model.request.PaginationRequest;
 import com.protaskify.protaskify_api.repository.MessagesRepository;
 import com.protaskify.protaskify_api.repository.StudentRepository;
 import com.protaskify.protaskify_api.service.MessageService;
@@ -12,15 +10,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -45,24 +41,24 @@ public class CommonController {
         simpMessagingTemplate.convertAndSend(messageService.saveMessageFromJSON(messages), messages);
     }
 
-    @PostMapping("/get-param")
-    public PaginationRequest getParam (@RequestBody int pageNo, @RequestBody int pageSize){
-        PaginationRequest paginationRequest = new PaginationRequest();
-        paginationRequest.setPageNo(pageNo);
-        paginationRequest.setPageSize(pageSize);
-        return  paginationRequest;
-    }
+//    @PostMapping("/get-param")
+//    public PaginationRequest getParam (@RequestBody int pageNo, @RequestBody int pageSize){
+//        PaginationRequest paginationRequest = new PaginationRequest();
+//        paginationRequest.setPageNo(pageNo);
+//        paginationRequest.setPageSize(pageSize);
+//        return  paginationRequest;
+//    }
 
-    @GetMapping("/message-list")
+    @GetMapping("/message-detail")
     public ResponseEntity<List<Messages>> getMessage(@RequestParam("pageNo") int pageNo, @RequestParam("pageSize") int pageSize, @RequestParam("studentId") String studentId){
-        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("date").descending());
         Page<Messages> messagesList = messagesRepository.findMessageByStudentId(studentId, pageable);
         return ResponseEntity.ok(messagesList.getContent());
     }
 
-    @GetMapping("/leader-list")
-    public ResponseEntity<List<Student>> getLeader(@RequestParam("studentId") String studentId){
-        return ResponseEntity.ok(studentRepository.findAllLeader(studentId));
+    @GetMapping("/message-list")
+    public ResponseEntity<List<?>> getLeader(@RequestParam("studentId") String studentId){
+        return ResponseEntity.ok(studentRepository.getMessagesInfo(studentId));
     }
 
     @GetMapping("/get-active-semester")
