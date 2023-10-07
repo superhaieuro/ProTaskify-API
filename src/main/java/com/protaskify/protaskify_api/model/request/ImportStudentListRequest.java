@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 public class ImportStudentListRequest {
-    private String classId;
+    private String className;
     private String lecturerEmail;
     private List<Student> students;
 }

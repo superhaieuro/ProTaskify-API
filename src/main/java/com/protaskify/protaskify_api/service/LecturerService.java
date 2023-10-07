@@ -26,7 +26,7 @@ public class LecturerService {
         Lecturer lecturer = lecturerRepository.findAllByEmail(request.getLecturerEmail()).get();
         Semester semester = semesterRepository.findAllByStatus(true).get();
         Classes classes = Classes.builder()
-                .id(request.getClassId())
+                .name(request.getClassName())
                 .lecturer(lecturer)
                 .semester(semester)
                 .build();
@@ -35,5 +35,12 @@ public class LecturerService {
             student.setClasses(classes);
         }
         studentRepository.saveAll(request.getStudents());
+    }
+
+    public List<Semester> getSemesterByLecturer(String lecturerId) {
+        Lecturer lecturer = lecturerRepository.findAllByEmail(lecturerId).get();
+        System.out.println(lecturer);
+        List<Semester> semesterList = semesterRepository.findByLecturerClasses(lecturer);
+        return semesterList;
     }
 }

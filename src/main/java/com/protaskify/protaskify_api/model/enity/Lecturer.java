@@ -2,18 +2,17 @@ package com.protaskify.protaskify_api.model.enity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -36,6 +35,9 @@ public class Lecturer implements UserDetails {
     private String picture;
 
     private Boolean status;
+
+    @OneToMany(mappedBy = "lecturer")
+    private List<Classes> classesList;
 
     public void setStatus(Boolean status) {
         this.status = true;
