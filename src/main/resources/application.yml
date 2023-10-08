@@ -1,7 +1,7 @@
 spring:
   #  Local Database
   datasource:
-    url: jdbc:sqlserver://localhost:1433;database=ProTaskifyTemp
+    url: jdbc:sqlserver://localhost:1433;database=demo
     username: sa
     password: 12345
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
