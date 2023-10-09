@@ -22,4 +22,24 @@ public class FeatureController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+
+    @PutMapping("/update-feature/{featureId}")
+    public ResponseEntity<Feature> updateFeature(@PathVariable Long featureId, @RequestBody Feature updatedFeature) {
+        try {
+            Feature editedFeature = featureService.updateFeature(featureId, updatedFeature);
+            return ResponseEntity.ok(editedFeature);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @DeleteMapping("/delete-feature/{featureId}")
+    public ResponseEntity<Void> deleteFeature(@PathVariable Long featureId) {
+        try {
+            featureService.deleteFeature(featureId);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
 }
