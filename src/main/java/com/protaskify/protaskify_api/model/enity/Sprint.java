@@ -15,7 +15,7 @@ public class Sprint {
     @Id
     @Column(name = "sprint_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @Column(name = "sprint_name",columnDefinition = "VARCHAR(25)")
     private String name;
     @ManyToOne

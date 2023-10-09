@@ -1,34 +1,33 @@
 package com.protaskify.protaskify_api.service.student;
-import com.protaskify.protaskify_api.model.enity.Feature;
-import com.protaskify.protaskify_api.model.enity.Group;
-import com.protaskify.protaskify_api.model.enity.Student;
-import com.protaskify.protaskify_api.model.response.AuthenticationResponse;
-import com.protaskify.protaskify_api.repository.FeatureRepository;
-import com.protaskify.protaskify_api.repository.ProcessRepository;
-import com.protaskify.protaskify_api.repository.StudentRepository;
-import com.protaskify.protaskify_api.service.auth.AuthenticationService;
+import com.protaskify.protaskify_api.model.enity.*;
+import com.protaskify.protaskify_api.model.enity.Process;
+import com.protaskify.protaskify_api.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class FeatureService {
-
     private final FeatureRepository featureRepository;
-    private final ProcessRepository processRepository;
-    private final StudentRepository studentRepository;
+    private final ProjectRepository projectRepository;
 
-    public Feature createFeature(Feature feature, String studentId) throws Exception {
-        Student student = studentRepository.findById(studentId).orElse(null);
+
+    public Feature createFeature(Feature feature) throws Exception {
+        Student student = (Student) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (student != null && student.is_leader()) {
-            featureRepository.save(feature);
-            processRepository.updateFeatureId(feature);
-
-            return feature;
-        }else {
-            // Nếu sinh viên không phải là leader, ném ra một ngoại lệ
-            throw new Exception("Chỉ leader của nhóm mới có thể tạo feature cho project này.");
+            Group group = student.getGroupId();
+            Long projectId = projectRepository.findProjectIdByGroupId(group.getId());
+            System.out.println(projectId);
+            Project project = projectRepository.findById(projectId).orElse(null);
+            if (project != null && project.getGroupId().getId().equals(group.getId())) {
+                feature.setProject(project);
+                return featureRepository.save(feature);
+            } else {
+                throw new Exception("Project không thuộc nhóm của bạn.");
+            }
+        } else {
+            throw new Exception("Chỉ leader của nhóm mới có thể tạo feature.");
         }
     }
-
 }

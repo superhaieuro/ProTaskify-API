@@ -16,7 +16,7 @@ public class Class {
     @Id
     @Column(name = "class_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(name = "class_name", columnDefinition = "VARCHAR(50)")
     private String name;

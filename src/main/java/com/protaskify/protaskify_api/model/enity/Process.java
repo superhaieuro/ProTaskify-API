@@ -15,11 +15,8 @@ public class Process {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "project_id")
-    private Project projectId;
+    private Project project;
     @ManyToOne
     @JoinColumn(name = "sprint_id")
-    private Sprint sprintId;
-    @ManyToOne
-    @JoinColumn(name = "feature_id")
-    private Feature featureId;
+    private Sprint sprint;
 }

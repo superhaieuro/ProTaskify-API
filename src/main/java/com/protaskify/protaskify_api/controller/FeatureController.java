@@ -1,20 +1,25 @@
 package com.protaskify.protaskify_api.controller;
-import com.protaskify.protaskify_api.service.student.FeatureService;
+
 import com.protaskify.protaskify_api.model.enity.Feature;
-import jakarta.servlet.http.HttpServletRequest;
+import com.protaskify.protaskify_api.service.student.FeatureService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/student")
 @RequiredArgsConstructor
 public class FeatureController {
-    @Autowired
-    private FeatureService featureService;
+    private final FeatureService featureService;
+
     @PostMapping("/create-feature")
-    public Feature createFeature(HttpServletRequest request, @RequestBody Feature feature) throws Exception {
-        String studentId = request.getParameter("studentId");
-        return featureService.createFeature(feature, studentId);
+    public ResponseEntity<Feature> createFeature(@RequestBody Feature feature) {
+        try {
+            Feature createdFeature = featureService.createFeature(feature);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdFeature);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 }

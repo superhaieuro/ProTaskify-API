@@ -13,9 +13,12 @@ public class Project {
     @Id
     @Column(name = "project_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @Column(name = "project_name",columnDefinition = "VARCHAR(50)")
     private String name;
+    @ManyToOne
+    @JoinColumn(name = "group_id")
+    private Group groupId;
     @ManyToOne
     @JoinColumn(name = "lecturer_id")
     private Lecturer lecturerId;
