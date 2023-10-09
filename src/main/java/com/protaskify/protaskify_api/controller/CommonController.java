@@ -33,7 +33,7 @@ public class CommonController {
     private final StudentRepository studentRepository;
 
     @MessageMapping("/room")
-    public void sendMessage(Messages messages){
+    public void sendMessage(@RequestBody Messages messages){
         String toId = messages.getLecturerId().toString();
         if (messages.getFromId().equals(messages.getLecturerId())){
             toId = messages.getStudentId().toString();
@@ -50,8 +50,8 @@ public class CommonController {
     }
 
     @GetMapping("/message-list")
-    public ResponseEntity<List<?>> getLeader(@RequestParam("studentId") String studentId){
-        return ResponseEntity.ok(studentRepository.getMessagesInfo(studentId));
+    public ResponseEntity<List<?>> getMessagesInfo(@RequestParam("classId") int classId){
+        return ResponseEntity.ok(studentRepository.getMessagesInfo(classId));
     }
 
     @GetMapping("/get-active-semester")
