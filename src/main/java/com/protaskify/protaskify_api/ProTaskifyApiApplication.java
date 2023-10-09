@@ -7,9 +7,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 //@SpringBootApplication
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 public class ProTaskifyApiApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(ProTaskifyApiApplication.class, args);
     }
-
 }

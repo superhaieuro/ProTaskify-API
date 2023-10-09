@@ -1,12 +1,19 @@
 package com.protaskify.protaskify_api.model.enity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Entity
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "messages")
 public class Messages {
     @Id
@@ -18,12 +25,14 @@ public class Messages {
     private String content;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "lecturer_id")
-    private Lecturer lecturerId;
+    private Lecturer lecturer;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "student_id")
-    private Student studentId;
+    private Student student;
 
     private Date date;
 

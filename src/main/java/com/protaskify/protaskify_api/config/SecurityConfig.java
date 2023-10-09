@@ -23,7 +23,7 @@ public class SecurityConfig {
         return http
                 .csrf().disable()
                 .cors().and()
-                .authorizeHttpRequests().requestMatchers("/api/v1/auth/**", "/api/v1/common/**").permitAll()
+                .authorizeHttpRequests().requestMatchers("/api/v1/auth/**", "/api/v1/common/**", "/web-socket/**").permitAll()
                 .and()
                 .authorizeHttpRequests().requestMatchers("/api/v1/student/**").hasAuthority("STUDENT")
                 .and()

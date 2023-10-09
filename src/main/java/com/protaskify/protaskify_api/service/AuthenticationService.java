@@ -53,7 +53,9 @@ public class AuthenticationService {
                 authenticationResponse = AuthenticationResponse.builder()
                         .token(jwtService.generateToken(user.get()))
                         .userInfo(
-                                Lecturer.builder().name(user.get().getName())
+                                Lecturer.builder()
+                                        .id(user.get().getId())
+                                        .name(user.get().getName())
                                         .email(user.get().getEmail())
                                         .picture(userData.get("picture").getAsString())
                                         .build()
@@ -69,7 +71,9 @@ public class AuthenticationService {
                 authenticationResponse = AuthenticationResponse.builder()
                         .token(jwtService.generateToken(user.get()))
                         .userInfo(
-                                Student.builder().name(user.get().getName())
+                                Student.builder()
+                                        .id(user.get().getId())
+                                        .name(user.get().getName())
                                         .email(user.get().getEmail())
                                         .picture(userData.get("picture").getAsString())
                                         .build()

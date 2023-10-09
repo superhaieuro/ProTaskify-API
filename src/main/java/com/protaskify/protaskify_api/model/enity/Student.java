@@ -35,11 +35,15 @@ public class Student implements UserDetails {
     private String picture;
     private boolean isLeader;
 
-
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "class_id")
     private Classes classes;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "group_id")
+    private Groups groups;
 
     public void setEmail(String email) {
         this.email = email + "@fpt.edu.vn";

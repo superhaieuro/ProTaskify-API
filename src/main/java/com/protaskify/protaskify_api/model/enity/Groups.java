@@ -1,9 +1,15 @@
 package com.protaskify.protaskify_api.model.enity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
-@Data
+import java.util.List;
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "groups")
 public class Groups {
@@ -16,4 +22,7 @@ public class Groups {
     @ManyToOne
     @JoinColumn(name = "class_id")
     private Classes classes;
+
+    @OneToMany(mappedBy = "groups")
+    private List<Student> studentList;
 }
