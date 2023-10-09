@@ -2,7 +2,7 @@ package com.protaskify.protaskify_api.controller;
 
 import com.protaskify.protaskify_api.model.enity.Messages;
 import com.protaskify.protaskify_api.model.enity.Semester;
-import com.protaskify.protaskify_api.model.enity.Student;
+import com.protaskify.protaskify_api.model.request.SendMessageRequest;
 import com.protaskify.protaskify_api.repository.MessagesRepository;
 import com.protaskify.protaskify_api.repository.StudentRepository;
 import com.protaskify.protaskify_api.service.MessageService;
@@ -25,7 +25,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/common")
 public class CommonController {
-
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final MessageService messageService;
     private final SemesterService semesterService;
@@ -33,10 +32,11 @@ public class CommonController {
     private final StudentRepository studentRepository;
 
     @MessageMapping("/room")
-    public void sendMessage(@RequestBody Messages messages){
-        String toId = messages.getLecturerId().toString();
-        if (messages.getFromId().equals(messages.getLecturerId())){
-            toId = messages.getStudentId().toString();
+    public void sendMessage(@RequestBody SendMessageRequest request){
+        Messages messages = messageService.getMessageInfo(request);
+        String toId = messages.getLecturer().getId();
+        if (messages.getFromId().equals(messages.getLecturer().getId())){
+            toId = messages.getStudent().toString();
         }
         simpMessagingTemplate.convertAndSendToUser(toId,"/topic/room", messages);
         simpMessagingTemplate.convertAndSend(messageService.saveMessageFromJSON(messages), messages);
@@ -50,8 +50,8 @@ public class CommonController {
     }
 
     @GetMapping("/message-list")
-    public ResponseEntity<List<?>> getMessagesInfo(@RequestParam("classId") int classId){
-        return ResponseEntity.ok(studentRepository.getMessagesInfo(classId));
+    public ResponseEntity<List<?>> getLeader(@RequestParam("studentId") String studentId){
+        return ResponseEntity.ok(studentRepository.getMessagesInfo(studentId));
     }
 
     @GetMapping("/get-active-semester")
