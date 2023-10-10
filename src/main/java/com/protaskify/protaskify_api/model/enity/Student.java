@@ -21,7 +21,7 @@ import java.util.Collections;
 @AllArgsConstructor
 @Entity
 @Table(name = "student")
-public class Student implements UserDetails {
+public class  Student implements UserDetails {
     @Id
     @JsonProperty("RollNumber")
     private String id;
