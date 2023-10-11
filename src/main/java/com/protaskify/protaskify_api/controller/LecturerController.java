@@ -6,9 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
-import  java.util.HashMap;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,24 +15,7 @@ public class LecturerController {
     private final LecturerService lecturerService;
 
     @PostMapping("/import-student")
-    public List<String> importStudent(@RequestBody List<Student> students) {
-        List<String> duplicateStudentId = findDuplicateStudentIds(students);
-        if (!duplicateStudentId.isEmpty()) {
-            return duplicateStudentId;
-        }
+    public void importStudent(@RequestBody List<Student> students) {
         lecturerService.saveStudentsFromJSON(students);
-        return duplicateStudentId;
     }
-
-    private List<String> findDuplicateStudentIds(List<Student> students) {
-        List<String> duplicateIds = students.stream()
-                .collect(Collectors.groupingBy(Student::getId, Collectors.counting()))
-                .entrySet().stream()
-                .filter(entry -> entry.getValue() > 1)
-                .map(Map.Entry::getKey)
-                .collect(Collectors.toList());
-
-        return duplicateIds;
-    }
-
 }
