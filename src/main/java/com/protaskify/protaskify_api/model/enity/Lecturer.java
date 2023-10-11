@@ -19,7 +19,7 @@ public class Lecturer {
     @Column(name = "lecturer_name")
     private String name;
 
-    @Column(name = "member_code")
+    @Column(name = "lecturer_email")
     private String email;
 
     @Column(name = "status")
