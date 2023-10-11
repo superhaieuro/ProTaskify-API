@@ -1,9 +1,9 @@
 package com.protaskify.protaskify_api.config;
 
 import com.protaskify.protaskify_api.config.custom.CustomAuthenticationProvider;
-import com.protaskify.protaskify_api.model.enity.Lecturer;
+import com.protaskify.protaskify_api.model.enity.LecturerGG;
 import com.protaskify.protaskify_api.model.enity.Student;
-import com.protaskify.protaskify_api.repository.LecturerRepository;
+import com.protaskify.protaskify_api.repository.LecturerGGRepository;
 import com.protaskify.protaskify_api.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ApplicationConfig {
     private final StudentRepository studentRepository;
-    private final LecturerRepository lecturerRepository;
+    private final LecturerGGRepository lecturerRepository;
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -28,7 +28,7 @@ public class ApplicationConfig {
             if (student.isPresent()) {
                 return student.get();
             } else {
-                Optional<Lecturer> lecturer = lecturerRepository.findAllByEmail(userEmail);
+                Optional<LecturerGG> lecturer = lecturerRepository.findAllByEmail(userEmail);
                 if (lecturer.isPresent()) {
                     return lecturer.get();
                 } else {
