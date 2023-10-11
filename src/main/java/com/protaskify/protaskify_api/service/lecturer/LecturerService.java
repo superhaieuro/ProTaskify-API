@@ -6,12 +6,13 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class LecturerService {
     private final StudentRepository studentRepository;
-
     public void saveStudentsFromJSON(List<Student> students) {
         studentRepository.saveAll(students);
     }
