@@ -1,10 +1,9 @@
 package com.protaskify.protaskify_api.model.enity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
+import org.hibernate.annotations.Nationalized;
 import org.springframework.security.core.userdetails.UserDetails;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,6 +29,39 @@ public class Student implements UserDetails {
     @JsonProperty("MemberCode")
     private String email;
     private String picture;
+
+    @Nationalized
+    @Column(name = "student_name", length = 50)
+    private String studentName;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "class_id")
+    private Class classField;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id")
+    private Group group;
+
+    @Column(name = "score")
+    private Double score;
+
+    @Column(name = "link_facebook", length = 100)
+    private String linkFacebook;
+
+    @Column(name = "github", length = 50)
+    private String github;
+
+    @Column(name = "skills", length = 50)
+    private String skills;
+
+    @Column(name = "about", length = 100)
+    private String about;
+
+    @Column(name = "status", length = 50)
+    private String status;
+
+    @Column(name = "is_leader")
+    private Boolean isLeader;
 
     public void setEmail(String email) {
         this.email = email + "@fpt.edu.vn";
