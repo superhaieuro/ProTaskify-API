@@ -1,4 +1,4 @@
-package com.protaskify.protaskify_api.service.auth;
+package com.protaskify.protaskify_api.service;
 
 import com.google.gson.JsonObject;
 import com.protaskify.protaskify_api.model.response.AuthenticationResponse;
@@ -23,7 +23,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    //Demo email but use student email instead of lecturer email
+    //Demo email but use normal email instead of lecturer email
     private static final String LECTURER_EMAIL_COM = "@gmail.com";
 
     //Decode token to get user information

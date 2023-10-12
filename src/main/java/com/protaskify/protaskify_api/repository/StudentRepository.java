@@ -13,4 +13,9 @@ public interface StudentRepository extends JpaRepository<Student, String> {
 
     @Query(value = "SELECT * FROM [dbo].[student] where class_id = :classID",nativeQuery = true)
     List<Student> getStudentByClass(int classID);
+
+    @Query(
+            value = "select student_id, is_leader from student where is_leader = true and class_id = ?",
+            nativeQuery = true)
+    List<Student> findAllLeader();
 }
