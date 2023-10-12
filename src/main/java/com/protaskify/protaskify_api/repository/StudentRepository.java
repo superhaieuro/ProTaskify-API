@@ -8,9 +8,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
 public interface StudentRepository extends JpaRepository<Student, String> {
     Optional<Student> findAllByEmail(String email);
+
+    @Query(value = "SELECT * FROM [dbo].[student] where class_id = :classID",nativeQuery = true)
+    List<Student> getStudentByClass(int classID);
 
     @Query(
             value = "select student_id, is_leader from student where is_leader = true and class_id = ?",
