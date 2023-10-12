@@ -16,8 +16,8 @@ public class Feature {
     private Long id;
     @Column(name = "feature_name", columnDefinition = "VARCHAR(50)")
     private String name;
-    @Column(columnDefinition = "BIT")
-    private boolean status;
+    @Column(columnDefinition = "VARCHAR(10)")
+    private String status;
     @Column(columnDefinition = "VARCHAR(MAX)")
     private String description;
     @ManyToOne

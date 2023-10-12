@@ -19,4 +19,7 @@ public class Process {
     @ManyToOne
     @JoinColumn(name = "sprint_id")
     private Sprint sprint;
+    @ManyToOne
+    @JoinColumn(name = "feature_id")
+    private Feature feature;
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -15,14 +16,14 @@ public class Task {
     @Id
     @Column(name = "task_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @Column(name = "task_name", columnDefinition = "VARCHAR(25)")
     private String name;
     @ManyToOne
     @JoinColumn(name = "feature_id")
     private Feature featureId;
-    @Column(columnDefinition = "BIT")
-    private boolean status;
+    @Column(columnDefinition = "VARCHAR(10)")
+    private String status;
     @Column(columnDefinition = "VARCHAR(25)")
     private String feedback;
     @Column(columnDefinition = "VARCHAR(25)")
@@ -33,4 +34,7 @@ public class Task {
     private Date create_date;
     @Column(columnDefinition = "DATE")
     private Date finish_date;
+
+//    @ManyToMany
+//    Set<Student> student;
 }

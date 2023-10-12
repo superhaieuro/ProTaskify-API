@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -44,6 +45,9 @@ public class Student implements UserDetails {
     @Column(columnDefinition = "BIT")
     private boolean is_leader;
     private String picture;
+
+//    @ManyToMany
+//    Set<Task> task;
 
     public void setEmail(String email) {
         this.email = email + "@fpt.edu.vn";
