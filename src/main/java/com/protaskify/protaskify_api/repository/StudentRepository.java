@@ -13,7 +13,7 @@ public interface StudentRepository extends JpaRepository<Student, String> {
     Optional<Student> findAllByEmail(String email);
 
     @Query(
-            value = "SELECT m.student_id, m.content, m.date, g.group_name " +
+            value = "SELECT m.student_id, c.class_name, m.content, m.date, m.status, g.group_name as groupName " +
                     "FROM Messages m " +
                     "JOIN ( " +
                     "    SELECT student_id, MAX(date) as MaxDate " +
@@ -21,8 +21,8 @@ public interface StudentRepository extends JpaRepository<Student, String> {
                     "    GROUP BY student_id " +
                     ") latestMsg ON m.student_id = latestMsg.student_id AND m.date = latestMsg.MaxDate " +
                     "join student s on s.student_id = m.student_id " +
-                    "join groups g on g.class_id = s.class_id " +
-                    "where g.class_id = :classId", nativeQuery = true)
-    List<?> getMessagesInfo(int classId);
-
+                    "join class c on s.class_id = c.class_id " +
+                    "join groups g on g.group_id = s.group_id " +
+                    "where c.semester_id = :semesterId and m.lecturer_id = :lecturerId", nativeQuery = true)
+    List<?> getMessagesInfo(String semesterId, String lecturerId);
 }
