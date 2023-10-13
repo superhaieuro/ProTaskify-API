@@ -2,8 +2,10 @@ package com.protaskify.protaskify_api.model.enity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.Date;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -18,6 +20,7 @@ public class Task {
     private int id;
     @Column(name = "task_name", columnDefinition = "VARCHAR(25)")
     private String name;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "feature_id")
     private Feature featureId;
@@ -33,4 +36,7 @@ public class Task {
     private Date create_date;
     @Column(columnDefinition = "DATE")
     private Date finish_date;
+    @JsonIgnore
+    @ManyToMany
+    Set<Student> students;
 }

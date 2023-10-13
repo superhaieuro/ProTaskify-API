@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 @RequiredArgsConstructor
 public class FeatureService {
@@ -17,16 +19,17 @@ public class FeatureService {
         if (student != null && student.is_leader()) {
             Group group = student.getGroupId();
             Long projectId = projectRepository.findProjectIdByGroupId(group.getId());
-            System.out.println(projectId);
             Project project = projectRepository.findById(projectId).orElse(null);
             if (project != null && project.getGroupId().getId().equals(group.getId())) {
                 feature.setProject(project);
+                feature.setStart_date(feature.getStart_date());
+                feature.setEnd_date(feature.getEnd_date());
             }
         }
         return featureRepository.save(feature);
     }
 
-    public Feature updateFeature(Long featureId, Feature updatedFeature) throws Exception {
+    public Feature updateFeature(Long featureId, Feature updatedFeature){
         Student student = (Student) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (student != null && student.is_leader()) {
             Feature existingFeature = featureRepository.findById(featureId).orElse(null);
@@ -38,6 +41,8 @@ public class FeatureService {
                     existingFeature.setName(updatedFeature.getName());
                     existingFeature.setStatus(updatedFeature.isStatus());
                     existingFeature.setDescription(updatedFeature.getDescription());
+                    existingFeature.setStart_date(updatedFeature.getStart_date());
+                    existingFeature.setEnd_date(updatedFeature.getEnd_date());
                     return featureRepository.save(existingFeature);
                 }
             }

@@ -3,6 +3,8 @@ package com.protaskify.protaskify_api.model.enity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -23,4 +25,11 @@ public class Feature {
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
+    @Temporal(TemporalType.DATE)
+    @Column(columnDefinition = "DATE")
+    private Date start_date;
+    @Temporal(TemporalType.DATE)
+    @Column(columnDefinition = "DATE")
+    private Date end_date;
+
 }

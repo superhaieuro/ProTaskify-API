@@ -3,6 +3,7 @@ package com.protaskify.protaskify_api.model.enity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,9 +28,11 @@ public class Student implements UserDetails {
     private String name;
     @JsonProperty("MemberCode")
     private String email;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "class_id")
     private Class classId;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "group_id")
     private Group groupId;

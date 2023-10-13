@@ -3,6 +3,8 @@ package com.protaskify.protaskify_api.model.enity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -32,5 +34,7 @@ public class Project {
     private String functional_requirements;
     @Column(columnDefinition = "VARCHAR(250)")
     private String non_functional_requirements;
+    @ManyToMany
+    Set<Sprint> sprints;
 
 }

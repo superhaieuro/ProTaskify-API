@@ -1,6 +1,7 @@
 package com.protaskify.protaskify_api.model.enity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -24,6 +25,7 @@ import java.util.Collections;
 public class Lecturer implements UserDetails {
     @Id
     @JsonProperty("RollNumber")
+    @Column(name = "lecturer_id", columnDefinition = "CHAR(10)")
     private String id;
     @JsonProperty("FullName")
     private String name;

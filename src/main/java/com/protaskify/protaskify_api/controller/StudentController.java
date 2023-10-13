@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/v1/student")
 @RequiredArgsConstructor
-public class FeatureController {
+public class StudentController {
     private final FeatureService featureService;
 
     @PostMapping("/create-feature")
