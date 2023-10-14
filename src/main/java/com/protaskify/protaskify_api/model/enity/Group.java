@@ -22,6 +22,9 @@ public class Group {
     @Column(columnDefinition = "FLOAT")
     private Double score;
     @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
+    @ManyToOne
     @JoinColumn(name = "class_id")
-    private Class classId;
+    private Class classes;
 }

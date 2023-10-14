@@ -5,7 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -63,5 +64,9 @@ public class FeatureService {
                 }
             }
         }
+    }
+
+    public List<Feature> getAllFeatures(Long classId, Long groupId) {
+        return featureRepository.findByClassIdAndGroupId(classId, groupId);
     }
 }

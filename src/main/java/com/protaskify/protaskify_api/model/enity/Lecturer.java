@@ -25,7 +25,6 @@ import java.util.Collections;
 public class Lecturer implements UserDetails {
     @Id
     @JsonProperty("RollNumber")
-    @Column(name = "lecturer_id", columnDefinition = "CHAR(10)")
     private String id;
     @JsonProperty("FullName")
     private String name;
