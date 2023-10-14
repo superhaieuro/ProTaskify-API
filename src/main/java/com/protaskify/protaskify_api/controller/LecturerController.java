@@ -1,8 +1,11 @@
 package com.protaskify.protaskify_api.controller;
 
-import com.protaskify.protaskify_api.model.enity.Student;
-import com.protaskify.protaskify_api.service.lecturer.LecturerService;
+import com.protaskify.protaskify_api.model.enity.Semester;
+import com.protaskify.protaskify_api.model.request.ImportStudentListRequest;
+import com.protaskify.protaskify_api.service.LecturerService;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,7 +18,12 @@ public class LecturerController {
     private final LecturerService lecturerService;
 
     @PostMapping("/import-student")
-    public void importStudent(@RequestBody List<Student> students) {
-        lecturerService.saveStudentsFromJSON(students);
+    public void importStudent(@RequestBody ImportStudentListRequest request) {
+        lecturerService.saveStudentList(request);
+    }
+
+    @GetMapping("/get-lecturer-semester")
+    public ResponseEntity<List<Semester>> getLecturerSemester(@PathParam("lecturerId") String lecturerId) {
+        return ResponseEntity.ok(lecturerService.getSemesterByLecturer(lecturerId));
     }
 }

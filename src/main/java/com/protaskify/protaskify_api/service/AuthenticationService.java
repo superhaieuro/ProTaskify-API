@@ -1,4 +1,4 @@
-package com.protaskify.protaskify_api.service.auth;
+package com.protaskify.protaskify_api.service;
 
 import com.google.gson.JsonObject;
 import com.protaskify.protaskify_api.model.response.AuthenticationResponse;
@@ -23,7 +23,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    //Demo email but use student email instead of lecturer email
+    //Demo email but use normal email instead of lecturer email
     private static final String LECTURER_EMAIL_COM = "@gmail.com";
 
     //Decode token to get user information
@@ -53,7 +53,9 @@ public class AuthenticationService {
                 authenticationResponse = AuthenticationResponse.builder()
                         .token(jwtService.generateToken(user.get()))
                         .userInfo(
-                                Lecturer.builder().name(user.get().getName())
+                                Lecturer.builder()
+                                        .id(user.get().getId())
+                                        .name(user.get().getName())
                                         .email(user.get().getEmail())
                                         .picture(userData.get("picture").getAsString())
                                         .build()
@@ -69,7 +71,9 @@ public class AuthenticationService {
                 authenticationResponse = AuthenticationResponse.builder()
                         .token(jwtService.generateToken(user.get()))
                         .userInfo(
-                                Student.builder().name(user.get().getName())
+                                Student.builder()
+                                        .id(user.get().getId())
+                                        .name(user.get().getName())
                                         .email(user.get().getEmail())
                                         .picture(userData.get("picture").getAsString())
                                         .build()

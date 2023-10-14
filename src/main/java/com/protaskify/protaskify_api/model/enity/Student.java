@@ -1,9 +1,9 @@
 package com.protaskify.protaskify_api.model.enity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
-import net.minidev.json.annotate.JsonIgnore;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,14 +20,18 @@ import java.util.Collections;
 @Table(name = "student")
 public class Student implements UserDetails {
     @Id
-    @Column(name = "student_id",columnDefinition = "CHAR(10)")
     @JsonProperty("RollNumber")
+    @Column(name = "student_id", columnDefinition = "CHAR(10)")
     private String id;
-    @Column(columnDefinition = "NVARCHAR(50)")
+
+    @Column(name = "student_name", columnDefinition = "NVARCHAR(50)")
     @JsonProperty("FullName")
     private String name;
+
+    @Column(columnDefinition = "VARCHAR(50)")
     @JsonProperty("MemberCode")
     private String email;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "class_id")
@@ -47,6 +51,17 @@ public class Student implements UserDetails {
     @Column(columnDefinition = "BIT")
     private boolean is_leader;
     private String picture;
+    private boolean isLeader;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "class_id")
+    private Classes classes;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "group_id")
+    private Groups groups;
 
     public void setEmail(String email) {
         this.email = email + "@fpt.edu.vn";
