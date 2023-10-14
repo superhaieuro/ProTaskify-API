@@ -46,10 +46,10 @@ public class Task {
     //--------------------Relationship--------------------
     @JsonIgnore
     @ManyToMany
-    private Set<Student> students;
+    private Set<Student> student;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "feature_id")
-    private Feature featureId;
+    private Feature feature;
 }

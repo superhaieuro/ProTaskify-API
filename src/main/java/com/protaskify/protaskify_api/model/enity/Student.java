@@ -1,9 +1,9 @@
 package com.protaskify.protaskify_api.model.enity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,51 +19,34 @@ import java.util.Collections;
 @Entity
 @Table(name = "student")
 public class Student implements UserDetails {
-    //--------------------Attribute--------------------
     @Id
+    @Column(name = "student_id",columnDefinition = "CHAR(10)")
     @JsonProperty("RollNumber")
-    @Column(name = "student_id", columnDefinition = "CHAR(10)")
     private String id;
-
-    @Column(name = "student_name", columnDefinition = "NVARCHAR(50)")
+    @Column(columnDefinition = "NVARCHAR(50)")
     @JsonProperty("FullName")
     private String name;
-
-    @Column(columnDefinition = "VARCHAR(50)")
     @JsonProperty("MemberCode")
     private String email;
-
-    @Column(columnDefinition = "VARCHAR(150)")
-    private String github;
-
-    @Column(columnDefinition = "VARCHAR(150)")
-    private String facebook;
-
-    @Column(columnDefinition = "VARCHAR(50)")
-    private String skills;
-
-    @Column(columnDefinition = "FLOAT")
-    private Double score;
-
-    @Column(columnDefinition = "BIT")
-    private boolean status = true;
-
-    @Column(columnDefinition = "BIT")
-    private boolean isLeader;
-
-    private String picture;
-
-
-    //--------------------Relationship--------------------
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "class_id")
     private Classes classes;
-
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "group_id")
     private Group group;
+    @Column(columnDefinition = "VARCHAR(150)")
+    private String github;
+    @Column(columnDefinition = "VARCHAR(20)")
+    private String skills;
+    @Column(columnDefinition = "FLOAT")
+    private Double score;
+    @Column(columnDefinition = "BIT")
+    private boolean status;
+    @Column(columnDefinition = "BIT")
+    private boolean is_leader;
+    private String picture;
 
     public void setEmail(String email) {
         this.email = email + "@fpt.edu.vn";

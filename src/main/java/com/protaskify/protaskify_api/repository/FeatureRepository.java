@@ -11,7 +11,7 @@ import java.util.List;
 public interface FeatureRepository extends JpaRepository<Feature, Long> {
     @Query("SELECT f FROM Feature f " +
             "JOIN f.project p " +
-            "JOIN p.groupId g " +
+            "JOIN p.groupList g " +
             "WHERE g.classes.id = :classId AND g.id = :groupId")
     List<Feature> findByClassIdAndGroupId(Long classId, Long groupId);
 }

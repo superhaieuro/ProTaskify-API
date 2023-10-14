@@ -3,6 +3,7 @@ package com.protaskify.protaskify_api.model.enity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -39,14 +40,14 @@ public class Project {
 
 
     //--------------------Relationship--------------------
-    @ManyToOne
-    @JoinColumn(name = "group_id")
-    private Group groupId;
+    @OneToMany(mappedBy = "project")
+    private List<Group> groupList;
 
     @ManyToOne
     @JoinColumn(name = "lecturer_id")
-    private Lecturer lecturerId;
+    private Lecturer lecturer;
 
     @ManyToMany
-    Set<Sprint> sprints;
+    Set<Sprint> sprint;
+
 }
