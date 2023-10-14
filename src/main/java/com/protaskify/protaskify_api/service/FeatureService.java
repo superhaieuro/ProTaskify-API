@@ -1,4 +1,5 @@
-package com.protaskify.protaskify_api.service.student;
+package com.protaskify.protaskify_api.service;
+
 import com.protaskify.protaskify_api.model.enity.*;
 import com.protaskify.protaskify_api.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,8 @@ public class FeatureService {
 
     public Feature createFeature(Feature feature) {
         Student student = (Student) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (student != null && student.is_leader()) {
-            Group group = student.getGroupId();
+        if (student != null && student.isLeader()) {
+            Group group = student.getGroup();
             Long projectId = projectRepository.findProjectIdByGroupId(group.getId());
             Project project = projectRepository.findById(projectId).orElse(null);
             if (project != null && project.getGroupId().getId().equals(group.getId())) {
@@ -30,12 +31,12 @@ public class FeatureService {
         return featureRepository.save(feature);
     }
 
-    public Feature updateFeature(Long featureId, Feature updatedFeature){
+    public Feature updateFeature(Long featureId, Feature updatedFeature) {
         Student student = (Student) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (student != null && student.is_leader()) {
+        if (student != null && student.isLeader()) {
             Feature existingFeature = featureRepository.findById(featureId).orElse(null);
             if (existingFeature != null) {
-                Group group = student.getGroupId();
+                Group group = student.getGroup();
                 Long projectId = projectRepository.findProjectIdByGroupId(group.getId());
                 Project project = existingFeature.getProject();
                 if (project != null && project.getId().equals(projectId)) {
@@ -53,10 +54,10 @@ public class FeatureService {
 
     public void deleteFeature(Long featureId) {
         Student student = (Student) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (student != null && student.is_leader()) {
+        if (student != null && student.isLeader()) {
             Feature existingFeature = featureRepository.findById(featureId).orElse(null);
             if (existingFeature != null) {
-                Group group = student.getGroupId();
+                Group group = student.getGroup();
                 Long projectId = projectRepository.findProjectIdByGroupId(group.getId());
                 Project project = existingFeature.getProject();
                 if (project != null && project.getId().equals(projectId)) {

@@ -12,16 +12,19 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "class")
+@Table(name = "class") //Trong DB thì bảng tên class nhưng trong Backend thì Object tên là Class(es)
 public class Classes {
+    //--------------------Attribute--------------------
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "class_id", columnDefinition = "INT")
-    private int id;
+    private Long id;
 
     @Column(name = "class_name", columnDefinition = "VARCHAR(50)")
     private String name;
 
+
+    //--------------------Relationship--------------------
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "semester_id")

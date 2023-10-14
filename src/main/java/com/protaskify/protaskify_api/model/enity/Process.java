@@ -5,17 +5,23 @@ import lombok.*;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "process")
 public class Process {
+    //--------------------Attribute--------------------
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+
+    //--------------------Relationship--------------------
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
+
     @ManyToOne
     @JoinColumn(name = "sprint_id")
     private Sprint sprint;

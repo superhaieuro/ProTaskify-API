@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,6 +19,7 @@ import java.util.Collections;
 @Entity
 @Table(name = "lecturer")
 public class Lecturer implements UserDetails {
+    //--------------------Attribute--------------------
     @Id
     @JsonProperty("RollNumber")
     @Column(name = "lecturer_id", columnDefinition = "CHAR(10)")
@@ -33,14 +35,12 @@ public class Lecturer implements UserDetails {
 
     private String picture;
 
-    private Boolean status;
+    private Boolean status = true;
 
+
+    //--------------------Relationship--------------------
     @OneToMany(mappedBy = "lecturer")
     private List<Classes> classesList;
-
-    public void setStatus(Boolean status) {
-        this.status = true;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

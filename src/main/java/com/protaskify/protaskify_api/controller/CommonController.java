@@ -1,6 +1,7 @@
 package com.protaskify.protaskify_api.controller;
+
 import com.protaskify.protaskify_api.model.enity.Feature;
-import com.protaskify.protaskify_api.service.student.FeatureService;
+import com.protaskify.protaskify_api.service.FeatureService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +13,10 @@ import com.protaskify.protaskify_api.repository.MessagesRepository;
 import com.protaskify.protaskify_api.repository.StudentRepository;
 import com.protaskify.protaskify_api.service.MessageService;
 import com.protaskify.protaskify_api.service.SemesterService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
@@ -35,7 +34,16 @@ public class CommonController {
     private final SemesterService semesterService;
     private final MessagesRepository messagesRepository;
     private final StudentRepository studentRepository;
+    private final FeatureService featureService;
 
+    //--------------------Common--------------------
+    @GetMapping("/get-active-semester")
+    public ResponseEntity<Semester> getActiveSemester() {
+        return ResponseEntity.ok(semesterService.getActiveSemester());
+    }
+
+
+    //--------------------Message--------------------
     @MessageMapping("/room")
     public void sendMessage(@RequestBody SendMessageRequest request) {
         Messages messages = messageService.getMessageInfo(request);
@@ -61,14 +69,11 @@ public class CommonController {
         return ResponseEntity.ok(studentRepository.getMessagesInfo(semesterId, lecturerId));
     }
 
-    @GetMapping("/get-active-semester")
-    public ResponseEntity<Semester> getActiveSemester() {
-        return ResponseEntity.ok(semesterService.getActiveSemester());
-    }
 
+    //--------------------Feature--------------------
     @GetMapping("/view-features/{classId}/{groupId}")
     public ResponseEntity<List<Feature>> getAllFeatures(
-             @PathVariable Long classId, @PathVariable Long groupId) {
+            @PathVariable Long classId, @PathVariable Long groupId) {
         try {
             List<Feature> groupFeatures = featureService.getAllFeatures(classId, groupId);
             return ResponseEntity.ok(groupFeatures);

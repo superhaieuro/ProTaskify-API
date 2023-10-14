@@ -2,28 +2,36 @@ package com.protaskify.protaskify_api.model.enity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 
-@Entity
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 @Table(name = "messages")
 public class Messages {
+    //--------------------Attribute--------------------
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "message_id", columnDefinition = "INT")
-    private int id;
+    private Long id;
 
     @Column(columnDefinition = "NVARCHAR(MAX)")
     private String content;
 
+    private Date date;
+
+    @Column(columnDefinition = "CHAR(10)")
+    private String fromId;
+
+    private Boolean status;
+
+
+    //--------------------Relationship--------------------
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "lecturer_id")
@@ -33,10 +41,4 @@ public class Messages {
     @JsonIgnore
     @JoinColumn(name = "student_id")
     private Student student;
-
-    private Date date;
-
-    private String fromId;
-
-    private Boolean status;
 }

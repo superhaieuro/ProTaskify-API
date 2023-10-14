@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MessagesRepository extends JpaRepository<Messages, Integer>  {
+public interface MessagesRepository extends JpaRepository<Messages, Long>  {
 
     @Query(
             value = "select * from messages m where m.student_id = %:studentId% and m.lecturer_id like %:lecturerId%",

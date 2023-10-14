@@ -19,6 +19,7 @@ import java.util.Collections;
 @Entity
 @Table(name = "student")
 public class Student implements UserDetails {
+    //--------------------Attribute--------------------
     @Id
     @JsonProperty("RollNumber")
     @Column(name = "student_id", columnDefinition = "CHAR(10)")
@@ -32,27 +33,28 @@ public class Student implements UserDetails {
     @JsonProperty("MemberCode")
     private String email;
 
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "class_id")
-    private Class classId;
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "group_id")
-    private Group groupId;
     @Column(columnDefinition = "VARCHAR(150)")
     private String github;
-    @Column(columnDefinition = "VARCHAR(20)")
+
+    @Column(columnDefinition = "VARCHAR(150)")
+    private String facebook;
+
+    @Column(columnDefinition = "VARCHAR(50)")
     private String skills;
+
     @Column(columnDefinition = "FLOAT")
     private Double score;
+
     @Column(columnDefinition = "BIT")
-    private boolean status;
+    private boolean status = true;
+
     @Column(columnDefinition = "BIT")
-    private boolean is_leader;
-    private String picture;
     private boolean isLeader;
 
+    private String picture;
+
+
+    //--------------------Relationship--------------------
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "class_id")
@@ -61,7 +63,7 @@ public class Student implements UserDetails {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "group_id")
-    private Groups groups;
+    private Group group;
 
     public void setEmail(String email) {
         this.email = email + "@fpt.edu.vn";

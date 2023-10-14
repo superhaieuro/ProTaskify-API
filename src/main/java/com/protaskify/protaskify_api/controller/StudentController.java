@@ -1,7 +1,7 @@
 package com.protaskify.protaskify_api.controller;
 
 import com.protaskify.protaskify_api.model.enity.Feature;
-import com.protaskify.protaskify_api.service.student.FeatureService;
+import com.protaskify.protaskify_api.service.FeatureService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
