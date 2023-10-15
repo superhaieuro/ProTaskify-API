@@ -46,5 +46,6 @@ public class Feature {
     private Group group;
 
     @OneToMany(mappedBy = "feature", cascade = CascadeType.REMOVE)
+    @JsonIgnore
     private List<Task> taskList;
 }

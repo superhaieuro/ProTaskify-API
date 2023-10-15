@@ -14,6 +14,7 @@ import java.util.List;
 public class FeatureService {
     private final FeatureRepository featureRepository;
 
+    private final TaskRepository taskRepository;
 
     public Feature createFeature(Feature feature) {
         Student student = (Student) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -68,5 +69,21 @@ public class FeatureService {
 
     public List<Feature> getAllFeatures(Long classId, Long groupId) {
         return featureRepository.findByClassIdAndGroupId(classId, groupId);
+    }
+
+    public void setStatusFeature (Task updatedTask){
+        Long featureId = updatedTask.getFeature().getId();
+        List<Task> taskList = taskRepository.getTaskList(featureId);
+        String status = "Done";
+        for (Task task: taskList) {
+            if (!task.getStatus().equalsIgnoreCase("Done")){
+                status = "To do";
+            }
+        }
+        if (status.equalsIgnoreCase("Done")) {
+            Feature feature = featureRepository.getSpecialFeature(featureId);
+            feature.setStatus(true);
+            featureRepository.save(feature);
+        }
     }
 }

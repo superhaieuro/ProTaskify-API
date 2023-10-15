@@ -66,9 +66,9 @@ public class Student implements UserDetails {
     @JoinColumn(name = "group_id")
     private Group group;
 
-    @ManyToMany
-//    @JsonIgnore
-    private List<Task> taskList;
+//    @ManyToMany
+////    @JsonIgnore
+//    private List<Task> taskList;
 
     public void setEmail(String email) {
         this.email = email + "@fpt.edu.vn";

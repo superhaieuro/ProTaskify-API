@@ -6,6 +6,7 @@ import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -24,8 +25,8 @@ public class Task {
     @Column(name = "task_name", columnDefinition = "VARCHAR(50)")
     private String name;
 
-    @Column(columnDefinition = "BIT")
-    private boolean status;
+    @Column(columnDefinition = "VARCHAR(25)")
+    private String status;
 
     @Column(columnDefinition = "VARCHAR(MAX)")
     private String feedback;
@@ -42,11 +43,14 @@ public class Task {
     @Column(columnDefinition = "DATE")
     private Date finishDate;
 
+    @Column(columnDefinition = "INT")
+    private Integer taskIndex;
+
 
     //--------------------Relationship--------------------
-    @ManyToMany(mappedBy = "taskList")
-//    @JsonIgnore
-    private List<Student> studentList;
+    @ManyToMany
+    @JsonIgnore
+    Set<Student> student;
 
     @ManyToOne
     @JsonIgnore

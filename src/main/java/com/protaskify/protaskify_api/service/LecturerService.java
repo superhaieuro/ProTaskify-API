@@ -31,9 +31,9 @@ public class LecturerService {
                 .semester(semester)
                 .build();
         classesRepository.save(classes);
-        for (Student student : request.getStudents()) {
-            student.setClasses(classes);
-        }
+//        for (Student student : request.getStudents()) {
+//            student.setClasses(classes);
+//        }
         studentRepository.saveAll(request.getStudents());
     }
 

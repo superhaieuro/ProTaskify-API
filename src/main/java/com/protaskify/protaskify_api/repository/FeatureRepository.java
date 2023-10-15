@@ -14,4 +14,16 @@ public interface FeatureRepository extends JpaRepository<Feature, Long> {
             "ON f.group.id = g.id " +
             "WHERE g.classes.id = :classId AND g.id = :groupId")
     List<Feature> findByClassIdAndGroupId(Long classId, Long groupId);
+
+    @Query(
+            value = "select * from feature f " +
+                    "where f.project_id = :projectId",
+            nativeQuery = true)
+    List<Feature> getFeatureList (Long projectId);
+
+    @Query(
+            value = "select * from feature f " +
+                    "where f.feature_id = :featureId",
+            nativeQuery = true)
+    Feature getSpecialFeature (Long featureId);
 }
