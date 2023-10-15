@@ -39,7 +39,6 @@ public class LecturerService {
 
     public List<Semester> getSemesterByLecturer(String lecturerId) {
         Lecturer lecturer = lecturerRepository.findAllByEmail(lecturerId).get();
-        System.out.println(lecturer);
         List<Semester> semesterList = semesterRepository.findByLecturerClasses(lecturer);
         return semesterList;
     }

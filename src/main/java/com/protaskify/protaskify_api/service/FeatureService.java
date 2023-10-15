@@ -18,7 +18,7 @@ public class FeatureService {
 
     public Feature createFeature(Feature feature) {
         Student student = (Student) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (student != null && student.is_leader()) {
+        if (student != null && student.isLeader()) {
             Group group = student.getGroup();
             Long projectId = projectRepository.findProjectIdByGroupId(group.getId());
            // Project project = projectRepository.findById(projectId).orElse(null);
@@ -36,7 +36,7 @@ public class FeatureService {
 
     public Feature updateFeature(Long featureId, Feature updatedFeature) {
         Student student = (Student) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (student != null && student.is_leader()) {
+        if (student != null && student.isLeader()) {
             Feature existingFeature = featureRepository.findById(featureId).orElse(null);
             if (existingFeature != null) {
                 Group group = student.getGroup();
@@ -59,7 +59,7 @@ public class FeatureService {
 
     public void deleteFeature(Long featureId) {
         Student student = (Student) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (student != null && student.is_leader()) {
+        if (student != null && student.isLeader()) {
             Feature existingFeature = featureRepository.findById(featureId).orElse(null);
             if (existingFeature != null) {
                 Group group = student.getGroup();

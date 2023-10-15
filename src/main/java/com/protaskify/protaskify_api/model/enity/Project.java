@@ -1,5 +1,6 @@
 package com.protaskify.protaskify_api.model.enity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -44,10 +45,11 @@ public class Project {
     private List<Group> groupList;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "lecturer_id")
     private Lecturer lecturer;
 
     @ManyToMany
-    Set<Sprint> sprint;
-
+    @JsonIgnore
+    private Set<Sprint> sprint;
 }

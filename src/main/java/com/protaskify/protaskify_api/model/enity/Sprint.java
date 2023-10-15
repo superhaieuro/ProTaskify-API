@@ -1,9 +1,11 @@
 package com.protaskify.protaskify_api.model.enity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -37,6 +39,7 @@ public class Sprint {
 
     //--------------------Relationship--------------------
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "class_id")
     private Classes classes;
 }

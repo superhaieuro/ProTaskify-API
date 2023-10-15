@@ -33,15 +33,18 @@ public class Lecturer implements UserDetails {
     @JsonProperty("MemberCode")
     private String email;
 
+    @Column(columnDefinition = "VARCHAR(100)")
     private String picture;
 
-    private Boolean status = true;
+    private boolean status = true;
 
 
     //--------------------Relationship--------------------
     @OneToMany(mappedBy = "lecturer")
     private List<Classes> classesList;
 
+
+    //--------------------Authentication--------------------
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority("LECTURER"));

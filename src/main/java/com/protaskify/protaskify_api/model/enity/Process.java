@@ -1,5 +1,6 @@
 package com.protaskify.protaskify_api.model.enity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,10 +20,12 @@ public class Process {
 
     //--------------------Relationship--------------------
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "project_id")
     private Project project;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "sprint_id")
     private Sprint sprint;
 }

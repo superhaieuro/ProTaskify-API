@@ -44,12 +44,11 @@ public class Task {
 
 
     //--------------------Relationship--------------------
-    @JsonIgnore
     @ManyToMany
     private Set<Student> student;
 
-    @JsonIgnore
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "feature_id")
     private Feature feature;
 }

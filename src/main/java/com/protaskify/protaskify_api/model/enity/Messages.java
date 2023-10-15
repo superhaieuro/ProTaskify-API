@@ -28,7 +28,7 @@ public class Messages {
     @Column(columnDefinition = "CHAR(10)")
     private String fromId;
 
-    private Boolean status;
+    private boolean status;
 
 
     //--------------------Relationship--------------------

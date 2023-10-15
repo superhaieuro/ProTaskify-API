@@ -10,6 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,39 +20,58 @@ import java.util.Collections;
 @Entity
 @Table(name = "student")
 public class Student implements UserDetails {
+    //--------------------Attribute--------------------
     @Id
-    @Column(name = "student_id",columnDefinition = "CHAR(10)")
+    @Column(name = "student_id", columnDefinition = "CHAR(10)")
     @JsonProperty("RollNumber")
     private String id;
+
     @Column(columnDefinition = "NVARCHAR(50)")
     @JsonProperty("FullName")
     private String name;
+
     @JsonProperty("MemberCode")
     private String email;
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "class_id")
-    private Classes classes;
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "group_id")
-    private Group group;
-    @Column(columnDefinition = "VARCHAR(150)")
+
+    @Column(columnDefinition = "VARCHAR(100)")
     private String github;
+
+    @Column(columnDefinition = "VARCHAR(100)")
+    private String facebook;
+
     @Column(columnDefinition = "VARCHAR(20)")
     private String skills;
+
     @Column(columnDefinition = "FLOAT")
     private Double score;
+
     @Column(columnDefinition = "BIT")
-    private boolean status;
+    private boolean status = true;
+
     @Column(columnDefinition = "BIT")
-    private boolean is_leader;
+    private boolean isLeader;
+
+    @Column(columnDefinition = "VARCHAR(100)")
     private String picture;
+
+
+    //--------------------Relationship--------------------
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "class_id")
+    private Classes classes;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "group_id")
+    private Group group;
 
     public void setEmail(String email) {
         this.email = email + "@fpt.edu.vn";
     }
 
+
+    //--------------------Authentication--------------------
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority("STUDENT"));

@@ -34,6 +34,7 @@ public class Group {
     private Project project;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "class_id")
     private Classes classes;
 
