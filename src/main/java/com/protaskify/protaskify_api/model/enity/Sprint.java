@@ -24,10 +24,10 @@ public class Sprint {
     private String name;
 
     @Column(columnDefinition = "DATE")
-    private Date start_date;
+    private Date startDate;
 
     @Column(columnDefinition = "DATE")
-    private Date end_date;
+    private Date endDate;
 
     @Column(columnDefinition = "VARCHAR(25)")
     private String feedback;

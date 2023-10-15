@@ -32,11 +32,11 @@ public class Feature {
 
     @Temporal(TemporalType.DATE)
     @Column(columnDefinition = "DATE")
-    private Date start_date;
+    private Date startDate;
 
     @Temporal(TemporalType.DATE)
     @Column(columnDefinition = "DATE")
-    private Date end_date;
+    private Date endDate;
 
 
     //--------------------Relationship--------------------

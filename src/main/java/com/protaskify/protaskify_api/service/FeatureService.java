@@ -20,8 +20,8 @@ public class FeatureService {
         if (student != null && student.isLeader()) {
             Group group = student.getGroup();
             if (group != null ) {
-                feature.setStart_date(feature.getStart_date());
-                feature.setEnd_date(feature.getEnd_date());
+                feature.setStartDate(feature.getStartDate());
+                feature.setEndDate(feature.getEndDate());
                 feature.setGroup(group);
                 return featureRepository.save(feature);
             }
@@ -41,8 +41,8 @@ public class FeatureService {
                         existingFeature.setName(updatedFeature.getName());
                         existingFeature.setStatus(updatedFeature.isStatus());
                         existingFeature.setDescription(updatedFeature.getDescription());
-                        existingFeature.setStart_date(updatedFeature.getStart_date());
-                        existingFeature.setEnd_date(updatedFeature.getEnd_date());
+                        existingFeature.setStartDate(updatedFeature.getStartDate());
+                        existingFeature.setEndDate(updatedFeature.getEndDate());
                         return featureRepository.save(existingFeature);
                     }
                 }

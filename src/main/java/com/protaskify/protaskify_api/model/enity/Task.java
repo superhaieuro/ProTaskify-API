@@ -37,10 +37,10 @@ public class Task {
     private String description;
 
     @Column(columnDefinition = "DATE")
-    private Date create_date;
+    private Date createDate;
 
     @Column(columnDefinition = "DATE")
-    private Date finish_date;
+    private Date finishDate;
 
 
     //--------------------Relationship--------------------

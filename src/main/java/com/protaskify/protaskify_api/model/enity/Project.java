@@ -32,10 +32,10 @@ public class Project {
     private String context;
 
     @Column(columnDefinition = "VARCHAR(MAX)")
-    private String functional_requirements;
+    private String functionalRequirements;
 
     @Column(columnDefinition = "VARCHAR(MAX)")
-    private String non_functional_requirements;
+    private String nonFunctionalRequirements;
 
 
     //--------------------Relationship--------------------

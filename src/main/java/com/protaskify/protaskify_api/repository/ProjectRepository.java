@@ -9,6 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
-    @Query("SELECT p.id FROM Project p JOIN Group g ON p.id =g.project.id")
-    Long findProjectIdByGroupId(Long groupId);
+
 }

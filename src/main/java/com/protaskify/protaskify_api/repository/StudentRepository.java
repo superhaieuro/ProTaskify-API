@@ -25,4 +25,6 @@ public interface StudentRepository extends JpaRepository<Student, String> {
                     "join groups g on g.group_id = s.group_id " +
                     "where c.semester_id = :semesterId and m.lecturer_id = :lecturerId", nativeQuery = true)
     List<?> getMessagesInfo(String semesterId, String lecturerId);
+
+    Student findStudentById(String studentId);
 }
