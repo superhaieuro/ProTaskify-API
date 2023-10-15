@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -68,5 +69,19 @@ public class FeatureService {
 
     public List<Feature> getAllFeatures(Long classId, Long groupId) {
         return featureRepository.findByClassIdAndGroupId(classId, groupId);
+    }
+
+
+    public List<Feature> getGroupFeatures() {
+        Student student = (Student) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (student != null) {
+            Group group = student.getGroup();
+            if (group != null) {
+                Long groupId = group.getId();
+                Long classId = group.getClasses().getId();
+                return featureRepository.findByClassIdAndGroupId(classId,groupId);
+            }
+        }
+        return Collections.emptyList();
     }
 }

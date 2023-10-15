@@ -1,8 +1,9 @@
 package com.protaskify.protaskify_api.model.enity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import net.minidev.json.annotate.JsonIgnore;
+
 
 import java.util.Date;
 import java.util.List;
@@ -45,7 +46,7 @@ public class Task {
 
     //--------------------Relationship--------------------
     @ManyToMany(mappedBy = "taskList")
-//    @JsonIgnore
+   @JsonIgnore
     private List<Student> studentList;
 
     @ManyToOne
