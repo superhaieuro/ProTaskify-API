@@ -39,5 +39,8 @@ public class Group {
     private Classes classes;
 
     @OneToMany(mappedBy = "group")
+    private List<Feature> featureList;
+
+    @OneToMany(mappedBy = "group")
     private List<Student> studentList;
 }

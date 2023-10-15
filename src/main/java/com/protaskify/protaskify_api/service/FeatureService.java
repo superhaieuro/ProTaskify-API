@@ -13,21 +13,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FeatureService {
     private final FeatureRepository featureRepository;
-    private final ProjectRepository projectRepository;
 
 
     public Feature createFeature(Feature feature) {
         Student student = (Student) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (student != null && student.isLeader()) {
             Group group = student.getGroup();
-            Long projectId = projectRepository.findProjectIdByGroupId(group.getId());
-           // Project project = projectRepository.findById(projectId).orElse(null);
-            if (projectId != null ) {
-                Project project = new Project();
-                project.setId(projectId);
-                feature.setProject(project);
+            if (group != null ) {
                 feature.setStart_date(feature.getStart_date());
                 feature.setEnd_date(feature.getEnd_date());
+                feature.setGroup(group);
                 return featureRepository.save(feature);
             }
         }
@@ -40,10 +35,9 @@ public class FeatureService {
             Feature existingFeature = featureRepository.findById(featureId).orElse(null);
             if (existingFeature != null) {
                 Group group = student.getGroup();
-                Long projectId = projectRepository.findProjectIdByGroupId(group.getId());
-                if (projectId != null) {
-                    Project project = existingFeature.getProject();
-                    if (project != null && project.getId().equals(projectId)) {
+                if (group != null) {
+                    if (group.getClasses().getId().equals(existingFeature.getGroup().getClasses().getId())) {
+                        existingFeature.setGroup(group);
                         existingFeature.setName(updatedFeature.getName());
                         existingFeature.setStatus(updatedFeature.isStatus());
                         existingFeature.setDescription(updatedFeature.getDescription());
@@ -63,10 +57,10 @@ public class FeatureService {
             Feature existingFeature = featureRepository.findById(featureId).orElse(null);
             if (existingFeature != null) {
                 Group group = student.getGroup();
-                Long projectId = projectRepository.findProjectIdByGroupId(group.getId());
-                Project project = existingFeature.getProject();
-                if (project != null && project.getId().equals(projectId)) {
-                    featureRepository.delete(existingFeature);
+                if (group != null) {
+                    if (group.getClasses().getId().equals(existingFeature.getGroup().getClasses().getId())) {
+                        featureRepository.delete(existingFeature);
+                    }
                 }
             }
         }

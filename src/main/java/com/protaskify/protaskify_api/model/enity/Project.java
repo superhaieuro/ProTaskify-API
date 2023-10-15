@@ -42,6 +42,4 @@ public class Project {
     @OneToMany(mappedBy = "project")
     private List<Group> groupList;
 
-    @OneToMany(mappedBy = "project")
-    private List<Feature> featureList;
 }
