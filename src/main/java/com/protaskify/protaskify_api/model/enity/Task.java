@@ -45,7 +45,7 @@ public class Task {
 
     //--------------------Relationship--------------------
     @ManyToMany(mappedBy = "taskList")
-    @JsonIgnore
+//    @JsonIgnore
     private List<Student> studentList;
 
     @ManyToOne

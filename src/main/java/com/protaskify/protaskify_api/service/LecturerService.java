@@ -40,7 +40,7 @@ public class LecturerService {
     public List<Semester> getSemesterByLecturer(String lecturerEmail) {
         Lecturer lecturer = lecturerRepository.findAllByEmail(lecturerEmail).get();
         List<Semester> semesterList = semesterRepository.findByLecturerClasses(lecturer);
-        System.out.println(semesterList.size());
+        System.out.println(semesterList);
         return semesterList;
     }
 }

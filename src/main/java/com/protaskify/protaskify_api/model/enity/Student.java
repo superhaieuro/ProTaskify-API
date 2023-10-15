@@ -3,7 +3,7 @@ package com.protaskify.protaskify_api.model.enity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
-import net.minidev.json.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -67,7 +67,7 @@ public class Student implements UserDetails {
     private Group group;
 
     @ManyToMany
-    @JsonIgnore
+//    @JsonIgnore
     private List<Task> taskList;
 
     public void setEmail(String email) {

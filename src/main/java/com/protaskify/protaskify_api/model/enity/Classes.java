@@ -17,7 +17,7 @@ public class Classes {
     //--------------------Attribute--------------------
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "class_id", columnDefinition = "INT")
+    @Column(name = "class_id")
     private Long id;
 
     @Column(name = "class_name", columnDefinition = "VARCHAR(50)")
