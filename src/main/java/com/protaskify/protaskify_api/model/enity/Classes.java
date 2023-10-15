@@ -25,16 +25,22 @@ public class Classes {
 
 
     //--------------------Relationship--------------------
-    @JsonIgnore
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "semester_id")
     private Semester semester;
 
-    @JsonIgnore
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "lecturer_id")
     private Lecturer lecturer;
 
     @OneToMany(mappedBy = "classes")
     private List<Student> studentList;
+
+    @OneToMany(mappedBy = "classes")
+    private List<Sprint> sprintList;
+
+    @OneToMany(mappedBy = "classes")
+    private List<Group> groupList;
 }

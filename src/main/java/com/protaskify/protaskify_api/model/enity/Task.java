@@ -5,7 +5,7 @@ import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
@@ -44,8 +44,9 @@ public class Task {
 
 
     //--------------------Relationship--------------------
-    @ManyToMany
-    private Set<Student> student;
+    @ManyToMany(mappedBy = "taskList")
+    @JsonIgnore
+    private List<Student> studentList;
 
     @ManyToOne
     @JsonIgnore

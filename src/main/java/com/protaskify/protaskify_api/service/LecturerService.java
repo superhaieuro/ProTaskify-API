@@ -37,9 +37,10 @@ public class LecturerService {
         studentRepository.saveAll(request.getStudents());
     }
 
-    public List<Semester> getSemesterByLecturer(String lecturerId) {
-        Lecturer lecturer = lecturerRepository.findAllByEmail(lecturerId).get();
+    public List<Semester> getSemesterByLecturer(String lecturerEmail) {
+        Lecturer lecturer = lecturerRepository.findAllByEmail(lecturerEmail).get();
         List<Semester> semesterList = semesterRepository.findByLecturerClasses(lecturer);
+        System.out.println(semesterList.size());
         return semesterList;
     }
 }

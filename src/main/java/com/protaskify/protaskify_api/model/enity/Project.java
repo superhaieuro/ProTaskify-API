@@ -44,12 +44,6 @@ public class Project {
     @OneToMany(mappedBy = "project")
     private List<Group> groupList;
 
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "lecturer_id")
-    private Lecturer lecturer;
-
-    @ManyToMany
-    @JsonIgnore
-    private Set<Sprint> sprint;
+    @OneToMany(mappedBy = "project")
+    private List<Feature> featureList;
 }

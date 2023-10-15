@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -43,4 +44,7 @@ public class Feature {
     @JsonIgnore
     @JoinColumn(name = "project_id")
     private Project project;
+
+    @OneToMany(mappedBy = "feature")
+    private List<Task> taskList;
 }

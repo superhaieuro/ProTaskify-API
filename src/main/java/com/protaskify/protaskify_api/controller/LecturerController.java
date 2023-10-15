@@ -23,7 +23,7 @@ public class LecturerController {
     }
 
     @GetMapping("/get-lecturer-semester")
-    public ResponseEntity<List<Semester>> getLecturerSemester(@PathParam("lecturerId") String lecturerId) {
-        return ResponseEntity.ok(lecturerService.getSemesterByLecturer(lecturerId));
+    public ResponseEntity<List<Semester>> getLecturerSemester(@PathParam("lecturerEmail") String lecturerEmail) {
+        return ResponseEntity.ok(lecturerService.getSemesterByLecturer(lecturerEmail));
     }
 }
