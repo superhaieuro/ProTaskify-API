@@ -22,7 +22,6 @@ public class TaskService {
     private final StudentRepository studentRepository;
 
     public Task createTask (Task task, String studentId){
-//        Student student = (Student) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<Student> studentOptional = studentRepository.findById(studentId);
         if (studentOptional.isPresent()) {
             Student student = studentOptional.get();
@@ -41,28 +40,58 @@ public class TaskService {
         return null;
     }
 
-    public Task updateTask (Task updatedTask, String studentId){
-//        Student student = (Student) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public Task updateTask (Task updatedTask, String studentId) {
         Optional<Student> studentOptional = studentRepository.findById(studentId);
         if (studentOptional.isPresent()) {
             Student student = studentOptional.get();
             if (student != null && student.isLeader()) {
-                Group group = student.getGroup();
-                Long projectId = group.getId();
-                Feature feature = featureRepository.getSpecialFeature(projectId);
-                updatedTask.setFeature(feature);
-                Task existingTask = taskRepository.findById(updatedTask.getId()).orElse(null);
-                if (existingTask != null) {
-                    BeanUtils.copyProperties(updatedTask, existingTask, "id");
+                Task existingTask = taskRepository.getTask(updatedTask.getId());
+                if (updatedTask.getStatus().equals(existingTask.getStatus())) {
+
+                    List<Task> taskList = taskRepository.getTaskByStatus(
+                            updatedTask.getFeature().getId(),
+                            updatedTask.getStatus());
+                    Iterator<Task> iterator = taskList.iterator();
+                    while (iterator.hasNext()) {
+                        Task task = iterator.next();
+                        if (task.equals(existingTask)) {
+                            iterator.remove();
+                        } else if (updatedTask.getTaskIndex() < existingTask.getTaskIndex() && task.getTaskIndex() >= updatedTask.getTaskIndex()) {
+                            task.setTaskIndex(task.getTaskIndex() + 1);
+                        } else if (task.getTaskIndex() <= updatedTask.getTaskIndex() && task.getTaskIndex() > 1) {
+                            task.setTaskIndex(task.getTaskIndex() - 1);
+                        }
+                    }
+                    taskList.add(updatedTask);
+                    taskRepository.saveAll(taskList);
+                } else {
+                    List<Task> newStatusTaskList = taskRepository.getTaskByStatus(
+                            updatedTask.getFeature().getId(),
+                            updatedTask.getStatus());
+                    updatedTask.setTaskIndex(newStatusTaskList.size() + 1);
+                    newStatusTaskList.add(updatedTask);
+
+                    List<Task> taskList = taskRepository.getTaskByStatus(
+                            updatedTask.getFeature().getId(),
+                            existingTask.getStatus());
+                    Task oldTask = taskRepository.getTask(updatedTask.getId());
+                    taskList.remove(oldTask);
+                    Iterator<Task> iterator = taskList.iterator();
+                    while (iterator.hasNext()) {
+                        Task task = iterator.next();
+                        if (task.getTaskIndex() > updatedTask.getTaskIndex()) {
+                            task.setTaskIndex(task.getTaskIndex() - 1);
+                        }
+                    }
+                    taskRepository.saveAll(taskList);
+                    taskRepository.saveAll(newStatusTaskList);
                 }
-                return taskRepository.save(existingTask);
             }
         }
         return null;
     }
 
     public void deleteTask (Long taskId, String studentId){
-//        Student student = (Student) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<Student> studentOptional = studentRepository.findById(studentId);
         if (studentOptional.isPresent()) {
             Student student = studentOptional.get();
