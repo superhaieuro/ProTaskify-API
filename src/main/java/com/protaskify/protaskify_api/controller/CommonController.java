@@ -21,6 +21,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -45,13 +46,12 @@ public class CommonController {
 
     //--------------------Message--------------------
     @MessageMapping("/room")
-    public void sendMessage(@RequestBody SendMessageRequest request) {
-        Messages messages = messageService.getMessageInfo(request);
-        String toId = messages.getLecturer().getId();
-        if (messages.getFromId().equals(messages.getLecturer().getId())) {
+    public void sendMessage(Messages messages){
+        String toId = messages.getLecturer().toString();
+        if (messages.getFromId().equals(messages.getLecturer())){
             toId = messages.getStudent().toString();
         }
-        simpMessagingTemplate.convertAndSendToUser(toId, "/topic/room", messages);
+        simpMessagingTemplate.convertAndSendToUser(toId,"/topic/room", messages);
         simpMessagingTemplate.convertAndSend(messageService.saveMessageFromJSON(messages), messages);
     }
 
@@ -64,9 +64,10 @@ public class CommonController {
     }
 
     @GetMapping("/message-list")
-    public ResponseEntity<List<?>> getMessagesInfo(@RequestParam("lecturerId") String lecturerId) {
-        String semesterId = semesterService.getActiveSemester().getId();
-        return ResponseEntity.ok(studentRepository.getMessagesInfo(semesterId, lecturerId));
+    public List<Messages> getMessage(@RequestParam("pageNo") int pageNo, @RequestParam("pageSize") int pageSize){
+        List<Messages> messages = new ArrayList<>();
+        messages.addAll(messagesRepository.findAll(PageRequest.of(pageNo, pageSize)).getContent());
+        return messages;
     }
 
 
@@ -79,6 +80,9 @@ public class CommonController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+    @GetMapping("/get-active-semester")
+    public ResponseEntity<Semester> getActiveSemester() {
+        return ResponseEntity.ok(semesterService.getActiveSemester());
     }
 
 

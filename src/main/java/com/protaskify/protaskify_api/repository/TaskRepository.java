@@ -24,4 +24,23 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
                     "WHERE  t.feature.id = :featureId"
     )
     List<Task> findAllTasksOfFeature(Long featureId);
+
+    @Query(
+            value = "select * from task t " +
+                    "where t.feature_id = :featureId",
+            nativeQuery = true)
+    List<Task> getTaskList (Long featureId);
+
+    @Query(
+            value = "select * from task t " +
+                    "where t.task_id = :taskId",
+            nativeQuery = true)
+    Task getTask (Long taskId);
+
+    @Query(
+            value = "select * from task t " +
+                    "where t.feature_id = :featureId and t.status = :status " +
+                    "order by t.task_index asc",
+            nativeQuery = true)
+    List<Task> getTaskByStatus (Long featureId, String status);
 }

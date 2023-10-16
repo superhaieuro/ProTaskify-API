@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 
@@ -15,6 +14,7 @@ import java.util.List;
 public class FeatureService {
     private final FeatureRepository featureRepository;
     private final StudentRepository studentRepository;
+    private final TaskRepository taskRepository;
 
     public Feature createFeature(Feature feature) {
         Student student = (Student) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -85,5 +85,21 @@ public class FeatureService {
             }
         }
         return Collections.emptyList();
+    }
+
+    public void setStatusFeature (Task updatedTask){
+        Long featureId = updatedTask.getFeature().getId();
+        List<Task> taskList = taskRepository.getTaskList(featureId);
+        String status = "Done";
+        for (Task task: taskList) {
+            if (!task.getStatus().equalsIgnoreCase("Done")){
+                status = "To do";
+            }
+        }
+        if (status.equalsIgnoreCase("Done")) {
+            Feature feature = featureRepository.getSpecialFeature(featureId);
+            feature.setStatus(true);
+            featureRepository.save(feature);
+        }
     }
 }
