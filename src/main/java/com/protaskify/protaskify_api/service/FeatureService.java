@@ -71,12 +71,11 @@ public class FeatureService {
         return featureRepository.findByClassIdAndGroupId(classId, groupId);
     }
 
-
     public List<Feature> getGroupFeatures() {
         Student student = (Student) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (student != null) {
             Group group = student.getGroup();
-            if (group != null) {
+            if (group != null ) {
                 Long groupId = group.getId();
                 Long classId = group.getClasses().getId();
                 return featureRepository.findByClassIdAndGroupId(classId,groupId);

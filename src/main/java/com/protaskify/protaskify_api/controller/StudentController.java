@@ -4,7 +4,6 @@ import com.protaskify.protaskify_api.model.enity.*;
 import com.protaskify.protaskify_api.service.FeatureService;
 import com.protaskify.protaskify_api.service.SprintService;
 import com.protaskify.protaskify_api.service.StudentService;
-import com.protaskify.protaskify_api.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +21,8 @@ public class StudentController {
     private final FeatureService featureService;
     private final SprintService sprintService;
     private final StudentService studentService;
-    private final TaskService taskService;
 
+    //--------------------Feature--------------------
     @PostMapping("/create-feature")
     public ResponseEntity<Feature> createFeature(@RequestBody Feature feature) {
         try {
@@ -54,6 +53,7 @@ public class StudentController {
         }
     }
 
+    //--------------------Sprint--------------------
     @GetMapping("/sprint/{studentId}")
     public ResponseEntity<Sprint> getSprints(@PathVariable String studentId) {
         try {
@@ -64,6 +64,8 @@ public class StudentController {
         }
     }
 
+    //--------------------Task--------------------
+    //method này để lấy ra 2 danh sách cho sinh viên chọn feature và member làm task
     @GetMapping("/view-feature-member-list")
     public ResponseEntity<Object> getFeatureAndStudent() {
         try {
@@ -73,26 +75,6 @@ public class StudentController {
             response.put("groupFeatures", groupFeatures);
             response.put("groupMembers", groupMembers);
             return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @GetMapping("/view-all-task-of-group")
-    public ResponseEntity<List<Task>> getTasksByGroup() {
-        try {
-            List<Task> tasks = taskService.getAllTasksOfGroup();
-            return ResponseEntity.ok(tasks);
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @GetMapping("/view-task-of-each-feature/{featureId}")
-    public ResponseEntity<List<Task>> getTasksOfEachFeature(@PathVariable Long featureId) {
-        try {
-            List<Task> tasks = taskService.getTasksByFeature(featureId);
-            return ResponseEntity.ok(tasks);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }

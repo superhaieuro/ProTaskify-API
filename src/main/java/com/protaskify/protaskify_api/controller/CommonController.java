@@ -1,7 +1,9 @@
 package com.protaskify.protaskify_api.controller;
 
 import com.protaskify.protaskify_api.model.enity.Feature;
+import com.protaskify.protaskify_api.model.enity.Task;
 import com.protaskify.protaskify_api.service.FeatureService;
+import com.protaskify.protaskify_api.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +37,7 @@ public class CommonController {
     private final MessagesRepository messagesRepository;
     private final StudentRepository studentRepository;
     private final FeatureService featureService;
+    private final TaskService taskService;
 
     //--------------------Common--------------------
     @GetMapping("/get-active-semester")
@@ -79,6 +82,28 @@ public class CommonController {
             return ResponseEntity.ok(groupFeatures);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+
+    //--------------------Task--------------------
+    @GetMapping("/view-all-task-of-group/{classId}/{groupId}")
+    public ResponseEntity<List<Task>> getTasksByGroup(@PathVariable Long classId, @PathVariable Long groupId) {
+        try {
+            List<Task> tasks = taskService.getAllTasksOfGroup(classId, groupId);
+            return ResponseEntity.ok(tasks);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/view-task-of-each-feature/{featureId}")
+    public ResponseEntity<List<Task>> getTasksOfEachFeature(@PathVariable Long featureId) {
+        try {
+            List<Task> tasks = taskService.getTasksByFeature(featureId);
+            return ResponseEntity.ok(tasks);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
         }
     }
 }
