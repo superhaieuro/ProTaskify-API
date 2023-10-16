@@ -1,6 +1,5 @@
 package com.protaskify.protaskify_api.service.lecturer;
 
-import com.protaskify.protaskify_api.model.enity.Student;
 import com.protaskify.protaskify_api.repository.StudentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

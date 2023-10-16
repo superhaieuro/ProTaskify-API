@@ -1,9 +1,9 @@
 spring:
   #  Local Database
   datasource:
-    url: jdbc:sqlserver://localhost:1433;database=ProTaskifyTemp
+    url: jdbc:sqlserver://localhost:1433;database=SWP2
     username: sa
-    password: 12345
+    password: 123456
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
   jpa:
     hibernate:
