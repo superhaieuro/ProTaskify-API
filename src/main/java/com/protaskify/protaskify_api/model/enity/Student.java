@@ -67,7 +67,7 @@ public class Student implements UserDetails {
     private Group group;
 
     @ManyToMany
-//    @JsonIgnore
+    @JsonIgnore
     private List<Task> taskList;
 
     public void setEmail(String email) {

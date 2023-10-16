@@ -1,15 +1,12 @@
 package com.protaskify.protaskify_api.controller;
 
-import com.protaskify.protaskify_api.model.enity.Feature;
-import com.protaskify.protaskify_api.model.enity.Task;
+import com.protaskify.protaskify_api.model.enity.*;
 import com.protaskify.protaskify_api.service.FeatureService;
 import com.protaskify.protaskify_api.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.protaskify.protaskify_api.model.enity.Messages;
-import com.protaskify.protaskify_api.model.enity.Semester;
 import com.protaskify.protaskify_api.model.request.SendMessageRequest;
 import com.protaskify.protaskify_api.repository.MessagesRepository;
 import com.protaskify.protaskify_api.repository.StudentRepository;
@@ -74,11 +71,10 @@ public class CommonController {
 
 
     //--------------------Feature--------------------
-    @GetMapping("/view-features/{classId}/{groupId}")
-    public ResponseEntity<List<Feature>> getAllFeatures(
-            @PathVariable Long classId, @PathVariable Long groupId) {
+    @GetMapping("/view-features")
+    public ResponseEntity<List<Feature>> getAllFeatures(@RequestParam("studentId") String studentId) {
         try {
-            List<Feature> groupFeatures = featureService.getAllFeatures(classId, groupId);
+            List<Feature> groupFeatures = featureService.getAllFeatures(studentId);
             return ResponseEntity.ok(groupFeatures);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -87,10 +83,18 @@ public class CommonController {
 
 
     //--------------------Task--------------------
-    @GetMapping("/view-all-task-of-group/{classId}/{groupId}")
-    public ResponseEntity<List<Task>> getTasksByGroup(@PathVariable Long classId, @PathVariable Long groupId) {
+    @GetMapping("/view-all-task-of-group")
+    public ResponseEntity<List<Task>> getTasksByGroup(@RequestParam("userId") String userId, @RequestParam("role") String role,
+                                                      @RequestParam(name = "classId", required = false) Long classId,
+                                                      @RequestParam(name = "groupId", required = false) Long groupId) {
         try {
-            List<Task> tasks = taskService.getAllTasksOfGroup(classId, groupId);
+            List<Task> tasks;
+            if (role.equals("STUDENT")) {
+                Student student = studentRepository.findStudentById(userId);
+                tasks = taskService.getAllTasksOfGroup(student.getClasses().getId(), student.getGroup().getId());
+            } else {
+                tasks = taskService.getAllTasksOfGroup(classId, groupId);
+            }
             return ResponseEntity.ok(tasks);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();

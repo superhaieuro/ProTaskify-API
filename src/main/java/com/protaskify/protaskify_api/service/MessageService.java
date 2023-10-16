@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Service
 @RequiredArgsConstructor
 public class MessageService {
-
     private final MessagesRepository messagesRepository;
     private final LecturerRepository lecturerRepository;
     private final StudentRepository studentRepository;

@@ -22,19 +22,19 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "task_name", columnDefinition = "VARCHAR(50)")
+    @Column(name = "task_name", columnDefinition = "NVARCHAR(200)")
     private String name;
 
-    @Column(columnDefinition = "BIT")
-    private boolean status;
+    @Column(columnDefinition = "VARCHAR(15)")
+    private String status;
 
-    @Column(columnDefinition = "VARCHAR(MAX)")
+    @Column(columnDefinition = "NVARCHAR(MAX)")
     private String feedback;
 
     @Column(columnDefinition = "VARCHAR(25)")
     private String priority;
 
-    @Column(columnDefinition = "VARCHAR(MAX)")
+    @Column(columnDefinition = "NVARCHAR(MAX)")
     private String description;
 
     @Column(columnDefinition = "DATE")
@@ -46,7 +46,7 @@ public class Task {
 
     //--------------------Relationship--------------------
     @ManyToMany(mappedBy = "taskList")
-   @JsonIgnore
+//    @JsonIgnore
     private List<Student> studentList;
 
     @ManyToOne

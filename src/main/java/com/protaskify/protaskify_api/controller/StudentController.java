@@ -1,6 +1,9 @@
 package com.protaskify.protaskify_api.controller;
 
-import com.protaskify.protaskify_api.model.enity.*;
+import com.protaskify.protaskify_api.model.enity.Feature;
+import com.protaskify.protaskify_api.model.enity.Sprint;
+import com.protaskify.protaskify_api.model.enity.Student;
+import com.protaskify.protaskify_api.model.enity.Task;
 import com.protaskify.protaskify_api.service.FeatureService;
 import com.protaskify.protaskify_api.service.SprintService;
 import com.protaskify.protaskify_api.service.StudentService;
@@ -17,6 +20,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("api/v1/student")
 @RequiredArgsConstructor
+@CrossOrigin
 public class StudentController {
     private final FeatureService featureService;
     private final SprintService sprintService;

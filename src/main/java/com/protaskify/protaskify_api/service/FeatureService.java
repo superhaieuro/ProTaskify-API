@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FeatureService {
     private final FeatureRepository featureRepository;
-
+    private final StudentRepository studentRepository;
 
     public Feature createFeature(Feature feature) {
         Student student = (Student) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -67,7 +67,10 @@ public class FeatureService {
         }
     }
 
-    public List<Feature> getAllFeatures(Long classId, Long groupId) {
+    public List<Feature> getAllFeatures(String studentId) {
+        Student student = studentRepository.findStudentById(studentId);
+        Long classId = student.getClasses().getId();
+        Long groupId = student.getGroup().getId();
         return featureRepository.findByClassIdAndGroupId(classId, groupId);
     }
 
