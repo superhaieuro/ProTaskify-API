@@ -12,7 +12,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class StudentService {
-
 private final StudentRepository studentRepository;
     public List<Student> getGroupMembers() {
         Student student = (Student) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

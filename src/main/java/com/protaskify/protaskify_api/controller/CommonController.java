@@ -6,8 +6,6 @@ import com.protaskify.protaskify_api.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import com.protaskify.protaskify_api.model.request.SendMessageRequest;
 import com.protaskify.protaskify_api.repository.MessagesRepository;
 import com.protaskify.protaskify_api.repository.StudentRepository;
 import com.protaskify.protaskify_api.service.MessageService;
@@ -18,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -32,10 +29,12 @@ public class CommonController {
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final MessageService messageService;
     private final SemesterService semesterService;
-    private final MessagesRepository messagesRepository;
-    private final StudentRepository studentRepository;
     private final FeatureService featureService;
     private final TaskService taskService;
+
+    private final MessagesRepository messagesRepository;
+    private final StudentRepository studentRepository;
+
 
     //--------------------Common--------------------
     @GetMapping("/get-active-semester")
@@ -46,12 +45,12 @@ public class CommonController {
 
     //--------------------Message--------------------
     @MessageMapping("/room")
-    public void sendMessage(Messages messages){
+    public void sendMessage(Messages messages) {
         String toId = messages.getLecturer().toString();
-        if (messages.getFromId().equals(messages.getLecturer())){
+        if (messages.getFromId().equals(messages.getLecturer())) {
             toId = messages.getStudent().toString();
         }
-        simpMessagingTemplate.convertAndSendToUser(toId,"/topic/room", messages);
+        simpMessagingTemplate.convertAndSendToUser(toId, "/topic/room", messages);
         simpMessagingTemplate.convertAndSend(messageService.saveMessageFromJSON(messages), messages);
     }
 
@@ -64,7 +63,7 @@ public class CommonController {
     }
 
     @GetMapping("/message-list")
-    public List<Messages> getMessage(@RequestParam("pageNo") int pageNo, @RequestParam("pageSize") int pageSize){
+    public List<Messages> getMessage(@RequestParam("pageNo") int pageNo, @RequestParam("pageSize") int pageSize) {
         List<Messages> messages = new ArrayList<>();
         messages.addAll(messagesRepository.findAll(PageRequest.of(pageNo, pageSize)).getContent());
         return messages;
@@ -73,16 +72,21 @@ public class CommonController {
 
     //--------------------Feature--------------------
     @GetMapping("/view-features")
-    public ResponseEntity<List<Feature>> getAllFeatures(@RequestParam("studentId") String studentId) {
+    public ResponseEntity<List<Feature>> getAllFeatures(@RequestParam("userId") String userId, @RequestParam("role") String role,
+                                                        @RequestParam(name = "classId", required = false) Long classId,
+                                                        @RequestParam(name = "groupId", required = false) Long groupId) {
         try {
-            List<Feature> groupFeatures = featureService.getAllFeatures(studentId);
+            List<Feature> groupFeatures;
+            if (role.equals("STUDENT")) {
+                Student student = studentRepository.findStudentById(userId);
+                groupFeatures = featureService.getAllFeatures(student.getClasses().getId(), student.getGroup().getId());
+            } else {
+                groupFeatures = featureService.getAllFeatures(classId, groupId);
+            }
             return ResponseEntity.ok(groupFeatures);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-    @GetMapping("/get-active-semester")
-    public ResponseEntity<Semester> getActiveSemester() {
-        return ResponseEntity.ok(semesterService.getActiveSemester());
     }
 
 
@@ -99,16 +103,6 @@ public class CommonController {
             } else {
                 tasks = taskService.getAllTasksOfGroup(classId, groupId);
             }
-            return ResponseEntity.ok(tasks);
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @GetMapping("/view-task-of-each-feature/{featureId}")
-    public ResponseEntity<List<Task>> getTasksOfEachFeature(@PathVariable Long featureId) {
-        try {
-            List<Task> tasks = taskService.getTasksByFeature(featureId);
             return ResponseEntity.ok(tasks);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();

@@ -2,9 +2,11 @@ package com.protaskify.protaskify_api.controller;
 
 import com.protaskify.protaskify_api.model.enity.Feature;
 import com.protaskify.protaskify_api.model.enity.Sprint;
+import com.protaskify.protaskify_api.model.enity.Student;
 import com.protaskify.protaskify_api.model.enity.Task;
 import com.protaskify.protaskify_api.service.FeatureService;
 import com.protaskify.protaskify_api.service.SprintService;
+import com.protaskify.protaskify_api.service.StudentService;
 import com.protaskify.protaskify_api.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,6 +27,18 @@ public class StudentController {
     private final SprintService sprintService;
     private final StudentService studentService;
     private final TaskService taskService;
+
+
+    //--------------------Sprint--------------------
+    @GetMapping("/sprint/{studentId}")
+    public ResponseEntity<Sprint> getSprints(@PathVariable String studentId) {
+        try {
+            Sprint sprint = sprintService.findLatestSprintByStudentId(studentId);
+            return ResponseEntity.ok(sprint);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 
     //--------------------Feature--------------------
@@ -58,16 +72,6 @@ public class StudentController {
         }
     }
 
-    //--------------------Sprint--------------------
-    @GetMapping("/sprint/{studentId}")
-    public ResponseEntity<Sprint> getSprints(@PathVariable String studentId) {
-        try {
-            Sprint sprint = sprintService.findLatestSprintByStudentId(studentId);
-            return ResponseEntity.ok(sprint);
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
 
     //--------------------Task--------------------
     //method này để lấy ra 2 danh sách cho sinh viên chọn feature và member làm task

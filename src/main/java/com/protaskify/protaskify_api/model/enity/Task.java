@@ -2,10 +2,10 @@ package com.protaskify.protaskify_api.model.enity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import net.minidev.json.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -48,8 +48,7 @@ public class Task {
 
     //--------------------Relationship--------------------
     @ManyToMany(mappedBy = "taskList")
-//    @JsonIgnore
-    private List<Student> studentList;
+    private Set<Student> studentList;
 
     @ManyToOne
     @JsonIgnore

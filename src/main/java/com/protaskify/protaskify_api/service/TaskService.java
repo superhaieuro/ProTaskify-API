@@ -21,17 +21,17 @@ public class TaskService {
     private final ProjectRepository projectRepository;
     private final StudentRepository studentRepository;
 
-    public Task createTask (Task task, String studentId){
+    public Task createTask(Task task, String studentId) {
         Optional<Student> studentOptional = studentRepository.findById(studentId);
         if (studentOptional.isPresent()) {
             Student student = studentOptional.get();
-            if (student != null && student.isLeader()){
+            if (student != null) {
                 Set<Student> studentList = new HashSet<>();
                 studentList.add(student);
                 Long featureId = task.getFeature().getId();
                 Feature feature = featureRepository.getSpecialFeature(featureId);
                 task.setFeature(feature);
-                task.setStudent(studentList);
+                task.setStudentList(studentList);
                 List<Task> taskList = taskRepository.getTaskByStatus(featureId, task.getStatus());
                 task.setTaskIndex(taskList.size() + 1);
                 return taskRepository.save(task);
@@ -40,7 +40,7 @@ public class TaskService {
         return null;
     }
 
-    public Task updateTask (Task updatedTask, String studentId) {
+    public Task updateTask(Task updatedTask, String studentId) {
         Optional<Student> studentOptional = studentRepository.findById(studentId);
         if (studentOptional.isPresent()) {
             Student student = studentOptional.get();
@@ -91,7 +91,7 @@ public class TaskService {
         return null;
     }
 
-    public void deleteTask (Long taskId, String studentId){
+    public void deleteTask(Long taskId, String studentId) {
         Optional<Student> studentOptional = studentRepository.findById(studentId);
         if (studentOptional.isPresent()) {
             Student student = studentOptional.get();
@@ -104,16 +104,12 @@ public class TaskService {
         }
     }
 
-    public List<Task> getTaskByStatus (Long featureId, String status){
+    public List<Task> getTaskByStatus(Long featureId, String status) {
         List<Task> taskList = taskRepository.getTaskByStatus(featureId, status);
         return taskList;
     }
 
     public List<Task> getAllTasksOfGroup(Long classId, Long groupId) {
-                return taskRepository.findAllTasksOfGroup(classId, groupId);
-            }
-
-    public List<Task> getTasksByFeature(Long featureId) {
-                return taskRepository.findAllTasksOfFeature(featureId);
-            }
+        return taskRepository.findAllTasksOfGroup(classId, groupId);
+    }
 }

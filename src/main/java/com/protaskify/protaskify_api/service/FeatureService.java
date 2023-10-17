@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -67,10 +68,7 @@ public class FeatureService {
         }
     }
 
-    public List<Feature> getAllFeatures(String studentId) {
-        Student student = studentRepository.findStudentById(studentId);
-        Long classId = student.getClasses().getId();
-        Long groupId = student.getGroup().getId();
+    public List<Feature> getAllFeatures(Long classId, Long groupId) {
         return featureRepository.findByClassIdAndGroupId(classId, groupId);
     }
 
