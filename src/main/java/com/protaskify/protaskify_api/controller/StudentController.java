@@ -89,28 +89,28 @@ public class StudentController {
         }
     }
 
-    @PostMapping("/create-task/{studentId}")
-    public ResponseEntity<Task> createTask(@RequestBody Task task, @PathVariable String studentId) {
-            Task createTask = taskService.createTask(task, studentId);
+    @PostMapping("/create-task/{studentId}/{featureId}")
+    public ResponseEntity<Task> createTask(@RequestBody Task task, @PathVariable String studentId, @PathVariable Long featureId) {
+            Task createTask = taskService.createTask(task, studentId, featureId);
             return ResponseEntity.ok(createTask);
     }
 
-    @PutMapping("/update-task/{studentId}")
-    public ResponseEntity<Task> updateTask (@RequestBody Task updatedTask, @PathVariable String studentId) {
-            Task editedTask = taskService.updateTask(updatedTask, studentId);
-            featureService.setStatusFeature(updatedTask);
+    @PutMapping("/update-task/{studentId}/{featureId}")
+    public ResponseEntity<Task> updateTask (@RequestBody Task updatedTask, @PathVariable String studentId, @PathVariable Long featureId) {
+            Task editedTask = taskService.updateTask(updatedTask, studentId, featureId);
+            featureService.setStatusFeature(updatedTask, featureId);
             return ResponseEntity.ok(editedTask);
     }
 
-    @DeleteMapping("/delete-task/{taskId}/{studentId}")
-    public ResponseEntity<Task> deleteTask (@PathVariable Long taskId, @PathVariable String studentId) {
-            taskService.deleteTask(taskId, studentId);
+    @DeleteMapping("/delete-task/{taskId}/{studentId}/{featureId}")
+    public ResponseEntity<Task> deleteTask (@PathVariable Long taskId, @PathVariable String studentId, @PathVariable Long featureId) {
+            taskService.deleteTask(taskId, studentId, featureId);
             return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/get-task/{featureId}/{status}")
     public ResponseEntity<List<Task>> getTasksByStatus (@PathVariable Long featureId, @PathVariable String status) {
-        List<Task> getTasksByStatus = taskService.getTaskByStatus(featureId, status);
+        List<Task> getTasksByStatus = taskService.getTasksByStatus(featureId, status);
         return ResponseEntity.ok(getTasksByStatus);
     }
 }

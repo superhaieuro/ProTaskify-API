@@ -42,5 +42,5 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
                     "where t.feature_id = :featureId and t.status = :status " +
                     "order by t.task_index asc",
             nativeQuery = true)
-    List<Task> getTaskByStatus (Long featureId, String status);
+    List<Task> getTasksByStatus (Long featureId, String status);
 }

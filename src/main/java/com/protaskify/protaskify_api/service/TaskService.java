@@ -21,18 +21,19 @@ public class TaskService {
     private final ProjectRepository projectRepository;
     private final StudentRepository studentRepository;
 
-    public Task createTask(Task task, String studentId) {
+
+    public Task createTask(Task task, String studentId, Long featureId) {
         Optional<Student> studentOptional = studentRepository.findById(studentId);
         if (studentOptional.isPresent()) {
             Student student = studentOptional.get();
             if (student != null) {
                 Set<Student> studentList = new HashSet<>();
                 studentList.add(student);
-                Long featureId = task.getFeature().getId();
+//                Long featureId = task.getFeature().getId();
                 Feature feature = featureRepository.getSpecialFeature(featureId);
                 task.setFeature(feature);
                 task.setStudentList(studentList);
-                List<Task> taskList = taskRepository.getTaskByStatus(featureId, task.getStatus());
+                List<Task> taskList = taskRepository.getTasksByStatus(featureId, task.getStatus());
                 task.setTaskIndex(taskList.size() + 1);
                 return taskRepository.save(task);
             }
@@ -40,23 +41,26 @@ public class TaskService {
         return null;
     }
 
-    public Task updateTask(Task updatedTask, String studentId) {
+    public Task updateTask(Task updatedTask, String studentId, Long featureId) {
         Optional<Student> studentOptional = studentRepository.findById(studentId);
         if (studentOptional.isPresent()) {
             Student student = studentOptional.get();
             if (student != null && student.isLeader()) {
+                Feature feature = featureRepository.getSpecialFeature(featureId);
+                updatedTask.setFeature(feature);
                 Task existingTask = taskRepository.getTask(updatedTask.getId());
                 if (updatedTask.getStatus().equals(existingTask.getStatus())) {
 
-                    List<Task> taskList = taskRepository.getTaskByStatus(
-                            updatedTask.getFeature().getId(),
+                    List<Task> taskList = taskRepository.getTasksByStatus(
+                            featureId,
                             updatedTask.getStatus());
                     Iterator<Task> iterator = taskList.iterator();
                     while (iterator.hasNext()) {
                         Task task = iterator.next();
+//                        task.setFeature(feature);
                         if (task.equals(existingTask)) {
                             iterator.remove();
-                        } else if (updatedTask.getTaskIndex() < existingTask.getTaskIndex() && task.getTaskIndex() >= updatedTask.getTaskIndex()) {
+                        } else if (task.getTaskIndex() < existingTask.getTaskIndex() && task.getTaskIndex() >= updatedTask.getTaskIndex()) {
                             task.setTaskIndex(task.getTaskIndex() + 1);
                         } else if (task.getTaskIndex() <= updatedTask.getTaskIndex() && task.getTaskIndex() > 1) {
                             task.setTaskIndex(task.getTaskIndex() - 1);
@@ -65,21 +69,21 @@ public class TaskService {
                     taskList.add(updatedTask);
                     taskRepository.saveAll(taskList);
                 } else {
-                    List<Task> newStatusTaskList = taskRepository.getTaskByStatus(
-                            updatedTask.getFeature().getId(),
+                    List<Task> newStatusTaskList = taskRepository.getTasksByStatus(
+                            featureId,
                             updatedTask.getStatus());
                     updatedTask.setTaskIndex(newStatusTaskList.size() + 1);
                     newStatusTaskList.add(updatedTask);
 
-                    List<Task> taskList = taskRepository.getTaskByStatus(
-                            updatedTask.getFeature().getId(),
+                    List<Task> taskList = taskRepository.getTasksByStatus(
+                            featureId,
                             existingTask.getStatus());
-                    Task oldTask = taskRepository.getTask(updatedTask.getId());
+                    Task oldTask = taskRepository.getTask(existingTask.getId());
                     taskList.remove(oldTask);
                     Iterator<Task> iterator = taskList.iterator();
                     while (iterator.hasNext()) {
                         Task task = iterator.next();
-                        if (task.getTaskIndex() > updatedTask.getTaskIndex()) {
+                        if (task.getTaskIndex() > oldTask.getTaskIndex()) {
                             task.setTaskIndex(task.getTaskIndex() - 1);
                         }
                     }
@@ -91,21 +95,36 @@ public class TaskService {
         return null;
     }
 
-    public void deleteTask(Long taskId, String studentId) {
+    public void deleteTask(Long taskId, String studentId, Long featureId) {
         Optional<Student> studentOptional = studentRepository.findById(studentId);
         if (studentOptional.isPresent()) {
             Student student = studentOptional.get();
             if (student != null && student.isLeader()) {
+                Feature feature = featureRepository.getSpecialFeature(featureId);
                 Task existingTask = taskRepository.findById(taskId).orElse(null);
+                existingTask.setFeature(feature);
                 if (existingTask != null) {
+                    List<Task> taskList = taskRepository.getTasksByStatus(
+                            featureId,
+                            existingTask.getStatus());
+                    Task oldTask = taskRepository.getTask(existingTask.getId());
+                    taskList.remove(oldTask);
+                    Iterator<Task> iterator = taskList.iterator();
+                    while (iterator.hasNext()) {
+                        Task task = iterator.next();
+
+                        if (task.getTaskIndex() > existingTask.getTaskIndex()) {
+                            task.setTaskIndex(task.getTaskIndex() - 1);
+                        }
+                    }
                     taskRepository.delete(existingTask);
                 }
             }
         }
     }
 
-    public List<Task> getTaskByStatus(Long featureId, String status) {
-        List<Task> taskList = taskRepository.getTaskByStatus(featureId, status);
+    public List<Task> getTasksByStatus (Long featureId, String status) {
+        List<Task> taskList = taskRepository.getTasksByStatus(featureId, status);
         return taskList;
     }
 

@@ -85,8 +85,9 @@ public class FeatureService {
         return Collections.emptyList();
     }
 
-    public void setStatusFeature (Task updatedTask){
-        Long featureId = updatedTask.getFeature().getId();
+    public void setStatusFeature (Task updatedTask, Long featureId){
+//        Long featureId = updatedTask.getFeature().getId();
+//        Feature feature = featureRepository.getSpecialFeature(featureId);
         List<Task> taskList = taskRepository.getTaskList(featureId);
         String status = "Done";
         for (Task task: taskList) {

@@ -47,7 +47,8 @@ public class Task {
 
 
     //--------------------Relationship--------------------
-    @ManyToMany(mappedBy = "taskList")
+    @ManyToMany
+//            (mappedBy = "taskList")
     private Set<Student> studentList;
 
     @ManyToOne
