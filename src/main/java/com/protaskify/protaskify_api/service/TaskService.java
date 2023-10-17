@@ -18,7 +18,6 @@ public class TaskService {
 
     private final FeatureRepository featureRepository;
     private final TaskRepository taskRepository;
-    private final ProjectRepository projectRepository;
     private final StudentRepository studentRepository;
 
 
@@ -27,12 +26,12 @@ public class TaskService {
         if (studentOptional.isPresent()) {
             Student student = studentOptional.get();
             if (student != null) {
-                Set<Student> studentList = new HashSet<>();
-                studentList.add(student);
+//                Set<Student> studentList = new HashSet<>();
+//                studentList.add(student);
 //                Long featureId = task.getFeature().getId();
                 Feature feature = featureRepository.getSpecialFeature(featureId);
                 task.setFeature(feature);
-                task.setStudentList(studentList);
+                task.setStudent(student);
                 List<Task> taskList = taskRepository.getTasksByStatus(featureId, task.getStatus());
                 task.setTaskIndex(taskList.size() + 1);
                 return taskRepository.save(task);
@@ -48,6 +47,7 @@ public class TaskService {
             if (student != null && student.isLeader()) {
                 Feature feature = featureRepository.getSpecialFeature(featureId);
                 updatedTask.setFeature(feature);
+                updatedTask.setStudent(student);
                 Task existingTask = taskRepository.getTask(updatedTask.getId());
                 if (updatedTask.getStatus().equals(existingTask.getStatus())) {
 

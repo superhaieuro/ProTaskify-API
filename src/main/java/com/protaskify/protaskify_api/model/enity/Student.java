@@ -10,6 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -66,9 +67,8 @@ public class Student implements UserDetails {
     @JoinColumn(name = "group_id")
     private Group group;
 
-//    @ManyToMany
-//    @JsonIgnore
-//    private Set<Task> taskList;
+    @OneToMany (mappedBy = "student")
+    private List<Task> taskList;
 
     public void setEmail(String email) {
         this.email = email + "@fpt.edu.vn";

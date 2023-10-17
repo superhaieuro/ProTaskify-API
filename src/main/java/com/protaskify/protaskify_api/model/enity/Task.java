@@ -47,9 +47,10 @@ public class Task {
 
 
     //--------------------Relationship--------------------
-    @ManyToMany
-//            (mappedBy = "taskList")
-    private Set<Student> studentList;
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "student_id")
+    private Student student;
 
     @ManyToOne
     @JsonIgnore
