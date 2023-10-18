@@ -1,32 +1,35 @@
 package com.protaskify.protaskify_api.model.enity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "semester")
 public class Semester {
     @Id
-    @Column(name = "semester_id", columnDefinition = "CHAR(10)")
-    private String id;
+    @Column(name = "semester_id", nullable = false, length = 50)
+    private String semesterId;
 
-    @Column(name = "semester_name", columnDefinition = "VARCHAR(20)")
-    private String name;
+    @Column(name = "semester_name", length = 50)
+    private String semesterName;
 
-    @Column(columnDefinition = "DATE")
-    private Date startDate;
+    @Column(name = "start_date")
+    private LocalDate startDate;
 
-    @Column(columnDefinition = "DATE")
-    private Date endDate;
+    @Column(name = "end_date")
+    private LocalDate endDate;
 
+    @Column(name = "status")
     private Boolean status;
+
+    @OneToMany(mappedBy = "semester")
+    private Set<Class> classFields = new LinkedHashSet<>();
+
 }

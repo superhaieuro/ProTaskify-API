@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
+import java.time.OffsetDateTime;
 
 @Getter
 @Setter
@@ -32,7 +32,11 @@ public class Message {
     private String status;
 
     @Column(name = "change_status_time")
-    private Instant changeStatusTime;
+    private OffsetDateTime changeStatusTime;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lecturer_id")
+    private Lecturer lecturer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")

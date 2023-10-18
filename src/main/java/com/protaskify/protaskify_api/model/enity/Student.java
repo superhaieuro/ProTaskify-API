@@ -1,34 +1,28 @@
 package com.protaskify.protaskify_api.model.enity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.Nationalized;
-import org.springframework.security.core.userdetails.UserDetails;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
-
-@Data
+import java.util.LinkedHashSet;
+import java.util.Set;
 @Builder
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "student")
 public class Student implements UserDetails {
     @Id
-    @JsonProperty("RollNumber")
-    private String id;
-    @JsonProperty("FullName")
-    private String name;
-    @JsonProperty("MemberCode")
-    private String email;
-    private String picture;
+    @Column(name = "student_id", nullable = false, length = 50)
+    private String studentId;
 
     @Nationalized
     @Column(name = "student_name", length = 50)
@@ -48,6 +42,9 @@ public class Student implements UserDetails {
     @Column(name = "link_facebook", length = 100)
     private String linkFacebook;
 
+    @Column(name = "email", length = 50)
+    private String email;
+
     @Column(name = "github", length = 50)
     private String github;
 
@@ -57,15 +54,24 @@ public class Student implements UserDetails {
     @Column(name = "about", length = 100)
     private String about;
 
+    @Lob
+    @Column(name = "picture")
+    private String picture;
+
     @Column(name = "status", length = 50)
     private String status;
 
     @Column(name = "is_leader")
     private Boolean isLeader;
 
-    public void setEmail(String email) {
-        this.email = email + "@fpt.edu.vn";
-    }
+    @OneToMany(mappedBy = "receiverID")
+    private Set<Invitation> invitations = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "studentReviewer")
+    private Set<Star> stars = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "student")
+    private Set<StudentTask> studentTasks = new LinkedHashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -79,26 +85,26 @@ public class Student implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return null;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return false;
     }
 }

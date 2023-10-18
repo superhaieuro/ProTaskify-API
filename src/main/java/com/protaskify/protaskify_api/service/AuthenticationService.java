@@ -1,13 +1,13 @@
 package com.protaskify.protaskify_api.service;
 
 import com.google.gson.JsonObject;
-import com.protaskify.protaskify_api.model.response.AuthenticationResponse;
 import com.protaskify.protaskify_api.model.enity.Lecturer;
 import com.protaskify.protaskify_api.model.enity.Student;
-import com.protaskify.protaskify_api.repository.LecturerRepository;
-import com.protaskify.protaskify_api.repository.StudentRepository;
+import com.protaskify.protaskify_api.model.response.AuthenticationResponse;
 import com.protaskify.protaskify_api.config.custom.CustomAuthenticationToken;
 import com.protaskify.protaskify_api.config.jwt.JwtService;
+import com.protaskify.protaskify_api.repository.LecturerRepository;
+import com.protaskify.protaskify_api.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Service;
@@ -53,7 +53,7 @@ public class AuthenticationService {
                 authenticationResponse = AuthenticationResponse.builder()
                         .token(jwtService.generateToken(user.get()))
                         .userInfo(
-                                Lecturer.builder().name(user.get().getName())
+                                Lecturer.builder().lecturerName(user.get().getLecturerName())
                                         .email(user.get().getEmail())
                                         .picture(userData.get("picture").getAsString())
                                         .build()
@@ -69,7 +69,7 @@ public class AuthenticationService {
                 authenticationResponse = AuthenticationResponse.builder()
                         .token(jwtService.generateToken(user.get()))
                         .userInfo(
-                                Student.builder().name(user.get().getName())
+                                Student.builder().studentName(user.get().getStudentName())
                                         .email(user.get().getEmail())
                                         .picture(userData.get("picture").getAsString())
                                         .build()

@@ -1,11 +1,11 @@
 package com.protaskify.protaskify_api.model.enity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -18,5 +18,22 @@ public class Class {
 
     @Column(name = "class_name", length = 50)
     private String className;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "semester_id")
+    private Semester semester;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lecturer_id")
+    private Lecturer lecturer;
+
+    @OneToMany(mappedBy = "classField")
+    private Set<Group> groups = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "classField")
+    private Set<Sprint> sprints = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "classField")
+    private Set<Student> students = new LinkedHashSet<>();
 
 }
