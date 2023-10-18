@@ -1,6 +1,8 @@
 package com.protaskify.protaskify_api.config;
 
 import com.protaskify.protaskify_api.config.custom.CustomAuthenticationProvider;
+import com.protaskify.protaskify_api.model.enity.Lecturer;
+import com.protaskify.protaskify_api.model.enity.Student;
 import com.protaskify.protaskify_api.repository.LecturerRepository;
 import com.protaskify.protaskify_api.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;

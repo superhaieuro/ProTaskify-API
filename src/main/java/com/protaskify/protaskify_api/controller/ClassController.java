@@ -1,19 +1,16 @@
 package com.protaskify.protaskify_api.controller;
 
-import com.protaskify.protaskify_api.model.enity.Class;
-import com.protaskify.protaskify_api.model.enity.Student;
 import com.protaskify.protaskify_api.repository.ClassRepository;
-import com.protaskify.protaskify_api.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.protaskify.protaskify_api.model.enity.Class;
 
 import java.util.List;
-
+@CrossOrigin(value = "*", allowedHeaders = "*")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1/class")
-@CrossOrigin
+@RequestMapping("/api/v1/class")
 public class ClassController {
     private final ClassRepository classRepository;
 

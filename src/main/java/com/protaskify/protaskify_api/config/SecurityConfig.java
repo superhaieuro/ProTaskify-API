@@ -20,10 +20,10 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
+        return http.cors().and()
                 .csrf().disable()
                 .cors().and()
-                .authorizeHttpRequests().requestMatchers("/api/v1/auth/**").permitAll()
+                .authorizeHttpRequests().requestMatchers("/api/v1/**").permitAll()
                 .and()
                 .authorizeHttpRequests().requestMatchers("/api/v1/student/**").hasAuthority("STUDENT")
                 .and()

@@ -33,6 +33,9 @@ public class Group {
     @Column(name = "isActive", nullable = false)
     private Boolean isActive = false;
 
+    @OneToMany(mappedBy = "groupID")
+    private Set<Invitation> invitations = new LinkedHashSet<>();
+
     @OneToMany(mappedBy = "group")
     private Set<Message> messages = new LinkedHashSet<>();
 

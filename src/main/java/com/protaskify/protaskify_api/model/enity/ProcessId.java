@@ -2,6 +2,7 @@ package com.protaskify.protaskify_api.model.enity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
@@ -13,7 +14,7 @@ import java.util.Objects;
 @Setter
 @Embeddable
 public class ProcessId implements Serializable {
-    private static final long serialVersionUID = -8235070167956826636L;
+    private static final long serialVersionUID = 3165951760012704221L;
     @Column(name = "project_id", nullable = false, length = 50)
     private String projectId;
 

@@ -11,14 +11,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
-
-@Getter
-@Setter
-@Entity
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Getter
+@Setter
+@Entity
 @Table(name = "student")
 public class Student implements UserDetails {
     @Id
@@ -64,6 +63,9 @@ public class Student implements UserDetails {
 
     @Column(name = "is_leader")
     private Boolean isLeader;
+
+    @OneToMany(mappedBy = "receiverID")
+    private Set<Invitation> invitations = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "studentReviewer")
     private Set<Star> stars = new LinkedHashSet<>();

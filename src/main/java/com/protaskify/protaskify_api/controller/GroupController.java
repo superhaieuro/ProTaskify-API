@@ -19,7 +19,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/group")
-@CrossOrigin
+@CrossOrigin(value = "*", allowedHeaders = "*")
 public class GroupController {
     private final GroupService groupService;
 

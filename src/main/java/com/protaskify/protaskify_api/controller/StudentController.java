@@ -9,12 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/student")
-@CrossOrigin
+@CrossOrigin(value = "*", allowedHeaders = "*")
 public class StudentController {
     private final StudentRepository studentRepository;
     private final GroupRepository groupRepository;

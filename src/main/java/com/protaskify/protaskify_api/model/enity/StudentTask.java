@@ -17,4 +17,9 @@ public class StudentTask {
     @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
+    @MapsId("taskId")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "task_id", nullable = false)
+    private Task task;
+
 }

@@ -22,4 +22,9 @@ public class Process {
     @JoinColumn(name = "feature_id", nullable = false)
     private Feature feature;
 
+    @MapsId("sprintId")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "sprint_id", nullable = false)
+    private Sprint sprint;
+
 }
