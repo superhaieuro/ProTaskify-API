@@ -5,7 +5,6 @@ import lombok.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -48,12 +47,12 @@ public class Task {
 
     //--------------------Relationship--------------------
     @ManyToOne
-    @JsonIgnore
+//    @JsonIgnore
     @JoinColumn(name = "student_id")
     private Student student;
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "feature_id")
+    @JoinColumn(name = "feature_id", nullable = true)
     private Feature feature;
 }

@@ -2,6 +2,7 @@ package com.protaskify.protaskify_api.service;
 
 import com.protaskify.protaskify_api.model.enity.*;
 import com.protaskify.protaskify_api.repository.*;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -53,6 +54,7 @@ public class FeatureService {
         return null;
     }
 
+    @Transactional
     public void deleteFeature(Long featureId) {
         Student student = (Student) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (student != null && student.isLeader()) {
@@ -61,6 +63,7 @@ public class FeatureService {
                 Group group = student.getGroup();
                 if (group != null) {
                     if (group.getClasses().getId().equals(existingFeature.getGroup().getClasses().getId())) {
+                        taskRepository.updateFeatureIdForFeatureTasks(featureId);
                         featureRepository.delete(existingFeature);
                     }
                 }

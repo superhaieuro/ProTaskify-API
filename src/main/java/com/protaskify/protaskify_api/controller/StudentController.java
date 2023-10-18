@@ -4,6 +4,7 @@ import com.protaskify.protaskify_api.model.enity.Feature;
 import com.protaskify.protaskify_api.model.enity.Sprint;
 import com.protaskify.protaskify_api.model.enity.Student;
 import com.protaskify.protaskify_api.model.enity.Task;
+import com.protaskify.protaskify_api.model.request.StudentSettingRequest;
 import com.protaskify.protaskify_api.service.FeatureService;
 import com.protaskify.protaskify_api.service.SprintService;
 import com.protaskify.protaskify_api.service.StudentService;
@@ -109,6 +110,18 @@ public class StudentController {
                                             @PathVariable Long featureId) {
             taskService.deleteTask(taskId, studentId, featureId);
             return ResponseEntity.noContent().build();
+    }
+
+
+    //--------------------Setting--------------------
+    @PutMapping("/update-student-info")
+    public ResponseEntity<Student> updateStudentInfo(@RequestBody StudentSettingRequest request) {
+        try {
+            Student updatedStudent = studentService.updateStudentInfo(request.getStudentId(), request.getFacebook(), request.getGithub(), request.getSkill());
+            return ResponseEntity.ok(updatedStudent);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
 //    @GetMapping("/get-task/{featureId}/{status}")

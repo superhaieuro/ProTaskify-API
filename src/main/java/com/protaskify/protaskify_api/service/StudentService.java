@@ -25,4 +25,15 @@ private final StudentRepository studentRepository;
         }
         return Collections.emptyList();
     }
+
+    public Student updateStudentInfo(String studentId, String facebook, String github, String skills) {
+        Student existingStudent = studentRepository.findById(studentId).orElse(null);
+        if (existingStudent != null) {
+            existingStudent.setFacebook(facebook);
+            existingStudent.setGithub(github);
+            existingStudent.setSkills(skills);
+            return studentRepository.save(existingStudent);
+        }
+        return null;
+    }
 }

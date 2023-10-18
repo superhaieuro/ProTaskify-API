@@ -20,24 +20,24 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        return http
-//                .csrf().disable()
-//                .cors().and()
-//                .authorizeHttpRequests().requestMatchers("/api/v1/auth/**", "/api/v1/common/**", "/web-socket/**").permitAll()
-//                .and()
-//                .authorizeHttpRequests().requestMatchers("/api/v1/student/**").hasAuthority("STUDENT")
-//                .and()
-//                .authorizeHttpRequests().requestMatchers("/api/v1/lecturer/**").hasAuthority("LECTURER")
-//                .anyRequest().authenticated()
-//                .and()
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-//                .authenticationProvider(authenticationProvider)
-//                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-//                .build();
         return http
                 .csrf().disable()
-                .cors().and().authorizeHttpRequests().anyRequest().permitAll().and().build();
+                .cors().and()
+                .authorizeHttpRequests().requestMatchers("/api/v1/auth/**", "/api/v1/common/**", "/web-socket/**").permitAll()
+                .and()
+                .authorizeHttpRequests().requestMatchers("/api/v1/student/**").hasAuthority("STUDENT")
+                .and()
+                .authorizeHttpRequests().requestMatchers("/api/v1/lecturer/**").hasAuthority("LECTURER")
+                .anyRequest().authenticated()
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authenticationProvider(authenticationProvider)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
+//        return http
+//                .csrf().disable()
+//                .cors().and().authorizeHttpRequests().anyRequest().permitAll().and().build();
     }
 }
