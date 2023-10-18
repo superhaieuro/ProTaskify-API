@@ -2,12 +2,9 @@ package com.protaskify.protaskify_api.service;
 
 import com.protaskify.protaskify_api.model.enity.*;
 import com.protaskify.protaskify_api.repository.FeatureRepository;
-import com.protaskify.protaskify_api.repository.ProjectRepository;
 import com.protaskify.protaskify_api.repository.StudentRepository;
 import com.protaskify.protaskify_api.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -26,13 +23,10 @@ public class TaskService {
         if (studentOptional.isPresent()) {
             Student student = studentOptional.get();
             if (student != null) {
-//                Set<Student> studentList = new HashSet<>();
-//                studentList.add(student);
-//                Long featureId = task.getFeature().getId();
                 Feature feature = featureRepository.getSpecialFeature(featureId);
                 task.setFeature(feature);
                 task.setStudent(student);
-                List<Task> taskList = taskRepository.getTasksByStatus(featureId, task.getStatus());
+                List<Task> taskList = taskRepository.getTasksByStatus(featureId, student.getGroup().getId(), task.getStatus());
                 task.setTaskIndex(taskList.size() + 1);
                 return taskRepository.save(task);
             }
@@ -44,7 +38,7 @@ public class TaskService {
         Optional<Student> studentOptional = studentRepository.findById(studentId);
         if (studentOptional.isPresent()) {
             Student student = studentOptional.get();
-            if (student != null && student.isLeader()) {
+            if (student != null) {
                 Feature feature = featureRepository.getSpecialFeature(featureId);
                 updatedTask.setFeature(feature);
                 updatedTask.setStudent(student);
@@ -52,8 +46,7 @@ public class TaskService {
                 if (updatedTask.getStatus().equals(existingTask.getStatus())) {
 
                     List<Task> taskList = taskRepository.getTasksByStatus(
-                            featureId,
-                            updatedTask.getStatus());
+                            featureId, student.getGroup().getId(), updatedTask.getStatus());
                     Iterator<Task> iterator = taskList.iterator();
                     while (iterator.hasNext()) {
                         Task task = iterator.next();
@@ -70,14 +63,12 @@ public class TaskService {
                     taskRepository.saveAll(taskList);
                 } else {
                     List<Task> newStatusTaskList = taskRepository.getTasksByStatus(
-                            featureId,
-                            updatedTask.getStatus());
+                            featureId, student.getGroup().getId(), updatedTask.getStatus());
                     updatedTask.setTaskIndex(newStatusTaskList.size() + 1);
                     newStatusTaskList.add(updatedTask);
 
                     List<Task> taskList = taskRepository.getTasksByStatus(
-                            featureId,
-                            existingTask.getStatus());
+                            featureId, student.getGroup().getId(), existingTask.getStatus());
                     Task oldTask = taskRepository.getTask(existingTask.getId());
                     taskList.remove(oldTask);
                     Iterator<Task> iterator = taskList.iterator();
@@ -99,14 +90,13 @@ public class TaskService {
         Optional<Student> studentOptional = studentRepository.findById(studentId);
         if (studentOptional.isPresent()) {
             Student student = studentOptional.get();
-            if (student != null && student.isLeader()) {
+            if (student != null) {
                 Feature feature = featureRepository.getSpecialFeature(featureId);
                 Task existingTask = taskRepository.findById(taskId).orElse(null);
                 existingTask.setFeature(feature);
                 if (existingTask != null) {
                     List<Task> taskList = taskRepository.getTasksByStatus(
-                            featureId,
-                            existingTask.getStatus());
+                            featureId, student.getGroup().getId(), existingTask.getStatus());
                     Task oldTask = taskRepository.getTask(existingTask.getId());
                     taskList.remove(oldTask);
                     Iterator<Task> iterator = taskList.iterator();
@@ -123,12 +113,25 @@ public class TaskService {
         }
     }
 
-    public List<Task> getTasksByStatus (Long featureId, String status) {
-        List<Task> taskList = taskRepository.getTasksByStatus(featureId, status);
-        return taskList;
-    }
+//    public List<Task> getTasksByStatus (Long featureId, String status) {
+//        List<Task> taskList = taskRepository.getTasksByStatus(featureId, status);
+//        return taskList;
+//    }
 
-    public List<Task> getAllTasksOfGroup(Long classId, Long groupId) {
+    public List<Task> getAllTasksOfGroup (Long classId, Long groupId) {
         return taskRepository.findAllTasksOfGroup(classId, groupId);
     }
+
+//    public List<Task> updateIndexTaskDeleteFeature (Long featureId, Long groupId, String status) {
+//        List<Task> taskList = taskRepository.getTasksByStatus(
+//                featureId, groupId, status);
+//        Iterator<Task> iterator = taskList.iterator();
+//        int index = 1;
+//        if (!taskList.isEmpty()) {
+//            for (int i = 0; i < taskList.size(); i++) {
+//                taskList.get(i).setTaskIndex(index++);
+//            }
+//        }
+//        return taskRepository.saveAll(taskList);
+//    }
 }
