@@ -1,10 +1,10 @@
 package com.protaskify.protaskify_api.service.auth;
 
 import com.google.gson.JsonObject;
-import com.protaskify.protaskify_api.model.enity.LecturerGG;
+import com.protaskify.protaskify_api.model.enity.Lecturer;
 import com.protaskify.protaskify_api.model.response.AuthenticationResponse;
 import com.protaskify.protaskify_api.model.enity.Student;
-import com.protaskify.protaskify_api.repository.LecturerGGRepository;
+import com.protaskify.protaskify_api.repository.LecturerRepository;
 import com.protaskify.protaskify_api.repository.StudentRepository;
 import com.protaskify.protaskify_api.config.custom.CustomAuthenticationToken;
 import com.protaskify.protaskify_api.config.jwt.JwtService;
@@ -19,7 +19,7 @@ import java.util.Base64;
 @RequiredArgsConstructor
 public class AuthenticationService {
     private final StudentRepository studentRepository;
-    private final LecturerGGRepository lecturerRepository;
+    private final LecturerRepository lecturerRepository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
@@ -53,7 +53,7 @@ public class AuthenticationService {
                 authenticationResponse = AuthenticationResponse.builder()
                         .token(jwtService.generateToken(user.get()))
                         .userInfo(
-                                LecturerGG.builder().name(user.get().getName())
+                                Lecturer.builder().name(user.get().getName())
                                         .email(user.get().getEmail())
                                         .picture(userData.get("picture").getAsString())
                                         .build()
