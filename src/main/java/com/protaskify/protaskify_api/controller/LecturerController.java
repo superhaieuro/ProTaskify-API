@@ -15,20 +15,22 @@ import java.util.List;
 @RequestMapping("/api/v1/lecturers")
 @RequiredArgsConstructor
 public class LecturerController {
+
     private final LecturerService lecturerService;
 
-    //display all
-    @GetMapping("/view-all-lecturer")
+    //IMPORT LECTURE
+    @PostMapping("/import-lecturers")
+    public void importLecturer(@RequestBody ImportLecturerRequest request) {
+        lecturerService.saveLecturerList(request);
+    }
+
+    //DISPLAY ALL LECTURE
+    @GetMapping("/view-all-lecturers")
     public List<Lecturer> getAllLecturers() {
         return lecturerService.findAllLecturer();
     }
-    //build create lecture REST API
-    @PostMapping("/import-lecturer")
-    public void importLecturer(@RequestBody ImportLecturerRequest request) {
-         lecturerService.saveLecturerList(request);
-    }
 
-    // build get lecture by id REST API
+    //GET LECTURE BY ID
     @GetMapping("/view-lecturer-by-id/{lecturer_id}")
     public ResponseEntity<Lecturer> getLecturerById(@PathVariable String lecturer_id) {
         try {
@@ -39,7 +41,7 @@ public class LecturerController {
         }
     }
 
-    //build update lecturer REST API
+    //UPDATE LECTURE
     @PutMapping("/update-lecturer/{lecturer_id}")
     public ResponseEntity<Lecturer> updateLecturer(@PathVariable String lecturer_id, @RequestBody Lecturer lecturerDetails) {
         try {

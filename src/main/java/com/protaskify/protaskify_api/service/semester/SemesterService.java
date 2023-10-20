@@ -15,4 +15,28 @@ private final SemesterRepository semesterRepository;
     return semesterRepository.findAll();
 }
 
+    //SAVE SEMESTER
+    public Semester saveSemester(Semester semester){
+        semesterRepository.save(semester);
+        return semester;
+    }
+
+    //FIND SEMESTER
+    public Semester finSemesterId(String semester_id){
+            return semesterRepository.findById(semester_id).orElse(null);
+    }
+
+    //UPDATE SEMESTER
+    public Semester updateSemester(String semester_id, Semester semesterDetails){
+        Semester existingSemester = semesterRepository.findById(semester_id).orElse(null);
+        if(existingSemester != null){
+            existingSemester.setName(semesterDetails.getName());
+            existingSemester.setStartDate(semesterDetails.getStartDate());
+            existingSemester.setEndDate(semesterDetails.getEndDate());
+            existingSemester.setStatus(semesterDetails.isStatus());
+        }
+        assert existingSemester != null;
+        return semesterRepository.save(existingSemester);
+    }
+
 }

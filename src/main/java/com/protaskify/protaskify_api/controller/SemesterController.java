@@ -1,8 +1,11 @@
 package com.protaskify.protaskify_api.controller;
 
 import com.protaskify.protaskify_api.exception.ResourceNotFoundException;
+import com.protaskify.protaskify_api.model.enity.Lecturer;
 import com.protaskify.protaskify_api.model.enity.Semester;
 import com.protaskify.protaskify_api.repository.SemesterRepository;
+import com.protaskify.protaskify_api.service.semester.SemesterService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,52 +13,57 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/v1/semesters")
+@RequiredArgsConstructor
 public class SemesterController {
 
-    @Autowired
-    private SemesterRepository semesterRepository;
+    private final SemesterService semesterService;
 
-    @GetMapping
-    public List<Semester> getAllSemesters() {
-        return semesterRepository.findAll();
-    }
-
-    //build create semester REST API
+    //CREATE SEMESTER
     @PostMapping
     public Semester createSemester(@RequestBody Semester semester) {
-        return semesterRepository.save(semester);
+        return semesterService.saveSemester(semester);
     }
 
-    //build get Semester by id REST API
-    @GetMapping("{id}")
-    public ResponseEntity<Semester> getSemesterById(@PathVariable long id){
-        Semester semester = semesterRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Semester not exist with Id: " + id));
-        return ResponseEntity.ok(semester);
+    //DISPLAY ALL SEMESTER
+    @GetMapping("/view-all-semesters")
+    public List<Semester> getAllSemesters() {
+        return semesterService.findAllSemester();
     }
 
-    //build update Semester REST API note FE: Just update when Semester has not been started
-    @PutMapping("{id}")
-    public ResponseEntity<Semester> updateSemester(@PathVariable long id,@RequestBody Semester semesterDetail){
-        Semester updateSemester = semesterRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Semester not exist with Id: " + id));
+    //GET SEMESTER BY ID
+    @GetMapping("/view-semester-by-id/{semester_id}")
+    public ResponseEntity<Semester> getSemesterById(@PathVariable String semester_id){
+        try {
+            Semester semester = semesterService.finSemesterId(semester_id);
+            return  ResponseEntity.ok(semester);
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
 
-        updateSemester.setStartDate(semesterDetail.getStartDate());
-        updateSemester.setEndDate(semesterDetail.getEndDate());
-//        updateSemester.setStatus(semesterDetail.getStatus());
-        semesterRepository.save(updateSemester);
-        return ResponseEntity.ok(updateSemester);
     }
 
-    //build Delete "MayBe"
-    @DeleteMapping("{id}")
-    public ResponseEntity<HttpStatus> deleteSemester(@PathVariable long id){
-        Semester semester = semesterRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Semester not exist with Id: " + id));
+    //UPDATE SEMESTER Note FE: Just update when Semester has not been started
+    @PutMapping("/update-semester/{semester_id}")
+    public ResponseEntity<Semester> updateSemester(@PathVariable String semester_id,@RequestBody Semester semesterDetail){
+        try {
+            Semester updateSemester = semesterService.updateSemester(semester_id, semesterDetail);
+            return ResponseEntity.ok(updateSemester);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
 
-        semesterRepository.delete(semester);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+//    //BUILD DELETE MAY BE
+//    @DeleteMapping("{id}")
+//    public ResponseEntity<HttpStatus> deleteSemester(@PathVariable long id){
+//        Semester semester = semesterRepository.findById(id)
+//                .orElseThrow(() -> new ResourceNotFoundException("Semester not exist with Id: " + id));
+//
+//        semesterRepository.delete(semester);
+//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//    }
 }

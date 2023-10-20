@@ -39,6 +39,7 @@ public class LecturerService {
            existingLecturer.setEmail(lecturerDetails.getEmail());
            existingLecturer.setStatus(lecturerDetails.isStatus());
        }
+        assert existingLecturer != null;
         return lecturerRepository.save(existingLecturer);
 
     }
