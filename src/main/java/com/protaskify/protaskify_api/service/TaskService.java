@@ -2,8 +2,10 @@ package com.protaskify.protaskify_api.service;
 
 import com.protaskify.protaskify_api.model.enity.*;
 import com.protaskify.protaskify_api.repository.FeatureRepository;
+import com.protaskify.protaskify_api.repository.GroupRepository;
 import com.protaskify.protaskify_api.repository.StudentRepository;
 import com.protaskify.protaskify_api.repository.TaskRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ public class TaskService {
     private final FeatureRepository featureRepository;
     private final TaskRepository taskRepository;
     private final StudentRepository studentRepository;
+    private final GroupRepository groupRepository;
 
 
     public Task createTask(Task task, String studentId, Long featureId) {
@@ -33,7 +36,6 @@ public class TaskService {
         }
         return null;
     }
-
     public Task updateTask(Task updatedTask, String studentId, Long featureId) {
         Optional<Student> studentOptional = studentRepository.findById(studentId);
         if (studentOptional.isPresent()) {
@@ -64,7 +66,15 @@ public class TaskService {
                 } else {
                     List<Task> newStatusTaskList = taskRepository.getTasksByStatus(
                             featureId, student.getGroup().getId(), updatedTask.getStatus());
-                    updatedTask.setTaskIndex(newStatusTaskList.size() + 1);
+//                    updatedTask.setTaskIndex(newStatusTaskList.size() + 1);
+
+                    Iterator<Task> iterator1 = newStatusTaskList.iterator();
+                    while (iterator1.hasNext()) {
+                        Task task = iterator1.next();
+                        if (task.getTaskIndex() >= updatedTask.getTaskIndex()) {
+                            task.setTaskIndex(task.getTaskIndex() + 1);
+                        }
+                    }
                     newStatusTaskList.add(updatedTask);
 
                     List<Task> taskList = taskRepository.getTasksByStatus(
@@ -122,16 +132,4 @@ public class TaskService {
         return taskRepository.findAllTasksOfGroup(classId, groupId);
     }
 
-//    public List<Task> updateIndexTaskDeleteFeature (Long featureId, Long groupId, String status) {
-//        List<Task> taskList = taskRepository.getTasksByStatus(
-//                featureId, groupId, status);
-//        Iterator<Task> iterator = taskList.iterator();
-//        int index = 1;
-//        if (!taskList.isEmpty()) {
-//            for (int i = 0; i < taskList.size(); i++) {
-//                taskList.get(i).setTaskIndex(index++);
-//            }
-//        }
-//        return taskRepository.saveAll(taskList);
-//    }
 }

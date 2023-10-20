@@ -43,12 +43,4 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     @Modifying
     @Query("UPDATE Task t SET t.feature = null WHERE t.feature.id = :featureId")
     void updateFeatureIdForFeatureTasks(Long featureId);
-
-//    @Query(
-//            value = "select t from task t " +
-//                    "join t.student s on s.student_id = t.student_id " +
-//                    "where s.group_id = :groupId or t.feature_id = :featureId " +
-//                    "order by t.task_index asc",
-//            nativeQuery = true)
-//    List<Task> findAllTasksByGroupOrFeature (Long groupId, Long featureId);
 }

@@ -20,7 +20,7 @@ public class FeatureService {
 
     public Feature createFeature(Feature feature) {
         Student student = (Student) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (student != null && student.isLeader()) {
+        if (student != null) {
             Group group = student.getGroup();
             if (group != null ) {
                 feature.setStartDate(feature.getStartDate());
@@ -72,7 +72,7 @@ public class FeatureService {
     }
 
     public List<Feature> getAllFeatures(Long classId, Long groupId) {
-        return featureRepository.findByClassIdAndGroupId(classId, groupId);
+        return featureRepository.findByClassIdAndGroupId (classId, groupId);
     }
 
     public List<Feature> getGroupFeatures() {
