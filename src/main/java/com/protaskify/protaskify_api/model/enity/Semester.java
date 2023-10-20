@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "semester")
+@Table(name = "semesters")
 public class Semester {
     //--------------------Attribute--------------------
     @Id
@@ -32,6 +32,6 @@ public class Semester {
 
 
     //--------------------Relationship--------------------
-    @OneToMany(mappedBy = "semester")
-    private List<Classes> classesList;
+//    @OneToMany(mappedBy = "semester")
+//    private List<Classes> classesList;
 }

@@ -3,6 +3,7 @@ package com.protaskify.protaskify_api.service.semester;
 import com.protaskify.protaskify_api.model.enity.Semester;
 import com.protaskify.protaskify_api.repository.SemesterRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,4 +40,12 @@ private final SemesterRepository semesterRepository;
         return semesterRepository.save(existingSemester);
     }
 
+    //DELETE SEMESTER
+    public Semester deleteSemester(String semester_id){
+        Semester endSemester = semesterRepository.findById(semester_id).orElse(null);
+        if (endSemester != null){
+            semesterRepository.delete(endSemester);
+        }
+        return null;
+    }
 }

@@ -57,13 +57,10 @@ public class SemesterController {
 
     }
 
-//    //BUILD DELETE MAY BE
-//    @DeleteMapping("{id}")
-//    public ResponseEntity<HttpStatus> deleteSemester(@PathVariable long id){
-//        Semester semester = semesterRepository.findById(id)
-//                .orElseThrow(() -> new ResourceNotFoundException("Semester not exist with Id: " + id));
-//
-//        semesterRepository.delete(semester);
-//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//    }
+    //BUILD DELETE MAY BE
+    @DeleteMapping("/delete-semester/{semester_id}")
+    public ResponseEntity<Semester> deleteSemester(@PathVariable String semester_id){
+        semesterService.deleteSemester(semester_id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
