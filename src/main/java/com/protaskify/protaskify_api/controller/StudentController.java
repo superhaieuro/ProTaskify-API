@@ -38,4 +38,13 @@ public class StudentController {
         studentRepository.save(student);
         return ResponseEntity.ok(null);
     }
+
+    @PutMapping("/cancelGroup")
+    public ResponseEntity<?> cancelGroupStudent(@RequestParam String groupID)
+    {
+        Group group = groupRepository.findById(groupID).get();
+        studentRepository.removeAll(group.getStudents());
+        groupRepository.remove(group);
+        return ResponseEntity.ok(null);
+    }
 }
