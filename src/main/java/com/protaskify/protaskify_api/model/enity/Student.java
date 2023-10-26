@@ -45,7 +45,7 @@ public class Student implements UserDetails {
     private Double score;
 
     @Column(columnDefinition = "BIT")
-    private boolean status = true;
+    private boolean status = false;
 
     @Column(columnDefinition = "BIT")
     private boolean isLeader;

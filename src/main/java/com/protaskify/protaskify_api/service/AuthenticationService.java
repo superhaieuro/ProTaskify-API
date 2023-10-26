@@ -67,6 +67,7 @@ public class AuthenticationService {
             if (user.isPresent()) {
                 //Update picture
                 user.get().setPicture(userData.get("picture").getAsString());
+                user.get().setStatus(true);
                 studentRepository.save(user.get());
                 authenticationResponse = AuthenticationResponse.builder()
                         .token(jwtService.generateToken(user.get()))
