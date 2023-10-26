@@ -52,13 +52,13 @@ public class AuthenticationService {
                 lecturerRepository.save(user.get());
                 authenticationResponse = AuthenticationResponse.builder()
                         .token(jwtService.generateToken(user.get()))
-                        .userInfo(
-                                Lecturer.builder()
-                                        .id(user.get().getId())
-                                        .name(user.get().getName())
-                                        .email(user.get().getEmail())
-                                        .picture(userData.get("picture").getAsString())
-                                        .build()
+                        .userInfo(user
+//                                Lecturer.builder()
+//                                        .id(user.get().getId())
+//                                        .name(user.get().getName())
+//                                        .email(user.get().getEmail())
+//                                        .picture(userData.get("picture").getAsString())
+//                                        .build()
                         )
                         .build();
             }
@@ -70,13 +70,13 @@ public class AuthenticationService {
                 studentRepository.save(user.get());
                 authenticationResponse = AuthenticationResponse.builder()
                         .token(jwtService.generateToken(user.get()))
-                        .userInfo(
-                                Student.builder()
-                                        .id(user.get().getId())
-                                        .name(user.get().getName())
-                                        .email(user.get().getEmail())
-                                        .picture(userData.get("picture").getAsString())
-                                        .build()
+                        .userInfo(user
+//                                Student.builder()
+//                                        .id(user.get().getId())
+//                                        .name(user.get().getName())
+//                                        .email(user.get().getEmail())
+//                                        .picture(userData.get("picture").getAsString())
+//                                        .build()
                         )
                         .build();
             }

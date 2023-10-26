@@ -29,7 +29,7 @@ public class Group {
 
     //--------------------Relationship--------------------
     @ManyToOne
-    @JsonIgnore
+//    @JsonIgnore
     @JoinColumn(name = "project_id")
     private Project project;
 

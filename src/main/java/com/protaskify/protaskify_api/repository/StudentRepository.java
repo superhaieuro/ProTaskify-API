@@ -36,4 +36,7 @@ public interface StudentRepository extends JpaRepository<Student, String> {
     List<Student> findStudentByGroupId(@Param("classId") Long classId, @Param("groupId") Long groupId);
 
     Student findStudentById(String studentId);
+
+    @Query("SELECT st FROM Student st JOIN Group g ON st.group.id = g.id WHERE st.group.id = :groupId AND st.isLeader = TRUE ")
+    Student findLeaderByGroupId(Long groupId);
 }

@@ -1,5 +1,6 @@
 package com.protaskify.protaskify_api.model.enity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,27 +20,31 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "project_name", columnDefinition = "VARCHAR(50)")
+    @Column(name = "project_name", columnDefinition = "NVARCHAR(255)")
     private String name;
 
     @Column(columnDefinition = "BIT")
     private boolean status;
 
-    @Column(columnDefinition = "VARCHAR(MAX)")
+    @Column(columnDefinition = "NVARCHAR(MAX)")
     private String problems;
 
-    @Column(columnDefinition = "VARCHAR(MAX)")
+    @Column(columnDefinition = "NVARCHAR(MAX)")
     private String context;
 
-    @Column(columnDefinition = "VARCHAR(MAX)")
+    @Column(columnDefinition = "NVARCHAR(MAX)")
+    private String actors;
+
+    @Column(columnDefinition = "NVARCHAR(MAX)")
     private String functionalRequirements;
 
-    @Column(columnDefinition = "VARCHAR(MAX)")
+    @Column(columnDefinition = "NVARCHAR(MAX)")
     private String nonFunctionalRequirements;
 
 
     //--------------------Relationship--------------------
     @OneToMany(mappedBy = "project")
+    @JsonIgnore
     private List<Group> groupList;
 
 }

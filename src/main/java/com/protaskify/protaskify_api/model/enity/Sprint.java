@@ -29,8 +29,11 @@ public class Sprint {
     @Column(columnDefinition = "DATE")
     private Date endDate;
 
-    @Column(columnDefinition = "VARCHAR(25)")
-    private String feedback;
+    @Column(columnDefinition = "NVARCHAR(MAX)")
+    private String note;
+
+    @Column(columnDefinition = "NVARCHAR(MAX)")
+    private String feedback = "No feedback is available yet.";
 
     @Column(columnDefinition = "BIT")
     private boolean status;

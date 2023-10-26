@@ -1,15 +1,12 @@
 package com.protaskify.protaskify_api.controller;
 
 import com.protaskify.protaskify_api.model.enity.*;
-import com.protaskify.protaskify_api.service.FeatureService;
-import com.protaskify.protaskify_api.service.TaskService;
+import com.protaskify.protaskify_api.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.protaskify.protaskify_api.repository.MessagesRepository;
 import com.protaskify.protaskify_api.repository.StudentRepository;
-import com.protaskify.protaskify_api.service.MessageService;
-import com.protaskify.protaskify_api.service.SemesterService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +28,8 @@ public class CommonController {
     private final SemesterService semesterService;
     private final FeatureService featureService;
     private final TaskService taskService;
+    private final GroupService groupService;
+    private final ProjectService projectService;
 
     private final MessagesRepository messagesRepository;
     private final StudentRepository studentRepository;
@@ -107,6 +106,33 @@ public class CommonController {
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+
+    //--------------------Group--------------------
+    @GetMapping("/get-group")
+    public ResponseEntity<Group> getGroup(@RequestParam("userId") String userId, @RequestParam("role") String role,
+                                          @RequestParam(name = "classId", required = false) Long classId,
+                                          @RequestParam(name = "groupId", required = false) Long groupId) {
+        try {
+            Group group;
+            if (role.equals("STUDENT")) {
+                Student student = studentRepository.findStudentById(userId);
+                group = groupService.getGroup(student.getGroup().getId());
+            } else {
+                group = groupService.getGroup(groupId);
+            }
+            return ResponseEntity.ok(group);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+    //--------------------Project--------------------
+    @GetMapping("/get-all-topic")
+    public ResponseEntity<List<Project>> getAllActiveTopic() {
+        return ResponseEntity.ok(projectService.getAllProjectByStatus(true));
     }
 }
 

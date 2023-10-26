@@ -1,14 +1,8 @@
 package com.protaskify.protaskify_api.controller;
 
-import com.protaskify.protaskify_api.model.enity.Feature;
-import com.protaskify.protaskify_api.model.enity.Sprint;
-import com.protaskify.protaskify_api.model.enity.Student;
-import com.protaskify.protaskify_api.model.enity.Task;
+import com.protaskify.protaskify_api.model.enity.*;
 import com.protaskify.protaskify_api.model.request.StudentSettingRequest;
-import com.protaskify.protaskify_api.service.FeatureService;
-import com.protaskify.protaskify_api.service.SprintService;
-import com.protaskify.protaskify_api.service.StudentService;
-import com.protaskify.protaskify_api.service.TaskService;
+import com.protaskify.protaskify_api.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,13 +22,24 @@ public class StudentController {
     private final SprintService sprintService;
     private final StudentService studentService;
     private final TaskService taskService;
+    private final GroupService groupService;
 
 
     //--------------------Sprint--------------------
+//    @GetMapping("/sprint/{studentId}")
+//    public ResponseEntity<Sprint> getSprints(@PathVariable String studentId) {
+//        try {
+//            Sprint sprint = sprintService.findLatestSprintByStudentId(studentId);
+//            return ResponseEntity.ok(sprint);
+//        } catch (Exception e) {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
+
     @GetMapping("/sprint/{studentId}")
-    public ResponseEntity<Sprint> getSprints(@PathVariable String studentId) {
+    public ResponseEntity<List<Sprint>> getSprints(@PathVariable String studentId) {
         try {
-            Sprint sprint = sprintService.findLatestSprintByStudentId(studentId);
+            List<Sprint> sprint = sprintService.findSprintListByStudentId(studentId);
             return ResponseEntity.ok(sprint);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
@@ -101,7 +106,9 @@ public class StudentController {
     public ResponseEntity<Task> updateTask (@RequestBody Task updatedTask, @PathVariable String studentId,
                                             @PathVariable Long featureId) {
             Task editedTask = taskService.updateTask(updatedTask, studentId, featureId);
-            featureService.setStatusFeature(updatedTask, featureId);
+            if (featureId != 0) {
+                featureService.setStatusFeature(updatedTask, featureId);
+            }
             return ResponseEntity.ok(editedTask);
     }
 
@@ -113,7 +120,7 @@ public class StudentController {
     }
 
 
-    //--------------------Setting--------------------
+    //--------------------Student--------------------
     @PutMapping("/update-student-info")
     public ResponseEntity<Student> updateStudentInfo(@RequestBody StudentSettingRequest request) {
         try {
@@ -124,9 +131,15 @@ public class StudentController {
         }
     }
 
-//    @GetMapping("/get-task/{featureId}/{status}")
-//    public ResponseEntity<List<Task>> getTasksByStatus (@PathVariable Long featureId, @PathVariable String status) {
-//        List<Task> getTasksByStatus = taskService.getTasksByStatus(featureId, status);
-//        return ResponseEntity.ok(getTasksByStatus);
-//    }
+
+    //--------------------Group--------------------
+    @PutMapping("/update-group-info/{oldLeaderId}/{newLeaderId}/{groupName}")
+    public void updateGroupInfo(@PathVariable String oldLeaderId, @PathVariable String newLeaderId, @PathVariable String groupName) {
+        groupService.updateGroupInfo(oldLeaderId, newLeaderId, groupName);
+    }
+
+    @PutMapping("/update-group-topic/{studentId}/{projectId}")
+    public void updateGroupTopic(@PathVariable String studentId, @PathVariable Long projectId) {
+        groupService.updateGroupProject(studentId, projectId);
+    }
 }

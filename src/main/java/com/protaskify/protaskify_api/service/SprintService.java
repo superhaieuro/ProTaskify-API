@@ -4,6 +4,8 @@ import com.protaskify.protaskify_api.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class SprintService {
@@ -14,6 +16,17 @@ public class SprintService {
         if (student != null) {
             Sprint sprint = sprintRepository.findSprintByStudentId(studentId);
             if (sprint != null && sprint.getClasses().getId().equals(student.getClasses().getId())) {
+                return sprint;
+            }
+        }
+        return null;
+    }
+
+    public List<Sprint> findSprintListByStudentId(String studentId) {
+        Student student = studentRepository.findStudentById(studentId);
+        if (student != null) {
+            List<Sprint> sprint = sprintRepository.findSprintListByStudentId(studentId);
+            if (sprint != null) {
                 return sprint;
             }
         }

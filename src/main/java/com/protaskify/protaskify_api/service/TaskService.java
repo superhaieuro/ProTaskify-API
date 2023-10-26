@@ -123,11 +123,6 @@ public class TaskService {
         }
     }
 
-//    public List<Task> getTasksByStatus (Long featureId, String status) {
-//        List<Task> taskList = taskRepository.getTasksByStatus(featureId, status);
-//        return taskList;
-//    }
-
     public List<Task> getAllTasksOfGroup (Long classId, Long groupId) {
         return taskRepository.findAllTasksOfGroup(classId, groupId);
     }
