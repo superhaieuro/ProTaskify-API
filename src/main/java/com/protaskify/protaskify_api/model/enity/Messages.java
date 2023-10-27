@@ -32,6 +32,8 @@ public class Messages {
 
 
     //--------------------Relationship--------------------
+//    private String lecturerId;
+//    private String studentId;
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "lecturer_id")

@@ -1,6 +1,8 @@
 package com.protaskify.protaskify_api.controller;
 
 import com.protaskify.protaskify_api.model.enity.*;
+import com.protaskify.protaskify_api.model.request.SendMessageRequest;
+import com.protaskify.protaskify_api.repository.LecturerRepository;
 import com.protaskify.protaskify_api.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -33,6 +35,7 @@ public class CommonController {
 
     private final MessagesRepository messagesRepository;
     private final StudentRepository studentRepository;
+    private final LecturerRepository lecturerRepository;
 
 
     //--------------------Common--------------------
@@ -44,10 +47,18 @@ public class CommonController {
 
     //--------------------Message--------------------
     @MessageMapping("/room")
-    public void sendMessage(Messages messages) {
-        String toId = messages.getLecturer().toString();
-        if (messages.getFromId().equals(messages.getLecturer())) {
-            toId = messages.getStudent().toString();
+    public void sendMessage(@RequestBody SendMessageRequest request) {
+        Messages messages = Messages.builder()
+                .content(request.getContent())
+                .lecturer(lecturerRepository.findById(request.getLecturerId()).get())
+                .student(studentRepository.findById(request.getStudentId()).get())
+                .date(request.getDate())
+                .fromId(request.getFromId())
+                .status(false)
+                .build();
+        String toId = request.getLecturerId();
+        if (request.getFromId().equals(request.getStudentId())) {
+            toId = request.getStudentId();
         }
         simpMessagingTemplate.convertAndSendToUser(toId, "/topic/room", messages);
         simpMessagingTemplate.convertAndSend(messageService.saveMessageFromJSON(messages), messages);
@@ -62,10 +73,9 @@ public class CommonController {
     }
 
     @GetMapping("/message-list")
-    public List<Messages> getMessage(@RequestParam("pageNo") int pageNo, @RequestParam("pageSize") int pageSize) {
-        List<Messages> messages = new ArrayList<>();
-        messages.addAll(messagesRepository.findAll(PageRequest.of(pageNo, pageSize)).getContent());
-        return messages;
+    public ResponseEntity<List<?>> getMessagesInfo(@RequestParam("lecturerId") String lecturerId) {
+        String semesterId = semesterService.getActiveSemester().getId();
+        return ResponseEntity.ok(studentRepository.getMessagesInfo(semesterId, lecturerId));
     }
 
 

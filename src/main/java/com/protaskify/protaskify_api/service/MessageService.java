@@ -16,19 +16,19 @@ public class MessageService {
     private final LecturerRepository lecturerRepository;
     private final StudentRepository studentRepository;
 
-    public String saveMessageFromJSON(Messages messages){
+    public String saveMessageFromJSON(Messages messages) {
         messagesRepository.save(messages);
         return messages.getContent();
     }
 
-    public Messages getMessageInfo(SendMessageRequest request) {
-        return new Messages().builder()
-                .content(request.getContent())
-                .lecturer(lecturerRepository.findById(request.getLecturerId()).get())
-                .student(studentRepository.findById(request.getStudentId()).get())
-                .date(request.getDate())
-                .fromId(request.getFromId())
-                .status(false)
-                .build();
-    }
+//    public Messages getMessageInfo(SendMessageRequest request) {
+//        return new Messages().builder()
+//                .content(request.getContent())
+//                .lecturer(lecturerRepository.findById(request.getLecturerId()).get())
+//                .student(studentRepository.findById(request.getStudentId()).get())
+//                .date(request.getDate())
+//                .fromId(request.getFromId())
+//                .status(false)
+//                .build();
+//    }
 }
