@@ -4,6 +4,7 @@ import com.protaskify.protaskify_api.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -11,6 +12,7 @@ import java.util.List;
 public class SprintService {
     private final SprintRepository sprintRepository;
     private final StudentRepository studentRepository;
+    private final ClassesRepository classesRepository;
     public Sprint findLatestSprintByStudentId(String studentId) {
         Student student = studentRepository.findStudentById(studentId);
         if (student != null) {
@@ -31,5 +33,30 @@ public class SprintService {
             }
         }
         return null;
+    }
+
+    public Sprint createSprint(Long classId, Sprint sprint) {
+        Classes existingClass = classesRepository.findById(classId).orElse(null);
+        if (existingClass != null) {
+            sprint.setClasses(existingClass);
+            return sprintRepository.save(sprint);
+        }
+        return null;
+    }
+
+    public Sprint updateSprint(Long sprintId, Sprint sprintUpdates) {
+        Sprint existingSprint = sprintRepository.findById(sprintId).orElse(null);
+        if (existingSprint != null) {
+            existingSprint.setName(sprintUpdates.getName());
+            existingSprint.setStartDate(sprintUpdates.getStartDate());
+            existingSprint.setEndDate(sprintUpdates.getEndDate());
+            existingSprint.setNote(sprintUpdates.getNote());
+            return sprintRepository.save(existingSprint);
+        }
+        return null;
+    }
+
+    public List<Sprint> getAllSprintsByClass(Long classId) {
+        return sprintRepository.findByClassesId(classId);
     }
 }

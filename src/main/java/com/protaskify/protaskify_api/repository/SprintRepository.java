@@ -19,4 +19,6 @@ public interface SprintRepository extends JpaRepository<Sprint, Long> {
             " JOIN Student st ON st.classes.id = s.classes.id"+
             " WHERE st.id= :studentId ORDER BY s.endDate DESC")
     List<Sprint> findSprintListByStudentId(String studentId);
+
+    List<Sprint> findByClassesId(Long classId);
 }

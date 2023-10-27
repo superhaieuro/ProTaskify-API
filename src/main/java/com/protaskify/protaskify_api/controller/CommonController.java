@@ -32,10 +32,12 @@ public class CommonController {
     private final TaskService taskService;
     private final GroupService groupService;
     private final ProjectService projectService;
+    private final SprintService sprintService;
 
     private final MessagesRepository messagesRepository;
     private final StudentRepository studentRepository;
     private final LecturerRepository lecturerRepository;
+
 
 
     //--------------------Common--------------------
@@ -143,6 +145,22 @@ public class CommonController {
     @GetMapping("/get-all-topic")
     public ResponseEntity<List<Project>> getAllActiveTopic() {
         return ResponseEntity.ok(projectService.getAllProjectByStatus(true));
+    }
+
+
+    //--------------------Sprint--------------------
+    @GetMapping("/view-sprint/{classId}")
+    public ResponseEntity<List<Sprint>> getSprintsByClass(@PathVariable Long classId) {
+        List<Sprint> sprints = sprintService.getAllSprintsByClass(classId);
+        return ResponseEntity.ok(sprints);
+    }
+
+
+    //--------------------Student--------------------
+    @GetMapping("/without-group/{classId}")
+    public ResponseEntity<List<Student>> getStudentsWithNullGroupId(@PathVariable Long classId) {
+        List<Student> students =  studentRepository.findStudentsWithNullGroupId(classId);
+        return ResponseEntity.ok(students);
     }
 }
 
