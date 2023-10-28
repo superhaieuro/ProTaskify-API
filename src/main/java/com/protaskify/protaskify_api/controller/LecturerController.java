@@ -114,4 +114,12 @@ public class LecturerController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @DeleteMapping("/delete-group")
+    public ResponseEntity<String> deleteGroupOfClass(
+            @RequestParam Long groupId,
+            @RequestParam Long classId
+    ) {
+        return lecturerService.deleteGroupOfClass(groupId, classId);
+    }
 }

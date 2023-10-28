@@ -4,6 +4,7 @@ import com.protaskify.protaskify_api.model.enity.*;
 import com.protaskify.protaskify_api.model.request.ImportStudentListRequest;
 import com.protaskify.protaskify_api.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -79,21 +80,11 @@ public class LecturerService {
 
     public Group createGroup(Long classId, String groupName, List<String> studentListWithOutGroup, String leaderId) {
         Classes classes = classesRepository.findById(classId).orElse(null);
-
         if (classes != null) {
-            // Tạo một thực thể Group và lưu nó
             Group newGroup = new Group();
             newGroup.setName(groupName);
             newGroup.setClasses(classes);
-
-            newGroup = groupRepository.save(newGroup); // Lưu Group
-
-            Student leader = studentRepository.findById(leaderId).orElse(null);
-            if (leader != null) {
-                leader.setLeader(true); // Đặt isLeader thành true
-                leader.setGroup(newGroup); // Gán nhóm mới cho leader
-                studentRepository.save(leader); // Lưu thông tin leader
-            }
+            newGroup = groupRepository.save(newGroup);
 
             if (!studentListWithOutGroup.isEmpty()) {
                 List<Student> studentsToAdd = studentRepository.findAllById(studentListWithOutGroup);
@@ -104,9 +95,31 @@ public class LecturerService {
                 newGroup.setStudentList(studentsToAdd);
             }
 
+            Student leader = studentRepository.findById(leaderId).orElse(null);
+            if (leader != null) {
+                leader.setLeader(true);
+                studentRepository.save(leader); // Lưu thông tin leader
+            }
             return newGroup;
         }
         return null;
     }
 
+
+    public ResponseEntity<String> deleteGroupOfClass(Long groupId, Long classId) {
+        Group group = groupRepository.findById(groupId).orElse(null);
+        Classes classes = classesRepository.findById(classId).orElse(null);
+
+        if (group != null && classes != null) {
+            List<Student> studentsInGroup = group.getStudentList();
+
+            for (Student student : studentsInGroup) {
+                student.setGroup(null);
+                student.setLeader(false);
+            }
+            studentRepository.saveAll(studentsInGroup);
+            groupRepository.deleteById(groupId);
+        }
+        return null;
+    }
 }
