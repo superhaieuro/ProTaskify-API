@@ -83,13 +83,13 @@ public class LecturerController {
 
 
     //--------------------Feedback--------------------
-    @PostMapping("/create-feedback")
-    public ResponseEntity<Feedback> createFeedback(
-            @RequestParam Long sprintId,
+    @PutMapping("/update-feedback")
+    public ResponseEntity<Feedback> updateFeedback(
             @RequestParam Long groupId,
+            @RequestParam Long feedbackId,
             @RequestParam String feedbackText
     ) {
-        Feedback feedback = lecturerService.createFeedback(sprintId, groupId, feedbackText);
+        Feedback feedback = lecturerService.updateFeedback(groupId, feedbackId, feedbackText);
         if (feedback != null) {
             return ResponseEntity.ok(feedback);
         } else {
