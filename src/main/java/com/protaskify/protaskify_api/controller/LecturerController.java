@@ -22,7 +22,6 @@ public class LecturerController {
     private final SprintService sprintService;
 
 
-
     //--------------------Student--------------------
     @PostMapping("/import-student")
     public void importStudent(@RequestBody ImportStudentListRequest request) {
@@ -60,8 +59,8 @@ public class LecturerController {
 
     //--------------------Sprint--------------------
     @PostMapping("/create-sprint/{classId}")
-    public ResponseEntity<Sprint> createSprint( @PathVariable Long classId,@RequestBody Sprint sprint) {
-        Sprint newSprint = sprintService.createSprint(classId,sprint);
+    public ResponseEntity<Sprint> createSprint(@PathVariable Long classId, @RequestBody Sprint sprint) {
+        Sprint newSprint = sprintService.createSprint(classId, sprint);
         if (newSprint != null) {
             return ResponseEntity.ok(newSprint);
         } else {
@@ -107,7 +106,7 @@ public class LecturerController {
             @RequestParam List<String> studentListWithOutGroup,
             @RequestParam String leaderId
     ) {
-        Group newGroup = lecturerService.createGroup(classId,groupName, studentListWithOutGroup,leaderId);
+        Group newGroup = lecturerService.createGroup(classId, groupName, studentListWithOutGroup, leaderId);
         if (newGroup != null) {
             return ResponseEntity.ok(newGroup);
         } else {

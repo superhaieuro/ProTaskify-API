@@ -39,7 +39,6 @@ public class CommonController {
     private final LecturerRepository lecturerRepository;
 
 
-
     //--------------------Common--------------------
     @GetMapping("/get-active-semester")
     public ResponseEntity<Semester> getActiveSemester() {
@@ -159,7 +158,7 @@ public class CommonController {
     //--------------------Student--------------------
     @GetMapping("/without-group/{classId}")
     public ResponseEntity<List<Student>> getStudentsWithNullGroupId(@PathVariable Long classId) {
-        List<Student> students =  studentRepository.findStudentsWithNullGroupId(classId);
+        List<Student> students = studentRepository.findStudentsWithNullGroupId(classId);
         return ResponseEntity.ok(students);
     }
 }

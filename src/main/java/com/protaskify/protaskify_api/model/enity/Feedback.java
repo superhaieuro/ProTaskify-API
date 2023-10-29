@@ -20,8 +20,7 @@ public class Feedback {
     private Long id;
 
     @Column(columnDefinition = "NVARCHAR(MAX)")
-    private String feedback = "No feedback is available yet.";
-
+    private String feedback;
 
 
     //--------------------Relationship--------------------
@@ -34,5 +33,4 @@ public class Feedback {
     @JsonIgnore
     @JoinColumn(name = "group_id")
     private Group group;
-
 }

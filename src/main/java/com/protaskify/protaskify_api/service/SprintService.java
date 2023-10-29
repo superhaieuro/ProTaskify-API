@@ -1,11 +1,13 @@
 package com.protaskify.protaskify_api.service;
+
 import com.protaskify.protaskify_api.model.enity.*;
 import com.protaskify.protaskify_api.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -13,6 +15,7 @@ public class SprintService {
     private final SprintRepository sprintRepository;
     private final StudentRepository studentRepository;
     private final ClassesRepository classesRepository;
+
     public Sprint findLatestSprintByStudentId(String studentId) {
         Student student = studentRepository.findStudentById(studentId);
         if (student != null) {
@@ -57,6 +60,9 @@ public class SprintService {
     }
 
     public List<Sprint> getAllSprintsByClass(Long classId) {
-        return sprintRepository.findByClassesId(classId);
+        return sprintRepository.findByClassesId(classId)
+                .stream()
+                .sorted(Comparator.comparing(Sprint::getEndDate, Comparator.reverseOrder()))
+                .collect(Collectors.toList());
     }
 }

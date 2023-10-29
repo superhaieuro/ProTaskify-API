@@ -26,16 +26,6 @@ public class StudentController {
 
 
     //--------------------Sprint--------------------
-//    @GetMapping("/sprint/{studentId}")
-//    public ResponseEntity<Sprint> getSprints(@PathVariable String studentId) {
-//        try {
-//            Sprint sprint = sprintService.findLatestSprintByStudentId(studentId);
-//            return ResponseEntity.ok(sprint);
-//        } catch (Exception e) {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
-
     @GetMapping("/sprint/{studentId}")
     public ResponseEntity<List<Sprint>> getSprints(@PathVariable String studentId) {
         try {
@@ -98,25 +88,25 @@ public class StudentController {
     @PostMapping("/create-task/{studentId}/{featureId}")
     public ResponseEntity<Task> createTask(@RequestBody Task task, @PathVariable String studentId,
                                            @PathVariable Long featureId) {
-            Task createTask = taskService.createTask(task, studentId, featureId);
-            return ResponseEntity.ok(createTask);
+        Task createTask = taskService.createTask(task, studentId, featureId);
+        return ResponseEntity.ok(createTask);
     }
 
     @PutMapping("/update-task/{studentId}/{featureId}")
-    public ResponseEntity<Task> updateTask (@RequestBody Task updatedTask, @PathVariable String studentId,
-                                            @PathVariable Long featureId) {
-            Task editedTask = taskService.updateTask(updatedTask, studentId, featureId);
-            if (featureId != 0) {
-                featureService.setStatusFeature(updatedTask, featureId);
-            }
-            return ResponseEntity.ok(editedTask);
+    public ResponseEntity<Task> updateTask(@RequestBody Task updatedTask, @PathVariable String studentId,
+                                           @PathVariable Long featureId) {
+        Task editedTask = taskService.updateTask(updatedTask, studentId, featureId);
+        if (featureId != 0) {
+            featureService.setStatusFeature(updatedTask, featureId);
+        }
+        return ResponseEntity.ok(editedTask);
     }
 
     @DeleteMapping("/delete-task/{taskId}/{studentId}/{featureId}")
-    public ResponseEntity<Task> deleteTask (@PathVariable Long taskId, @PathVariable String studentId,
-                                            @PathVariable Long featureId) {
-            taskService.deleteTask(taskId, studentId, featureId);
-            return ResponseEntity.noContent().build();
+    public ResponseEntity<Task> deleteTask(@PathVariable Long taskId, @PathVariable String studentId,
+                                           @PathVariable Long featureId) {
+        taskService.deleteTask(taskId, studentId, featureId);
+        return ResponseEntity.noContent().build();
     }
 
 
