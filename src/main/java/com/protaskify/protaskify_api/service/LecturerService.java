@@ -64,6 +64,19 @@ public class LecturerService {
     }
 
 
+    public Feedback createFeedback(Long sprintId, Long groupId, String feedbackText) {
+        Sprint sprint = sprintRepository.findById(sprintId).orElse(null);
+        Group group =  groupRepository.findById(groupId).orElse(null);
+        if (sprint != null && group != null) {
+            Feedback feedback = new Feedback();
+            feedback.setSprint(sprint);
+            feedback.setGroup(group);
+            feedback.setFeedback(feedbackText);
+            return feedbackRepository.save(feedback);
+        }
+        return null;
+    }
+
     public Feedback updateFeedback(Long groupId,Long feedbackId, String feedbackText) {
         Group group = groupRepository.findById(groupId).orElse(null);
         Feedback feedback = feedbackRepository.findById(feedbackId).orElse(null);
