@@ -2,6 +2,8 @@ package com.protaskify.protaskify_api.controller;
 
 import com.protaskify.protaskify_api.model.enity.*;
 import com.protaskify.protaskify_api.model.request.StudentSettingRequest;
+import com.protaskify.protaskify_api.repository.ClassesRepository;
+import com.protaskify.protaskify_api.repository.StudentRepository;
 import com.protaskify.protaskify_api.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,9 @@ public class StudentController {
     private final TaskService taskService;
     private final GroupService groupService;
     private final InvitationService invitationService;
+
+    private final StudentRepository studentRepository;
+    private final ClassesRepository classesRepository;
 
 
     //--------------------Sprint--------------------
@@ -96,6 +101,13 @@ public class StudentController {
         }
     }
 
+    @GetMapping("/get-class/{studentId}")
+    public ResponseEntity<Classes> getClass(@PathVariable("studentId") String studentId) {
+        Student student = studentRepository.findStudentById(studentId);
+        Classes classes = classesRepository.findById(student.getClasses().getId()).get();
+        return ResponseEntity.ok(classes);
+    }
+
     @PostMapping("/create-task/{studentId}/{featureId}")
     public ResponseEntity<Task> createTask(@RequestBody Task task, @PathVariable String studentId,
                                            @PathVariable Long featureId) {
@@ -145,7 +157,7 @@ public class StudentController {
     }
 
     @PostMapping("/create-group/{studentId}")
-    public void createGroup (@RequestBody Group group, @RequestBody String studentId){
+    public void createGroup (@RequestBody Group group, @PathVariable String studentId){
         groupService.createGroup(group, studentId);
     }
 

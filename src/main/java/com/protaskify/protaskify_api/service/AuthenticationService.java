@@ -79,6 +79,7 @@ public class AuthenticationService {
 //                                        .picture(userData.get("picture").getAsString())
 //                                        .build()
                         )
+                        .isInGroup(user.get().getGroup() != null && user.get().getGroup().isStatus())
                         .build();
             }
         }
