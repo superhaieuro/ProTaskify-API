@@ -174,4 +174,9 @@ public class StudentController {
     public void deleteInvitation(@PathVariable Long invitationId){
         invitationService.deleteInvitation(invitationId);
     }
+
+    @PutMapping("/accpet-invitation/{invitationId}/{studentId}")
+    public ResponseEntity<Boolean> acceptInvitation(@PathVariable Long invitationId, @PathVariable String studentId){
+        return  ResponseEntity.ok(invitationService.acceptInvitation(invitationId, studentId));
+    }
 }

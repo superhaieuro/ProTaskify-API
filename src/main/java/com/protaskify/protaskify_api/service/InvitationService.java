@@ -39,4 +39,16 @@ public class InvitationService {
         }
         invitationRepository.delete(invitation);
     }
+
+    //Method này để kiểm tra student có trong gr tạm nào chưa
+    public boolean acceptInvitation(Long invitationId, String studentId){
+        Student student = studentRepository.findStudentById(studentId);
+        Invitation invitation = invitationRepository.findInvitationById(invitationId);
+        Group group = invitation.getGroup();
+            if(student.getGroup() == null){
+                student.setGroup(group);
+                return true;
+            }
+        return false;
+    }
 }
