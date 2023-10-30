@@ -11,6 +11,8 @@ import com.protaskify.protaskify_api.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class GroupService {
@@ -51,8 +53,14 @@ public class GroupService {
         groupRepository.save(group);
     }
 
-    public void deleteGroup(Long id) {
-        Group group = groupRepository.getById(id);
+    public void deleteGroup(Long groupId, Long classId) {
+        List<Student> studentList = studentRepository.findStudentByGroupId(classId, groupId);
+        for (Student s: studentList) {
+            if (s.isLeader())
+                s.setLeader(false);
+            s.setGroup(null);
+        }
+        Group group = groupRepository.getById(groupId);
         if (group != null)
             groupRepository.delete(group);
     }

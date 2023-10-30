@@ -149,9 +149,9 @@ public class StudentController {
         groupService.createGroup(group, studentId);
     }
 
-    @DeleteMapping("delete-group/{groupId}")
-    public void deleteGroup(@PathVariable Long groupId){
-        groupService.deleteGroup(groupId);
+    @DeleteMapping("delete-group/{groupId}/{classId}")
+    public void deleteGroup(@PathVariable Long groupId, @PathVariable Long classId){
+        groupService.deleteGroup(groupId, classId);
     }
 
     @PutMapping("out-group/{studentId}")
