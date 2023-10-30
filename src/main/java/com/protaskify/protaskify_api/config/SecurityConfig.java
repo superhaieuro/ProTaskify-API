@@ -25,6 +25,8 @@ public class SecurityConfig {
                 .cors().and()
                 .authorizeHttpRequests().requestMatchers("/api/v1/auth/**", "/api/v1/common/**", "/web-socket/**").permitAll()
                 .and()
+                .authorizeHttpRequests().requestMatchers("/api/v1/admin/**").hasAuthority("ADMIN")
+                .and()
                 .authorizeHttpRequests().requestMatchers("/api/v1/student/**").hasAuthority("STUDENT")
                 .and()
                 .authorizeHttpRequests().requestMatchers("/api/v1/lecturer/**").hasAuthority("LECTURER")
