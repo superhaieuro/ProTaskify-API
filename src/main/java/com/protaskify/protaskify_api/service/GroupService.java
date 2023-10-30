@@ -1,9 +1,11 @@
 package com.protaskify.protaskify_api.service;
 
 import com.protaskify.protaskify_api.model.enity.Group;
+import com.protaskify.protaskify_api.model.enity.Invitation;
 import com.protaskify.protaskify_api.model.enity.Project;
 import com.protaskify.protaskify_api.model.enity.Student;
 import com.protaskify.protaskify_api.repository.GroupRepository;
+import com.protaskify.protaskify_api.repository.InvitationRepository;
 import com.protaskify.protaskify_api.repository.ProjectRepository;
 import com.protaskify.protaskify_api.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class GroupService {
-    private  final GroupRepository groupRepository;
+    private final GroupRepository groupRepository;
     private final StudentRepository studentRepository;
     private final ProjectRepository projectRepository;
 
@@ -40,5 +42,23 @@ public class GroupService {
         Project project = projectRepository.getById(projectId);
         group.setProject(project);
         groupRepository.save(group);
+    }
+
+    public void createGroup(Group group) {
+        groupRepository.save(group);
+    }
+
+    public void deleteGroup(Long id) {
+        Group group = groupRepository.getById(id);
+        if (group != null)
+            groupRepository.delete(group);
+    }
+
+    public void outGroup(String studentId) {
+        Student student = studentRepository.findStudentById(studentId);
+        if (student != null) {
+            student.setGroup(null);
+        }
+        studentRepository.save(student);
     }
 }

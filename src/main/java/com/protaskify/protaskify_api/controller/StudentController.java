@@ -23,6 +23,7 @@ public class StudentController {
     private final StudentService studentService;
     private final TaskService taskService;
     private final GroupService groupService;
+    private final InvitationService invitationService;
 
 
     //--------------------Sprint--------------------
@@ -141,5 +142,36 @@ public class StudentController {
     @PutMapping("/update-group-topic/{studentId}/{projectId}")
     public void updateGroupTopic(@PathVariable String studentId, @PathVariable Long projectId) {
         groupService.updateGroupProject(studentId, projectId);
+    }
+
+    @PostMapping("/create-group")
+    public void createGroup (@RequestBody Group group){
+        groupService.createGroup(group);
+    }
+
+    @DeleteMapping("delete-group/{groupId}")
+    public void deleteGroup(@PathVariable Long groupId){
+        groupService.deleteGroup(groupId);
+    }
+
+    @PutMapping("out-group/{studentId}")
+    public void outGroup(@PathVariable String studentId){
+        groupService.outGroup(studentId);
+    }
+
+    @PostMapping("invite/{groupId}/{studentId}")
+    public void invite(@RequestBody Invitation invitation, @PathVariable Long groupId,
+                       @PathVariable String studentId){
+
+        invitationService.invite(invitation, groupId, studentId);
+    }
+
+    @GetMapping("/get-invite/{studentId}")
+    public ResponseEntity<List<Invitation>> getInvitations(@PathVariable String studentId){
+        return ResponseEntity.ok(invitationService.getInvitations(studentId));
+    }
+    @DeleteMapping("delete-invitation/{invitationId}")
+    public void deleteInvitation(@PathVariable Long invitationId){
+        invitationService.deleteInvitation(invitationId);
     }
 }
