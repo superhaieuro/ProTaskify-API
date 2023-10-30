@@ -2,6 +2,8 @@ package com.protaskify.protaskify_api.controller;
 
 import com.protaskify.protaskify_api.model.enity.*;
 import com.protaskify.protaskify_api.model.request.StudentSettingRequest;
+import com.protaskify.protaskify_api.repository.ClassesRepository;
+import com.protaskify.protaskify_api.repository.StudentRepository;
 import com.protaskify.protaskify_api.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,9 @@ public class StudentController {
     private final TaskService taskService;
     private final GroupService groupService;
     private final InvitationService invitationService;
+
+    private final StudentRepository studentRepository;
+    private final ClassesRepository classesRepository;
 
 
     //--------------------Sprint--------------------
@@ -94,6 +99,13 @@ public class StudentController {
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/get-class/{studentId}")
+    public ResponseEntity<Classes> getClass(@PathVariable("studentId") String studentId) {
+        Student student = studentRepository.findStudentById(studentId);
+        Classes classes = classesRepository.findById(student.getClasses().getId()).get();
+        return ResponseEntity.ok(classes);
     }
 
     @PostMapping("/create-task/{studentId}/{featureId}")

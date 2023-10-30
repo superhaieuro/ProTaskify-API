@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class AuthenticationResponse {
     private String token;
     private Object userInfo;
+    private boolean isInGroup = false;
 }
