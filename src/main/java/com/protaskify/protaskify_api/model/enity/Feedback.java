@@ -25,7 +25,6 @@ public class Feedback {
 
     //--------------------Relationship--------------------
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "sprint_id")
     private Sprint sprint;
 

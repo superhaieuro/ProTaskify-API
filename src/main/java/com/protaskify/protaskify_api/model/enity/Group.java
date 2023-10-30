@@ -43,6 +43,6 @@ public class Group {
     @OneToMany(mappedBy = "group")
     private List<Student> studentList;
 
-    @OneToMany(mappedBy = "group")
+    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE)
     private List<Feedback> feedbackList;
 }

@@ -36,6 +36,7 @@ public class Sprint {
 
     //--------------------Relationship--------------------
     @OneToMany(mappedBy = "sprint")
+    @JsonIgnore
     private List<Feedback> feedbackList;
 
     @ManyToOne
