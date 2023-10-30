@@ -18,6 +18,7 @@ import java.util.List;
 public class GroupService {
     private final GroupRepository groupRepository;
     private final StudentRepository studentRepository;
+    private final StudentService studentService;
     private final ProjectRepository projectRepository;
 
     public Group getGroup(Long groupId) {
@@ -47,10 +48,11 @@ public class GroupService {
     }
 
     public void createGroup(Group group, String studentId) {
-        Student student = studentRepository.findStudentById(studentId);
-        student.setLeader(true);
-        studentRepository.save(student);
         groupRepository.save(group);
+        Student student = studentRepository.findById(studentId).orElse(null);
+        student.setLeader(true);
+        student.setGroup(group);
+        studentRepository.save(student);
     }
 
     public void deleteGroup(Long groupId, Long classId) {

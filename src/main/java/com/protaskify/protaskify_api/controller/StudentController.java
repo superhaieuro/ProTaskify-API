@@ -145,7 +145,7 @@ public class StudentController {
     }
 
     @PostMapping("/create-group/{studentId}")
-    public void createGroup (@RequestBody Group group, @RequestBody String studentId){
+    public void createGroup (@RequestBody Group group, @PathVariable String studentId){
         groupService.createGroup(group, studentId);
     }
 
