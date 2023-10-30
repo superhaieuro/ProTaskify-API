@@ -44,7 +44,10 @@ public class GroupService {
         groupRepository.save(group);
     }
 
-    public void createGroup(Group group) {
+    public void createGroup(Group group, String studentId) {
+        Student student = studentRepository.findStudentById(studentId);
+        student.setLeader(true);
+        studentRepository.save(student);
         groupRepository.save(group);
     }
 
@@ -60,5 +63,10 @@ public class GroupService {
             student.setGroup(null);
         }
         studentRepository.save(student);
+    }
+
+    public boolean getGroupStatus(Long groupId){
+        Group group = groupRepository.getById(groupId);
+        return group.isStatus();
     }
 }

@@ -144,9 +144,9 @@ public class StudentController {
         groupService.updateGroupProject(studentId, projectId);
     }
 
-    @PostMapping("/create-group")
-    public void createGroup (@RequestBody Group group){
-        groupService.createGroup(group);
+    @PostMapping("/create-group/{studentId}")
+    public void createGroup (@RequestBody Group group, @RequestBody String studentId){
+        groupService.createGroup(group, studentId);
     }
 
     @DeleteMapping("delete-group/{groupId}")
@@ -166,6 +166,11 @@ public class StudentController {
         invitationService.invite(invitation, groupId, studentId);
     }
 
+    @GetMapping("/group-status/{groupId}")
+    public ResponseEntity<Boolean> getGroupStatus(@RequestBody Long groupId){
+        return ResponseEntity.ok(groupService.getGroupStatus(groupId));
+    }
+
     @GetMapping("/get-invite/{studentId}")
     public ResponseEntity<List<Invitation>> getInvitations(@PathVariable String studentId){
         return ResponseEntity.ok(invitationService.getInvitations(studentId));
@@ -175,7 +180,7 @@ public class StudentController {
         invitationService.deleteInvitation(invitationId);
     }
 
-    @PutMapping("/accpet-invitation/{invitationId}/{studentId}")
+    @PutMapping("/accept-invitation/{invitationId}/{studentId}")
     public ResponseEntity<Boolean> acceptInvitation(@PathVariable Long invitationId, @PathVariable String studentId){
         return  ResponseEntity.ok(invitationService.acceptInvitation(invitationId, studentId));
     }

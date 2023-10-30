@@ -26,6 +26,9 @@ public class Group {
     @Column(columnDefinition = "FLOAT")
     private Double score;
 
+    @Column(columnDefinition = "BIT")
+    private boolean status;
+
 
     //--------------------Relationship--------------------
     @ManyToOne
