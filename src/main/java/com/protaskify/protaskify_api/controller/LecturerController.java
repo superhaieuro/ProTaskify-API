@@ -21,7 +21,6 @@ public class LecturerController {
     private final ClassesRepository classesRepository;
     private final SprintService sprintService;
 
-
     //--------------------Student--------------------
     @PostMapping("/import-student")
     public void importStudent(@RequestBody ImportStudentListRequest request) {

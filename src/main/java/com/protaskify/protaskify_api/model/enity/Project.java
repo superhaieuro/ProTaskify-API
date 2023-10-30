@@ -1,6 +1,7 @@
 package com.protaskify.protaskify_api.model.enity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,23 +22,29 @@ public class Project {
     private Long id;
 
     @Column(name = "project_name", columnDefinition = "NVARCHAR(255)")
+    @JsonProperty("Subject name")
     private String name;
 
     @Column(columnDefinition = "BIT")
     private boolean status;
 
+    @JsonProperty("Problems")
     @Column(columnDefinition = "NVARCHAR(MAX)")
     private String problems;
 
+    @JsonProperty("Context")
     @Column(columnDefinition = "NVARCHAR(MAX)")
     private String context;
 
+    @JsonProperty("Actors")
     @Column(columnDefinition = "NVARCHAR(MAX)")
     private String actors;
 
+    @JsonProperty("Functional requirements")
     @Column(columnDefinition = "NVARCHAR(MAX)")
     private String functionalRequirements;
 
+    @JsonProperty("Non-Functional requirements")
     @Column(columnDefinition = "NVARCHAR(MAX)")
     private String nonFunctionalRequirements;
 
