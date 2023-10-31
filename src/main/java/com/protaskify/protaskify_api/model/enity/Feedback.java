@@ -15,7 +15,7 @@ import lombok.*;
 public class Feedback {
     //--------------------Attribute--------------------
     @Id
-    @Column(name = "feedback_id")
+    //@Column(name = "feedback_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

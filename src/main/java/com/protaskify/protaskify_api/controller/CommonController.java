@@ -14,10 +14,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -47,22 +48,27 @@ public class CommonController {
 
 
     //--------------------Message--------------------
-    @MessageMapping("/room")
-    public void sendMessage(@RequestBody SendMessageRequest request) {
+    @MessageMapping("/message")
+    @SendTo("/chatroom/public")
+    public Messages receiveMessage(@Payload Messages message){
+        return message;
+    }
+    @MessageMapping("/private-message")
+    public void sendMessage(@Payload SendMessageRequest request) {
         Messages messages = Messages.builder()
-                .content(request.getContent())
-                .lecturer(lecturerRepository.findById(request.getLecturerId()).get())
-                .student(studentRepository.findById(request.getStudentId()).get())
+                .content(request.getMessage())
+                .lecturer(lecturerRepository.findById(request.getSenderId()).get())
+                .student(studentRepository.findById(request.getReceiverId()).get())
                 .date(request.getDate())
-                .fromId(request.getFromId())
+                .fromId(request.getSenderId())
                 .status(false)
                 .build();
-        String toId = request.getLecturerId();
-        if (request.getFromId().equals(request.getStudentId())) {
-            toId = request.getStudentId();
+        String toId = request.getSenderId();
+        if (request.getSenderId().equals(request.getReceiverId())) {
+            toId = request.getReceiverId();
         }
-        simpMessagingTemplate.convertAndSendToUser(toId, "/topic/room", messages);
-        simpMessagingTemplate.convertAndSend(messageService.saveMessageFromJSON(messages), messages);
+        simpMessagingTemplate.convertAndSendToUser(toId, "/private", messages);
+        simpMessagingTemplate.convertAndSend(messageService.saveMessageFromJSON(messages),messages);
     }
 
     @GetMapping("/message-detail")

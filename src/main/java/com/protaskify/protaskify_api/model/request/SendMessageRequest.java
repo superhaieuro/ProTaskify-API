@@ -1,5 +1,6 @@
 package com.protaskify.protaskify_api.model.request;
 
+import ch.qos.logback.core.status.Status;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,10 +11,9 @@ import java.util.Date;
 @Setter
 @Builder
 public class SendMessageRequest {
-    private String content;
-    private String lecturerId;
-    private String studentId;
+    private String senderId;
+    private String receiverId;
+    private String message;
     private Date date;
-    private String fromId;
-    private Boolean status;
+    private boolean status;
 }
