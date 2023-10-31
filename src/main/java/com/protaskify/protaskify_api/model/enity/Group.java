@@ -32,7 +32,6 @@ public class Group {
 
     //--------------------Relationship--------------------
     @ManyToOne
-//    @JsonIgnore
     @JoinColumn(name = "project_id")
     private Project project;
 
@@ -50,4 +49,7 @@ public class Group {
     @OneToMany(mappedBy = "group")
     @JsonIgnore
     private List<Invitation> invitationList;
+
+    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE)
+    private List<Feedback> feedbackList;
 }

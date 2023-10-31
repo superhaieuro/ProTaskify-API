@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -32,14 +33,12 @@ public class Sprint {
     @Column(columnDefinition = "NVARCHAR(MAX)")
     private String note;
 
-    @Column(columnDefinition = "NVARCHAR(MAX)")
-    private String feedback = "No feedback is available yet.";
-
-    @Column(columnDefinition = "BIT")
-    private boolean status;
-
 
     //--------------------Relationship--------------------
+    @OneToMany(mappedBy = "sprint")
+    @JsonIgnore
+    private List<Feedback> feedbackList;
+
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "class_id")
