@@ -11,12 +11,17 @@ import java.util.List;
 public interface InvitationRepository extends JpaRepository<Invitation, Long> {
 
     @Query(
-            value = "SELECT * FROM student WHERE student_id = :studentId", nativeQuery = true
+            value = "SELECT i FROM Invitation i WHERE i.student.id = :studentId"
     )
     List<Invitation> findInvitationsByStudentId(String studentId);
 
     @Query(
-            value = "SELECT * FROM student WHERE invitation_id = :invitationId", nativeQuery = true
+            value = "SELECT i FROM Invitation i WHERE i.id = :invitationId"
     )
     Invitation findInvitationById(Long invitationId);
+
+    @Query(
+            value = "SELECT i FROM Invitation i WHERE i.group.id = :groupId AND i.student.id = :studentId AND i.status = false"
+    )
+    Invitation findInvitationByGroupIdAndStudentId(Long groupId, String studentId);
 }

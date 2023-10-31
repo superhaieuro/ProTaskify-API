@@ -172,14 +172,14 @@ public class StudentController {
     }
 
     @PostMapping("invite/{groupId}/{studentId}")
-    public void invite(@RequestBody Invitation invitation, @PathVariable Long groupId,
+    public ResponseEntity<Boolean> invite(@RequestBody Invitation invitation, @PathVariable Long groupId,
                        @PathVariable String studentId){
 
-        invitationService.invite(invitation, groupId, studentId);
+        return ResponseEntity.ok(invitationService.invite(invitation, groupId, studentId));
     }
 
     @GetMapping("/group-status/{groupId}")
-    public ResponseEntity<Boolean> getGroupStatus(@RequestBody Long groupId){
+    public ResponseEntity<Boolean> getGroupStatus(@PathVariable Long groupId){
         return ResponseEntity.ok(groupService.getGroupStatus(groupId));
     }
 

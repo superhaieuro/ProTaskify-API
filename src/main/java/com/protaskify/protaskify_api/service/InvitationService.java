@@ -19,13 +19,17 @@ public class InvitationService {
     private final GroupRepository groupRepository;
     private final StudentRepository studentRepository;
 
-    public void invite(Invitation invitation, Long groupId, String studentId){
+    public boolean invite(Invitation invitation, Long groupId, String studentId){
         Group group = groupRepository.findById(groupId).orElse(null);
         Student student = studentRepository.findStudentById(studentId);
-
-        invitation.setGroup(group);
-        invitation.setStudent(student);
-        invitationRepository.save(invitation);
+        Invitation exisitingInvitation = invitationRepository.findInvitationByGroupIdAndStudentId(groupId, studentId);
+        if(exisitingInvitation == null) {
+            invitation.setGroup(group);
+            invitation.setStudent(student);
+            invitationRepository.save(invitation);
+            return true;
+        }
+        return false;
     }
 
     public List<Invitation> getInvitations (String studentId){

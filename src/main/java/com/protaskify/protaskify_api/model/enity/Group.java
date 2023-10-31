@@ -46,4 +46,8 @@ public class Group {
 
     @OneToMany(mappedBy = "group")
     private List<Student> studentList;
+
+    @OneToMany(mappedBy = "group")
+    @JsonIgnore
+    private List<Invitation> invitationList;
 }

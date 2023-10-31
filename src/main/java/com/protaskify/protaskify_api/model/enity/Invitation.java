@@ -2,11 +2,15 @@ package com.protaskify.protaskify_api.model.enity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Invitation {
     @Id
@@ -19,12 +23,12 @@ public class Invitation {
 
     //--------------------Relationship--------------------
     @ManyToOne
-    @JsonIgnore
+//    @JsonIgnore
     @JoinColumn(name = "student_id")
     private Student student;
 
     @ManyToOne
-    @JsonIgnore
+//    @JsonIgnore
     @JoinColumn(name = "group_id")
     private Group group;
 }
