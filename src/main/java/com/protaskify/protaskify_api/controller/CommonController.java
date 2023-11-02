@@ -75,7 +75,7 @@ public class CommonController {
 
     @GetMapping("/message-list")
     public ResponseEntity<List<?>> getMessagesInfo(@RequestParam("lecturerId") String lecturerId) {
-        String semesterId = semesterService.getActiveSemester().getId();
+        Long semesterId = semesterService.getActiveSemester().getId();
         return ResponseEntity.ok(studentRepository.getMessagesInfo(semesterId, lecturerId));
     }
 

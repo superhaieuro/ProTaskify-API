@@ -1,10 +1,7 @@
 package com.protaskify.protaskify_api.service;
 
 import com.google.gson.JsonObject;
-import com.protaskify.protaskify_api.model.enity.Admin;
 import com.protaskify.protaskify_api.model.response.AuthenticationResponse;
-import com.protaskify.protaskify_api.model.enity.Lecturer;
-import com.protaskify.protaskify_api.model.enity.Student;
 import com.protaskify.protaskify_api.repository.AdminRepository;
 import com.protaskify.protaskify_api.repository.LecturerRepository;
 import com.protaskify.protaskify_api.repository.StudentRepository;
@@ -91,7 +88,8 @@ public class AuthenticationService {
 //                                        .picture(userData.get("picture").getAsString())
 //                                        .build()
                             )
-                            .isInGroup(user.get().getGroup() != null && user.get().getGroup().isStatus())
+                            .isInGroup(user.get().getGroup() != null)
+                            .groupStatus(user.get().getGroup() != null && user.get().getGroup().isStatus())
                             .build();
                 }
             }

@@ -1,6 +1,7 @@
 package com.protaskify.protaskify_api.service;
 
 import com.protaskify.protaskify_api.model.enity.*;
+import com.protaskify.protaskify_api.model.request.ImportLecturerRequest;
 import com.protaskify.protaskify_api.model.request.ImportStudentListRequest;
 import com.protaskify.protaskify_api.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -66,7 +67,7 @@ public class LecturerService {
 
     public Feedback createFeedback(Long sprintId, Long groupId, String feedbackText) {
         Sprint sprint = sprintRepository.findById(sprintId).orElse(null);
-        Group group =  groupRepository.findById(groupId).orElse(null);
+        Group group = groupRepository.findById(groupId).orElse(null);
         if (sprint != null && group != null) {
             Feedback feedback = new Feedback();
             feedback.setSprint(sprint);
@@ -77,7 +78,7 @@ public class LecturerService {
         return null;
     }
 
-    public Feedback updateFeedback(Long groupId,Long feedbackId, String feedbackText) {
+    public Feedback updateFeedback(Long groupId, Long feedbackId, String feedbackText) {
         Group group = groupRepository.findById(groupId).orElse(null);
         Feedback feedback = feedbackRepository.findById(feedbackId).orElse(null);
 
@@ -133,5 +134,29 @@ public class LecturerService {
             groupRepository.deleteById(groupId);
         }
         return null;
+    }
+
+    public List<Lecturer> findAllLecturer() {
+        return lecturerRepository.findAll();
+    }
+
+    public Lecturer findLecturerId(String lecturer_id) {
+        return lecturerRepository.findById(lecturer_id).orElse(null);
+    }
+
+    public Lecturer updateLecturer(String lecturer_id, Lecturer lecturerDetails) {
+        Lecturer existingLecturer = lecturerRepository.findById(lecturer_id).orElse(null);
+        if (existingLecturer != null) {
+            existingLecturer.setName(lecturerDetails.getName());
+            existingLecturer.setEmail(lecturerDetails.getEmail());
+            existingLecturer.setStatus(lecturerDetails.isStatus());
+        }
+        assert existingLecturer != null;
+        return lecturerRepository.save(existingLecturer);
+
+    }
+
+    public void saveLecturerList(ImportLecturerRequest request) {
+        lecturerRepository.saveAll(request.getLecturers());
     }
 }

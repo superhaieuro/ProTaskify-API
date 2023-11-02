@@ -46,7 +46,7 @@ public class Group {
     @OneToMany(mappedBy = "group")
     private List<Student> studentList;
 
-    @OneToMany(mappedBy = "group")
+    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Invitation> invitationList;
 

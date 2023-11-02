@@ -1,8 +1,10 @@
 package com.protaskify.protaskify_api.config;
 
 import com.protaskify.protaskify_api.config.custom.CustomAuthenticationProvider;
+import com.protaskify.protaskify_api.model.enity.Admin;
 import com.protaskify.protaskify_api.model.enity.Lecturer;
 import com.protaskify.protaskify_api.model.enity.Student;
+import com.protaskify.protaskify_api.repository.AdminRepository;
 import com.protaskify.protaskify_api.repository.LecturerRepository;
 import com.protaskify.protaskify_api.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import java.util.Optional;
 public class ApplicationConfig {
     private final StudentRepository studentRepository;
     private final LecturerRepository lecturerRepository;
+    private final AdminRepository adminRepository;
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -32,7 +35,12 @@ public class ApplicationConfig {
                 if (lecturer.isPresent()) {
                     return lecturer.get();
                 } else {
-                    throw new UsernameNotFoundException("User not found");
+                    Optional<Admin> admin = adminRepository.findAllByEmail(userEmail);
+                    if (admin.isPresent()) {
+                        return admin.get();
+                    } else {
+                        throw new UsernameNotFoundException("User not found");
+                    }
                 }
             }
         };

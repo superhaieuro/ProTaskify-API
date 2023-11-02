@@ -11,9 +11,9 @@ import java.util.List;
 public interface InvitationRepository extends JpaRepository<Invitation, Long> {
 
     @Query(
-            value = "SELECT i FROM Invitation i WHERE i.student.id = :studentId"
+            value = "SELECT i FROM Invitation i WHERE i.student.id = :studentId AND i.status = false "
     )
-    List<Invitation> findInvitationsByStudentId(String studentId);
+    List<Invitation> findInvitationsByStudentIdAndStatus(String studentId);
 
     @Query(
             value = "SELECT i FROM Invitation i WHERE i.id = :invitationId"

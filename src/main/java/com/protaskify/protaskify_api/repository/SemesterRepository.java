@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface SemesterRepository extends JpaRepository<Semester, String> {
+public interface SemesterRepository extends JpaRepository<Semester, Long> {
     Optional<Semester> findAllByStatus(Boolean status);
 
     @Query("SELECT s FROM Semester s JOIN s.classesList c JOIN c.studentList WHERE c.lecturer = :lecturer ORDER BY s.startDate DESC")

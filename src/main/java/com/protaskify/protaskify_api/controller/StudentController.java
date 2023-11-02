@@ -3,6 +3,7 @@ package com.protaskify.protaskify_api.controller;
 import com.protaskify.protaskify_api.model.enity.*;
 import com.protaskify.protaskify_api.model.request.StudentSettingRequest;
 import com.protaskify.protaskify_api.repository.ClassesRepository;
+import com.protaskify.protaskify_api.repository.GroupRepository;
 import com.protaskify.protaskify_api.repository.StudentRepository;
 import com.protaskify.protaskify_api.service.*;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,7 @@ public class StudentController {
 
     private final StudentRepository studentRepository;
     private final ClassesRepository classesRepository;
+    private final GroupRepository groupRepository;
 
 
     //--------------------Sprint--------------------
@@ -141,49 +143,57 @@ public class StudentController {
         groupService.updateGroupInfo(oldLeaderId, newLeaderId, groupName);
     }
 
+    @PutMapping("/create-group/{groupId}")
+    public void createGroup(@PathVariable Long groupId) {
+        Group group = groupRepository.findById(groupId).get();
+        group.setStatus(true);
+        groupRepository.save(group);
+    }
+
     @PutMapping("/update-group-topic/{studentId}/{projectId}")
     public void updateGroupTopic(@PathVariable String studentId, @PathVariable Long projectId) {
         groupService.updateGroupProject(studentId, projectId);
     }
 
     @PostMapping("/create-group/{studentId}")
-    public void createGroup (@RequestBody Group group, @PathVariable String studentId){
+    public void createGroup(@RequestBody Group group, @PathVariable String studentId) {
         groupService.createGroup(group, studentId);
     }
 
     @DeleteMapping("delete-group/{groupId}/{classId}")
-    public void deleteGroup(@PathVariable Long groupId, @PathVariable Long classId){
+    public void deleteGroup(@PathVariable Long groupId, @PathVariable Long classId) {
         groupService.deleteGroup(groupId, classId);
     }
 
     @PutMapping("out-group/{studentId}")
-    public void outGroup(@PathVariable String studentId){
+    public void outGroup(@PathVariable String studentId) {
         groupService.outGroup(studentId);
     }
 
     @PostMapping("invite/{groupId}/{studentId}")
     public ResponseEntity<Boolean> invite(@RequestBody Invitation invitation, @PathVariable Long groupId,
-                       @PathVariable String studentId){
+                                          @PathVariable String studentId) {
 
         return ResponseEntity.ok(invitationService.invite(invitation, groupId, studentId));
     }
 
     @GetMapping("/group-status/{groupId}")
-    public ResponseEntity<Boolean> getGroupStatus(@PathVariable Long groupId){
+    public ResponseEntity<Boolean> getGroupStatus(@PathVariable Long groupId) {
         return ResponseEntity.ok(groupService.getGroupStatus(groupId));
     }
 
     @GetMapping("/get-invite/{studentId}")
-    public ResponseEntity<List<Invitation>> getInvitations(@PathVariable String studentId){
+    public ResponseEntity<List<Invitation>> getInvitations(@PathVariable String studentId) {
         return ResponseEntity.ok(invitationService.getInvitations(studentId));
     }
+
     @DeleteMapping("delete-invitation/{invitationId}")
-    public void deleteInvitation(@PathVariable Long invitationId){
+    public void deleteInvitation(@PathVariable Long invitationId) {
         invitationService.deleteInvitation(invitationId);
     }
 
     @PutMapping("/accept-invitation/{invitationId}/{studentId}")
-    public ResponseEntity<Boolean> acceptInvitation(@PathVariable Long invitationId, @PathVariable String studentId){
-        return  ResponseEntity.ok(invitationService.acceptInvitation(invitationId, studentId));
+    public ResponseEntity<Boolean> acceptInvitation(@PathVariable Long invitationId, @PathVariable String studentId) {
+        return ResponseEntity.ok(invitationService.acceptInvitation(invitationId, studentId));
     }
 }

@@ -19,11 +19,11 @@ public class InvitationService {
     private final GroupRepository groupRepository;
     private final StudentRepository studentRepository;
 
-    public boolean invite(Invitation invitation, Long groupId, String studentId){
+    public boolean invite(Invitation invitation, Long groupId, String studentId) {
         Group group = groupRepository.findById(groupId).orElse(null);
         Student student = studentRepository.findStudentById(studentId);
         Invitation exisitingInvitation = invitationRepository.findInvitationByGroupIdAndStudentId(groupId, studentId);
-        if(exisitingInvitation == null) {
+        if (exisitingInvitation == null) {
             invitation.setGroup(group);
             invitation.setStudent(student);
             invitationRepository.save(invitation);
@@ -32,11 +32,11 @@ public class InvitationService {
         return false;
     }
 
-    public List<Invitation> getInvitations (String studentId){
-        return invitationRepository.findInvitationsByStudentId(studentId);
+    public List<Invitation> getInvitations(String studentId) {
+        return invitationRepository.findInvitationsByStudentIdAndStatus(studentId);
     }
 
-    public void deleteInvitation (Long invitationId){
+    public void deleteInvitation(Long invitationId) {
         Invitation invitation = null;
         if (invitationId != null) {
             invitation = invitationRepository.findInvitationById(invitationId);
@@ -45,14 +45,17 @@ public class InvitationService {
     }
 
     //Method này để kiểm tra student có trong gr tạm nào chưa
-    public boolean acceptInvitation(Long invitationId, String studentId){
+    public boolean acceptInvitation(Long invitationId, String studentId) {
         Student student = studentRepository.findStudentById(studentId);
         Invitation invitation = invitationRepository.findInvitationById(invitationId);
         Group group = invitation.getGroup();
-            if(student.getGroup() == null){
-                student.setGroup(group);
-                return true;
-            }
+        if (student.getGroup() == null && group.getStudentList().size() <= 6) {
+            student.setGroup(group);
+            studentRepository.save(student);
+            invitation.setStatus(true);
+            invitationRepository.save(invitation);
+            return true;
+        }
         return false;
     }
 }

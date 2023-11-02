@@ -16,10 +16,11 @@ import java.util.List;
 public class Semester {
     //--------------------Attribute--------------------
     @Id
-    @Column(name = "semester_id", columnDefinition = "CHAR(10)")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "semester_id")
+    private Long id;
 
-    @Column(name = "semester_name", columnDefinition = "VARCHAR(10)")
+    @Column(name = "semester_name", columnDefinition = "VARCHAR(11)")
     private String name;
 
     @Column(columnDefinition = "DATE")
