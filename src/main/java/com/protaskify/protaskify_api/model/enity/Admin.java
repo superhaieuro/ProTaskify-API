@@ -1,5 +1,6 @@
 package com.protaskify.protaskify_api.model.enity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -44,31 +45,37 @@ public class Admin implements UserDetails {
         return Collections.singleton(new SimpleGrantedAuthority("ADMIN"));
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return null;
     }
 
+    @JsonIgnore
     @Override
     public String getUsername() {
         return email;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;

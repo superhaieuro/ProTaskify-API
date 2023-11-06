@@ -1,24 +1,30 @@
 package com.protaskify.protaskify_api.service;
 
 import com.protaskify.protaskify_api.model.enity.Lecturer;
+import com.protaskify.protaskify_api.model.enity.Project;
 import com.protaskify.protaskify_api.model.enity.Semester;
 import com.protaskify.protaskify_api.model.enity.Student;
 import com.protaskify.protaskify_api.model.request.ImportLecturerRequest;
 import com.protaskify.protaskify_api.repository.LecturerRepository;
+import com.protaskify.protaskify_api.repository.ProjectRepository;
 import com.protaskify.protaskify_api.repository.SemesterRepository;
 import com.protaskify.protaskify_api.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@EnableScheduling
 public class SemesterService {
     private final SemesterRepository semesterRepository;
-    private final StudentRepository studentRepository;
-    private final LecturerRepository lecturerRepository;
+    private final ProjectRepository projectRepository;
 
     public Semester getActiveSemester() {
         Optional<Semester> semester = semesterRepository.findAllByStatus(true);
@@ -33,12 +39,13 @@ public class SemesterService {
     }
 
     //SAVE SEMESTER
-    public boolean saveSemester(Semester semester) {
-        if (getActiveSemester() == null) {
-            semesterRepository.save(semester);
-            return true;
+    public void saveSemester(Semester semester) {
+        if (getActiveSemester() != null) {
+            semester.setStatus(false);
+        } else {
+            semester.setStatus(true);
         }
-        return false;
+        semesterRepository.save(semester);
     }
 
     //FIND SEMESTER
@@ -68,30 +75,22 @@ public class SemesterService {
         return null;
     }
 
-    public void saveStudentsFromJSON(List<Student> students) {
-        studentRepository.saveAll(students);
-    }
-
-    public void saveLecturerList(ImportLecturerRequest request) {
-        lecturerRepository.saveAll(request.getLecturers());
-    }
-
-    public List<Lecturer> findAllLecturer() {
-        return lecturerRepository.findAll();
-    }
-
-    public Lecturer findLecturerId(String lecturer_id) {
-        return lecturerRepository.findById(lecturer_id).orElse(null);
-    }
-
-    public Lecturer updateLecturer(String lecturer_id, Lecturer lecturerDetails) {
-        Lecturer existingLecturer = lecturerRepository.findById(lecturer_id).orElse(null);
-        if (existingLecturer != null) {
-            existingLecturer.setName(lecturerDetails.getName());
-            existingLecturer.setEmail(lecturerDetails.getEmail());
-            existingLecturer.setStatus(lecturerDetails.isStatus());
+    @Scheduled(cron = "0 * * * * ?")
+    public void updateSemesterStatus() {
+        List<Semester> semesters = semesterRepository.findAll();
+        LocalDate today = LocalDate.now();
+        for (Semester semester : semesters) {
+            LocalDate endDate = semester.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            if (endDate.equals(today)) {
+                semester.setStatus(false);
+                semesterRepository.save(semester);
+                // setStatus for project
+                List<Project> projects = projectRepository.findAll();
+                for (Project project : projects) {
+                    project.setStatus(false);
+                }
+                projectRepository.saveAll(projects);
+            }
         }
-        assert existingLecturer != null;
-        return lecturerRepository.save(existingLecturer);
     }
 }

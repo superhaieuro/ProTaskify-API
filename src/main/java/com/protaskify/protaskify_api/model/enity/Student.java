@@ -52,7 +52,7 @@ public class Student implements UserDetails {
     private boolean isLeader;
 
     @Column(columnDefinition = "VARCHAR(100)")
-    private String picture;
+    private String picture = "https://www.brightlands.com/sites/default/files/2019-12/No%20avater.jpg";
 
 
     //--------------------Relationship--------------------
@@ -70,9 +70,9 @@ public class Student implements UserDetails {
 //    @JsonIgnore
 //    private List<Task> taskList;
 
-    @OneToMany(mappedBy = "student")
-    @JsonIgnore
-    private List<Invitation> invitationList;
+//    @OneToMany(mappedBy = "student")
+//    @JsonIgnore
+//    private List<Invitation> invitationList;
 
     public void setEmail(String email) {
         this.email = email + "@fpt.edu.vn";
@@ -85,31 +85,37 @@ public class Student implements UserDetails {
         return Collections.singleton(new SimpleGrantedAuthority("STUDENT"));
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return null;
     }
 
+    @JsonIgnore
     @Override
     public String getUsername() {
         return email;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;

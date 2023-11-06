@@ -97,8 +97,8 @@ public class LecturerService {
             Group newGroup = new Group();
             newGroup.setName(groupName);
             newGroup.setClasses(classes);
+            newGroup.setStatus(true);
             newGroup = groupRepository.save(newGroup);
-
             if (!studentListWithOutGroup.isEmpty()) {
                 List<Student> studentsToAdd = studentRepository.findAllById(studentListWithOutGroup);
                 for (Student student : studentsToAdd) {
@@ -111,13 +111,12 @@ public class LecturerService {
             Student leader = studentRepository.findById(leaderId).orElse(null);
             if (leader != null) {
                 leader.setLeader(true);
-                studentRepository.save(leader); // Lưu thông tin leader
+                studentRepository.save(leader);
             }
             return newGroup;
         }
         return null;
     }
-
 
     public ResponseEntity<String> deleteGroupOfClass(Long groupId, Long classId) {
         Group group = groupRepository.findById(groupId).orElse(null);

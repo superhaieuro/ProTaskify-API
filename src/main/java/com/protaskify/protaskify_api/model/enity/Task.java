@@ -35,11 +35,11 @@ public class Task {
     @Column(columnDefinition = "NVARCHAR(MAX)")
     private String description;
 
-    @Column(columnDefinition = "DATE")
-    private Date createDate;
-
-    @Column(columnDefinition = "DATE")
-    private Date finishDate;
+//    @Column(columnDefinition = "DATE")
+//    private Date createDate;
+//
+//    @Column(columnDefinition = "DATE")
+//    private Date finishDate;
 
     @Column(columnDefinition = "INT")
     private Integer taskIndex;

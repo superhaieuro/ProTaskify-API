@@ -1,5 +1,6 @@
 package com.protaskify.protaskify_api.model.enity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,7 +35,7 @@ public class Lecturer implements UserDetails {
     private String email;
 
     @Column(columnDefinition = "VARCHAR(100)")
-    private String picture;
+    private String picture = "https://www.brightlands.com/sites/default/files/2019-12/No%20avater.jpg";
 
     private boolean status = true;
 
@@ -50,31 +51,37 @@ public class Lecturer implements UserDetails {
         return Collections.singleton(new SimpleGrantedAuthority("LECTURER"));
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return null;
     }
 
+    @JsonIgnore
     @Override
     public String getUsername() {
         return email;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;

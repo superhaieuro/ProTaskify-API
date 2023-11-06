@@ -25,8 +25,8 @@ public class AdminController {
 
     //CREATE SEMESTER
     @PostMapping("/create-semester")
-    public ResponseEntity<Boolean> createSemester(@RequestBody Semester semester) {
-        return ResponseEntity.ok(semesterService.saveSemester(semester));
+    public void createSemester(@RequestBody Semester semester) {
+        semesterService.saveSemester(semester);
     }
 
     //DISPLAY ALL SEMESTER
