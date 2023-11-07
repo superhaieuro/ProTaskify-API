@@ -45,6 +45,6 @@ public class Feature {
     @JoinColumn(name = "group_id")
     private Group group;
 
-    @OneToMany(mappedBy = "feature")
+    @OneToMany(mappedBy = "feature", cascade = CascadeType.REMOVE)
     private List<Task> taskList;
 }

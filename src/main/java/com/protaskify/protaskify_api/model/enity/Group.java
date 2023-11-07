@@ -40,7 +40,7 @@ public class Group {
     @JoinColumn(name = "class_id")
     private Classes classes;
 
-    @OneToMany(mappedBy = "group")
+    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE)
     private List<Feature> featureList;
 
     @OneToMany(mappedBy = "group")
